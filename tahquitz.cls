@@ -29,7 +29,7 @@
 %-----------------------------------
 \newcommand{\pitch}[1]{\textbf{P#1}.}
 \newcommand{\variation}[1]{\textit{Var #1\/}:}
-\newcommand{\warn}[1]{\textbf{#1}}
+\newcommand{\warn}[1]{\textbf{Warning: #1}}
 %===============================================
 \newcommand{\myfooter}{\hfill\footnotesize{Ben Crowell, github.com/bcrowell/tahquitz}}
 \newcommand{\climb}[3][0]{\ifthenelse{\equal{#1}{1}}{}{\myfooter\vfill}\clearpage\section{#2 (#3)}}
