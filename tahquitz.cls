@@ -9,7 +9,7 @@
 % works.
 
 %===============================================
-\usepackage{graphicx,url,ifthen,wrapfig}
+\usepackage{graphicx,ifthen,wrapfig,url}
 %-----------------------------------
 \usepackage{geometry} % https://www.sharelatex.com/learn/Page_size_and_margins
 \geometry{margin=0.75in}
