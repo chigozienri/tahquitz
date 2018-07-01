@@ -30,8 +30,13 @@
 \newcommand{\pitch}[1]{\textbf{P#1}.}
 \newcommand{\variation}[1]{\textit{Var #1\/}:}
 \newcommand{\warn}[1]{\textbf{Warning: #1}}
+\newcommand{\descent}{\textit{Descent:} }
+\newcommand{\upfriction}{\descent Walk uphill to the friction descent route (p.~\pageref{subsec:friction-descent}).}
+\newcommand{\downfriction}{\descent Walk downhill to the friction descent route (p.~\pageref{subsec:friction-descent}).}
+\newcommand{\northgully}{\descent Descend via the north gully (p.~\pageref{subsec:north-gully-descent}).}
+\newcommand{\somespace}{\vspace{2mm plus6mm}}
 %===============================================
-\newcommand{\myfooter}{\hfill\footnotesize{Ben Crowell, github.com/bcrowell/tahquitz}}
+\newcommand{\myfooter}{\vfill\hfill\footnotesize{Ben Crowell, github.com/bcrowell/tahquitz}}
 \newcommand{\climb}[3][0]{\ifthenelse{\equal{#1}{1}}{}{\myfooter\vfill}\clearpage\section{#2 (#3)}}
 \newcommand{\topo}[2]{% #1=width as a fraction of textwidth, typically about 0.4
   \begin{wrapfigure}{l}{#1\textwidth}
