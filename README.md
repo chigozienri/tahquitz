@@ -1,8 +1,11 @@
 Climbing topos for Tahquitz
 ===========================
 
-These are done topos in the traditional line-diagram style for climbs
-at Tahquitz. In most cases I've done the climb several times, tried
+These are rock-climbing topos in the traditional line-diagram style for climbs
+at Tahquitz. There is also some information of the type you would find in a
+guidebook, such as a map and information about the climbing season.
+
+In most cases I've done the climb several times, tried
 different variations, etc., but there is no guarantee that my
 information is correct. If you find mistakes or have suggestions for
 improvements, please contact me using the contact info at
