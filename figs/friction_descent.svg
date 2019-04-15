@@ -145,9 +145,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.0287974"
-     inkscape:cx="270.82373"
-     inkscape:cy="844.07462"
+     inkscape:zoom="26.084992"
+     inkscape:cx="126.36113"
+     inkscape:cy="948.19446"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -956,5 +956,10 @@
          x="72.735504"
          y="177.83328"
          style="stroke-width:0.93749994">summit</tspan></text>
+    <path
+       style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.7503937;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 116.41033,158.42145 -2.0486,4.42065 3.84561,1.72513 2.12047,-4.78005 z"
+       id="path1007"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

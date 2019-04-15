@@ -3,7 +3,8 @@ Climbing topos for Tahquitz
 
 These are rock-climbing topos in the traditional line-diagram style for climbs
 at Tahquitz. There is also some information of the type you would find in a
-guidebook, such as a map and information about the climbing season.
+guidebook, such as a map, information about the climbing season, and a description
+of the descent routes.
 
 In most cases I've done the climb several times, tried
 different variations, etc., but there is no guarantee that my
