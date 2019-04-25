@@ -156,6 +156,31 @@ Continue to the upper parking lot at Humber Park.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+<%
+  def die(message)
+    $stderr.print "fruby: " + message + "\n"
+    exit(-1)
+ end
+
+  $first_climb = 1
+  $count = 1
+  $climb_data = []
+  def climb(name,grade)
+    label = "climb:#{$count}"
+    print "\\climb[#{$first_climb}]{#{name}}{#{grade}}\\label{#{label}}\n"
+    $first_climb = 0
+    if grade =~ /5\.(\d+)/ then
+      decimal = $1.to_i
+      $climb_data[$count] = [name,grade,decimal,label]
+    else
+      die("illegal grade, #{name}, grade=#{grade}")
+    end
+    $count = $count+1
+  end
+%>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % climbs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -164,7 +189,7 @@ Continue to the upper parking lot at Humber Park.
 %------------------
 
 
-\climb[1]{Angel's Fright}{5.5} %%%%%%%%% [1] is because this is the first one in the book
+<% climb("Angel's Fright","5.5") %>
 
 \topo{0.45}{angels_fright}
 
@@ -225,7 +250,7 @@ less steep and there is pro.
 \upfriction
 %=====================================================================
 
-\climb{Fingertip Traverse}{5.4}
+<% climb("Fingertip Traverse","5.4") %>
 
 \topo{0.45}{fingertip_traverse}
 
@@ -297,7 +322,7 @@ less steep and there is pro.
 
 %=====================================================================
 
-\climb{Fingertrip}{5.7}
+<% climb("Fingertrip","5.7") %>
 
 \topo{0.35}{fingertrip}
 
@@ -357,7 +382,7 @@ less steep and there is pro.
 \upfriction
 
 %=====================================================================
-\climb{The Frightful Variation of the Trough}{5.4}
+<% climb("The Frightful Variation of the Trough","5.4") %>
 
 \topo{0.5}{frightful}
 
@@ -417,7 +442,7 @@ From the pine tree, climb up class 3 slab to the left.
 \upfriction
 %=====================================================================
 
-\climb{Jensen's Jaunt}{5.6}
+<% climb("Jensen's Jaunt","5.6") %>
 
 \topo{0.35}{jensens_jaunt}
 
@@ -494,7 +519,7 @@ I haven't tried this variation. Gaines calls it 5.7.
 
 %=====================================================================
 
-\climb{Left Ski Track}{5.5}
+<% climb("Left Ski Track","5.5") %>
 
 \topo{0.35}{left_ski_track}
 
@@ -584,7 +609,7 @@ I haven't tried this variation.
 
 %=================================================================================
 
-\climb{North Buttress}{5.5}
+<% climb("North Buttress","5.5") %>
 
 \topo{0.3}{north_buttress}
 
@@ -664,7 +689,7 @@ traversing until you emerge onto the top of the rock. 4th class after the flake.
 
 %=================================================================================
 
-\climb{Northeast Face, East Variation}{5.6}
+<% climb("Northeast Face, East Variation","5.6") %>
 
 \topo{0.25}{northeast_face_east}
 
@@ -724,7 +749,7 @@ insertion into the north gully.
 
 %=================================================================================
 
-\climb{Northeast Farce}{5.6 PG13}
+<% climb("Northeast Farce","5.6 PG13") %>
 
 \warn{I haven't done P2.}
 
@@ -794,7 +819,7 @@ The exit on the right consists of class 4 ledges.
 
 %=================================================================================
 
-\climb{The Trough}{5.3}
+<% climb("The Trough","5.3") %>
 
 \topo{0.3}{trough}
 
@@ -839,7 +864,7 @@ From the pine tree, climb up class 3 slab to the left.
 
 %=================================================================================
 
-\climb{The Uneventful}{5.6}
+<% climb("The Uneventful","5.6") %>
 
 \topo{0.3}{uneventful}
 
@@ -940,7 +965,7 @@ traversing until you emerge onto the top of the rock. 4th class after the flake.
 
 %=================================================================================
 
-\climb{West Lark}{5.4}
+<% climb("West Lark","5.4") %>
 
 \topo{0.2}{west_lark}
 
@@ -1025,7 +1050,7 @@ or insert into the gully more directly by scrambling.
 
 %=================================================================================
 
-\climb{El Whampo}{5.7}
+<% climb("El Whampo","5.7") %>
 
 \warn{I have only done this route once.}
 
@@ -1094,7 +1119,7 @@ The exit on the right consists of class 4 ledges.
 
 %=================================================================================
 
-\climb{White Maiden's Walkway}{5.4}
+<% climb("White Maiden's Walkway","5.4") %>
 
 \topo{0.35}{maiden}
 
@@ -1178,5 +1203,21 @@ or go up and over the summit
 and come down the north gully.
 
 \myfooter\vfill %%%%%%%%%%%%%% because this is the last topo
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+<%
+  print "\\pagebreak\n" 
+  print "\\section{Climbs by grade}\n\n"
+  0.upto(20) { |want_grade|
+    $climb_data.each { |climb|
+      name,grade,decimal,label = climb
+      if decimal==want_grade then
+        print "#{name} #{grade} \\ldots p.~\\pageref{#{label}}\\\\\n"
+      end
+    }
+  }
+%>
+
 
 \end{document}
