@@ -6,6 +6,7 @@ default:
 	fruby tahquitz.rbtex >tahquitz.tex
 	pdflatex tahquitz
 	pdflatex tahquitz
+	make clean
 
 single:
 	# Extract a single page to post on mountainproject.
@@ -15,6 +16,7 @@ single:
 	convert z-1.ppm topo.jpg
 	rm -f foo.pdf z-1.ppm
 	@echo "Output is in topo.jpg."
+	make clean
 
 figures:
 	# Create pdf versions of the svg figures.
@@ -24,5 +26,5 @@ figures:
 	perl -e 'foreach my $$f(<figs/*.svg>) {system("scripts/render_one_figure.pl $$f $(FORCE)")}'
 
 clean:
-	rm -f *~ *.aux *.log *.idx *.toc *.ilg *.bak *.toc topo.jpg
+	rm -f *~ *.aux *.log *.idx *.toc *.ilg *.bak *.toc topo.jpg tahquitz.tex
 
