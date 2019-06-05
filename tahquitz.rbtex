@@ -167,7 +167,61 @@ Class 2. Get back on the use trail, which gradually becomes more obvious and wel
 Continue to the upper parking lot at Humber Park.
 
 
+%=====================================================================
+
+\section{Natural History}
+
+To identify birds or wildflowers, you will want a specialized guidebook.
+
+\subsection{Trees and Shrubs}
+
+Here are about a dozen of the most common species you will see on the
+approach hike, climb, and descent. Species are arranged in groups from
+least to most specialized.
+
+\emph{South side trail, dry, sun-exposed slopes:}
+
+\begin{itemize}
+\item live oak (\emph{Q.~chrosyolepis} and \emph{wislizenii}) --- small, tough leaves
+\item sugar pine (\emph{P.~Lambertiana}) --- 1-3" needles in groups of 5
+\item Coulter pine (\emph{P.~coulteri}) --- 6-7" needles in groups of 3, huge cones; less common
+\item manzanita (\emph{Arctostaphylos}) --- smooth red bark, small pink bell-shaped flowers
+\item mountain whitethorn (\emph{Ceanothus}) --- bushes with thorns; less common than at higher elevations
+
+\end{itemize}
+
+\emph{In addition, on the north side:}
+
+\begin{itemize}
+\item white fir (\emph{Abies concolor}) --- 1" single needles
+\item black oak (\emph{Q.~kelloggii}) --- large, soft leaves, deeply lobed with three-pointed tips
+\item incense cedar (\emph{Calocedrus decurrens}) --- scaly leaves
+\end{itemize}
+
+\emph{In addition, in wet areas:}
+
+\begin{itemize}
+\item mountain pink currant (\emph{Ribes nevadense})
+\item western azalea (\emph{Rhododendron occidentale})
+\end{itemize}
+
+\emph{Growing only out of cracks in the rock face:}
+
+\begin{itemize}
+\item mountain mahogany (\emph{Cercocarpus ledifolius}) --- These are the small hardwoods you see on climbing routes,
+       often used as anchors.
+\end{itemize}
+
+Sources: Dole and Rose, \textbf{An Amateur Botanist's Identification Manual for
+the Shrubs and Trees of the Southern Californoia Coastal Region and Mountains}.
+Tom Chester, ``Plant Guide to Devils Slide Trail, San Jacinto Mountains,''
+\url{tchester.org/sb/plants/guides/devils_slide.html}.
+
+
+%=====================================================================
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 <%
   def die(message)

@@ -1,4 +1,4 @@
-SINGLE = 5
+SINGLE = 4
 # page number for "make single"
 
 default:
@@ -7,6 +7,7 @@ default:
 	pdflatex tahquitz
 	pdflatex tahquitz
 	make clean
+	rm -f topo.jpg
 
 single:
 	# Extract a single page to post on mountainproject.
@@ -26,5 +27,5 @@ figures:
 	perl -e 'foreach my $$f(<figs/*.svg>) {system("scripts/render_one_figure.pl $$f $(FORCE)")}'
 
 clean:
-	rm -f *~ *.aux *.log *.idx *.toc *.ilg *.bak *.toc topo.jpg tahquitz.tex
+	rm -f *~ *.aux *.log *.idx *.toc *.ilg *.bak *.toc tahquitz.tex
 
