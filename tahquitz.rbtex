@@ -153,7 +153,9 @@ and another near the bottom of the Ski Tracks.
 After passing the second set of slabs,
 continue around the corner and back to Lunch Rock.
 
-\subsection{North gully descent}\label{subsec:north-gully-descent}
+\pagebreak
+
+\subsection{North Gully descent}\label{subsec:north-gully-descent}
 
 This descent route is used by climbs that end near the top of the rock
 or to its east. If coming down from the summit, scramble down class 3
@@ -162,12 +164,24 @@ Tahquitz Peak. However, most of the climbing routes that use this descent end be
 the east of the summit, and for these routes the traverse to the saddle is no more than
 class 2.
 
-Having reached the saddle, turn left down a steep, rough trail, then continue down slabs on the right.
-Class 2. Get back on the use trail, which gradually becomes more obvious and well maintained.
+The normal North Gully descent, described here, goes down the gully to the north of the saddle.
+If there has been wet weather recently, it may be faster and safer to go down the south side
+instead.
+
+If using the standard North Gully descent, then
+from the saddle, turn left down a steep, rough trail, then continue down slabs on the right.
+Class 2.
+(If there has been wet weather recently, the slabs may be covered with water, forcing you to downclimb
+along the ramp and east-facing dihedral to the west of the slabs.)
+
+Get back on the use trail, which gradually becomes more obvious and well maintained.
 Continue to the upper parking lot at Humber Park.
 
+\vfill
 
 %=====================================================================
+
+\pagebreak
 
 \section{Natural History}
 
@@ -215,7 +229,9 @@ least to most specialized.
 Sources: Dole and Rose, \textbf{An Amateur Botanist's Identification Manual for
 the Shrubs and Trees of the Southern Californoia Coastal Region and Mountains}.
 Tom Chester, ``Plant Guide to Devils Slide Trail, San Jacinto Mountains,''
-\url{tchester.org/sb/plants/guides/devils_slide.html}.
+\url{tchester.org/sb/plants/guides/devils_slide.html}. The arrangement above
+is what I came up with based on hiking the approach trail from Humber Park
+to the vicinity of the Ski Tracks.
 
 
 %=====================================================================
@@ -311,6 +327,87 @@ less steep and there is pro.
 \variation{3} Climb a very thin finger crack, punctuated with pin scars. 5.6
 
 \upfriction
+%=====================================================================
+
+<% climb("East Lark","5.6") %>
+
+\topo{0.25}{east_lark}
+
+\warn{I've only done this climb once.}
+
+This route was the original standard for 5.3 in the YDS. It follows an
+obvious right-facing dihedral system that jumps back and forth to the left and 
+right, then a more faintly defined line to the top. Because the route
+wanders so much, it is difficult to do long pitches without rope drag,
+which can make it hard to get up the route efficiently.
+The pitches described here are all about 30 m.  FA Chuck and Ellen Wilts, G.~ Harr, and B.~Tory, 1950.
+
+Although this seemed to me to be two YDS grades harder than
+West Lark, an advantage of this climb over West Lark is that the pro
+is better, and if you fall you're less likely to hit a ledge. Routefinding
+is more difficult than for West Lark.
+
+Rock quality is similar to most climbs on the north side.  Check holds
+and gear placements for loose blocks and flakes.
+Protection to 2". Doubles of 0.5-1" cams
+will be helpful.
+
+The start lies at  the extreme right side of the north face, just to
+the left of the north buttress. The gendarme and dead tree near the top are the most
+visible landmark through the treetops. Approach via the North Side Trail.
+Either head straight up from the trail, approaching the base of the climb by threading your
+way between talus piles, or go all the way to the east side of the face
+and then take a side trail back to the west.
+The start can be located by looking for the distinctive left-facing
+overlap and overhang on the right, and the big flake with an interesting geometrical shape.
+
+\pitch{1} Climb to the top right corner of the geometrical flake, then
+past an inconvenient bush and left a few feet across the flake.
+Head left along a ledge system. 5.3
+
+\variation{1} Start directly up the crack that runs along the left side of the
+geometrical flake.
+
+\pitch{2} Continue up the dihedral. Belay at a ledge next to a mountain mahogany. 5.5
+
+\pitch{3} Climb up and around a flake. Short pitch due to rope drag. 5.5
+
+\pitch{4} Traverse down across a face with good hands and feet, inserting into
+a big right-facing dihedral. Climb past a finger of rock festooned with rap slings.
+Continue up to where a crux is presented by an overhanging jog in the dihedral.
+This crux is protectable, and the hands and feet on the right are better than
+you would think before committing to the move. 5.7
+
+\pitch{5} A set of overhangs are arranged in a series of corners. Climb through
+a gap at the corner where there is a tree (not the second, more prominent
+corner). Continue up a crack. 5.6
+
+\pitch{6} Climb a hand crack to a tree. 5.6
+
+\pitch{7} Continue to a big ledge below the huge gendarme.
+Gear anchor with cams.
+(A table-sized flake is probably not solid enough for use as an anchor.)
+5.6
+
+% The following is duplicated in West Lark.
+
+\pitch{8} Continue straight up, on the right side of the gendarme.  To
+the right of the gendarme is its little sister, a rock shaped like the
+prow of a ship. Between them is a chimney. Climb the chimney, which is
+a surprisingly easy 5.2 and easy to protect. Escaping the chimney and
+then getting into the gully to the summit is more difficult, but also
+easy to protect.
+
+\variation{2} Go to the left of the gendarme.
+Rope drag may be a problem, and the crux move may be difficult to protect
+without depending on bad rock.
+
+\somespace
+
+\descent Gain the summit ridge and head down left into the north gully descent route (p.~\pageref{subsec:north-gully-descent}).
+
+
+
 %=====================================================================
 
 <% climb("Fingertip Traverse","5.4") %>
@@ -1053,23 +1150,23 @@ in the dark.  The later pitches are just barely possible with a 60 m
 rope, and only if the belays are chosen as far up as possible.
 
 The start lies at  the extreme right side of the north face, just to
-the left of the north buttress. The gendarme near the top is the most
+the left of the north buttress. The gendarme and dead tree near the top are the most
 visible landmark through the treetops. Approach via the North Side Trail.
 Either head straight up from the trail, approaching the base of the climb by threading your
 way between talus piles, or go all the way to the east side of the face
 and then take a side trail back to the west.
-
 The start can be located by looking for the distinctive left-facing
-overlap and overhang on the right.
+overlap and overhang on the right, and the big flake with an interesting geometrical shape.
 
 \somespace
 
-\pitch{1} Climb past an inconvenient bush and left a few feet across slab.
+\pitch{1} Climb to the top right corner of the geometrical flake, then past an inconvenient bush and left a few feet across the flake.
 Insert into a crack and head up. Don't climb the dihedral to the right. 
 Protect against falls onto the numerous ledges.
 30 m
 
-\variation{1} Start directly up the crack.
+\variation{1} Start directly up the crack that runs along the left side of the
+geometrical flake.
 
 \pitch{2} Continue up similar climbing in the same crack,
 ending at a ledge on the right.  $\sim 30$ m
@@ -1092,9 +1189,12 @@ purple or green camalot), but then the rope is not long enough to give
 freedom of movement at the next belay ledge. 50 m
 
 \pitch{5} Escape the overhang by climbing the easy dihedral to the left.
-Up to a big ledge below the huge gendarme. Natural anchor on a questionable
-flake or gear anchor with cams. 5.0 climbing with scarce pro.
+Up to a big ledge below the huge gendarme. Gear anchor with cams.
+(A table-sized flake is probably not solid enough for use as an anchor.)
+5.0 climbing with scarce pro.
 60 m
+
+% The following is duplicated in East Lark.
 
 \pitch{6} Continue straight up, on the right side of the gendarme.  To
 the right of the gendarme is its little sister, a rock shaped like the
@@ -1109,8 +1209,8 @@ without depending on bad rock.
 
 \somespace
 
-\descent Gain the summit ridge and head down left into the north gully descent route (p.~\pageref{subsec:north-gully-descent}),
-or insert into the gully more directly by scrambling.
+\descent Gain the summit ridge and head down left into the north gully descent route (p.~\pageref{subsec:north-gully-descent}).
+
 
 %=================================================================================
 
