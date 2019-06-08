@@ -6,6 +6,7 @@ default:
 	fruby tahquitz.rbtex >tahquitz.tex
 	pdflatex tahquitz
 	pdflatex tahquitz
+	cp tahquitz.pdf ~/Lightandmatter/tahquitz
 	make clean
 	rm -f topo.jpg
 
