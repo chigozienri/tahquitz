@@ -1369,6 +1369,40 @@ and come down the north gully.
 
 \myfooter\vfill %%%%%%%%%%%%%% because this is the last topo
 
+%=================================================================================
+
+\section{Photo Overviews}
+
+\subsection{Overview of the Northeast Face}
+\includegraphics[width=\linewidth]{figs/1_ne_face}
+\vfill\pagebreak
+
+\subsection{Overview of the Middle of the North Face}
+\includegraphics[width=\linewidth]{figs/2_nw}
+\vfill\pagebreak
+
+\subsection{Overview of the Northwest Side}
+\includegraphics[width=\linewidth]{figs/3_wnw}
+\vfill\pagebreak
+
+\subsection{Overview of the West Side (Left)}
+\includegraphics[width=\linewidth]{figs/4_west_side}
+\vfill\pagebreak
+
+\subsection{Overview of the West Side (Middle)}
+\includegraphics[width=\linewidth]{figs/5_wsw}
+\vfill\pagebreak
+
+\subsection{Overview of the West Side (Right)}
+\includegraphics[width=\linewidth]{figs/6_sw}
+\vfill\pagebreak
+
+\subsection{Overview of the South Side}
+\includegraphics[width=\linewidth]{figs/7_south}
+\vfill\pagebreak
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 <%
