@@ -9,6 +9,7 @@ default:
 	cp tahquitz.pdf ~/Lightandmatter/tahquitz
 	make clean
 	rm -f topo.jpg
+	@echo "The pdf file has been copied to ~/Lightandmatter/tahquitz/tahquitz.pdf"
 
 single:
 	# Extract a single page to post on mountainproject.
