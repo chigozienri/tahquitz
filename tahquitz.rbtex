@@ -204,7 +204,7 @@ approach hike, climb, and descent. Species are arranged in groups from
 least to most specialized. The symbol $\star$ means that this plant is
 commonly seen on the rock itself.
 
-\begin{wrapfigure}[10]{r}{0.4\textwidth}
+\begin{wrapfigure}[9]{r}{0.4\textwidth}
 \includegraphics[width=\linewidth]{figs/oak_leaves}
 \caption{Oak leaves.}
 \end{wrapfigure}
@@ -228,12 +228,18 @@ commonly seen on the rock itself.
 \item incense cedar (\emph{Calocedrus decurrens}) --- scaly leaves
 \end{itemize}
 
+\begin{wrapfigure}[7]{r}{0.15\textwidth}
+\includegraphics[width=\linewidth]{figs/currant_leaf}
+\caption{Mountain pink currant.}
+\end{wrapfigure}
+
 \emph{In addition, in wet areas:}
 
 \begin{itemize}
 \item mountain pink currant (\emph{Ribes nevadense}) $\star$ --- bush or small tree with 3-lobed, serrated leaves
 \item western azalea (\emph{Rhododendron occidentale})
 \end{itemize}
+
 
 \emph{Growing only out of cracks in the rock face:}
 
