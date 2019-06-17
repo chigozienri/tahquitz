@@ -1,0 +1,2 @@
+default:
+	./gps.rb
