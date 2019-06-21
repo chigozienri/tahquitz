@@ -44,13 +44,9 @@ def raw_to_cooked(elevation,x,y,datum,route,belay,description)
     return [true,'datum must be NAD27 or NAD83',{}]
   end
   if datum==NAD27 then
-    # Ran an example to determine the offset (belay 1, pine tree, on The Uneventful).
-    # NAD 27 = 11S 0529440 3735485
-    # NOAA conversion of lat-lon from NAD83 to NAD27 gives
-    #   NAD 27 - NAD 83 shift values: lat = -2.256, lon = -78.843  (meters)
-    #   the lon is west, so flip sign
+    # https://gis.stackexchange.com/questions/326275/discrepancy-in-conversion-from-nad27-to-nad83
     x = x-78.843
-    y = y+2.256
+    y = y+2.256+193.673
   end
   result['elevation'] = elevation.to_f
   result['x'] = x.to_f
@@ -62,7 +58,7 @@ end
 def sane_elevation(meters,is_a_route)
   idyllwild = 1650 # meters
   bottom_of_rock = 2194 # 7200'; hundreds of feet lower than the start of any route
-  top_of_rock = 2334 # meters
+  top_of_rock = summit_position()[2]
   if is_a_route then
     return (meters>bottom_of_rock && meters<top_of_rock+100)
   else
@@ -72,4 +68,12 @@ end
 
 def feet_to_meters(ft)
   return 0.3048*ft
+end
+
+def summit_position()
+  return [347.0,623.0,2439.0]
+  # data from https://www.peakbagger.com/peak.aspx?pid=1486
+  # x and y in meters, relative to 1 km UTM grid, WGS84; 
+  # z is elevation in meters
+  # (x,y) matches pretty well with 2018 USGS topo.
 end
