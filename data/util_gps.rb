@@ -23,23 +23,6 @@ def raw_to_cooked(elevation,x,y,datum,route,belay,description)
     return [true,'UTM coordinates should be given in meters, relative to 11S 0529,000 3735,000',{}]
   end
   result = {}
-  if route!='' then
-    # stricter sanity check for something that claims to be a point on a climbing route
-    if !sane_elevation(elevation,true) then
-      return [true,'elevation is not sane for a point on a climbing route',{}]
-    end
-    if !(x>=150 && x<=680) then
-      return [true,'UTM x is not sane for a point on a climbing route',{}]
-    end
-    if !(y>=260 && y<=650) then
-      return [true,'UTM y is not sane for a point on a climbing route',{}]
-    end
-    result['route'] = route
-    result['belay'] = belay
-  else
-    result['route'] = ''
-    result['belay'] = -1
-  end
   if !(datum==NAD27 || datum==NAD83) then
     return [true,'datum must be NAD27 or NAD83',{}]
   end
@@ -47,6 +30,23 @@ def raw_to_cooked(elevation,x,y,datum,route,belay,description)
     # https://gis.stackexchange.com/questions/326275/discrepancy-in-conversion-from-nad27-to-nad83
     x = x-78.843
     y = y+2.256+193.673
+  end
+  if route!='' then
+    # stricter sanity check for something that claims to be a point on a climbing route
+    if !sane_elevation(elevation,true) then
+      return [true,"elevation=#{elevation} m is not sane for a point on a climbing route",{}]
+    end
+    if !(x>=150 && x<=680) then
+      return [true,"UTM x=#{x} (NAD 83) is not sane for a point on a climbing route",{}]
+    end
+    if !(y>=260 && y<=800) then
+      return [true,"UTM y=#{y} (NAD 83) is not sane for a point on a climbing route",{}]
+    end
+    result['route'] = route
+    result['belay'] = belay
+  else
+    result['route'] = ''
+    result['belay'] = -1
   end
   result['elevation'] = elevation.to_f
   result['x'] = x.to_f

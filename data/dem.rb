@@ -26,7 +26,7 @@ def dem(x,y)
   # Consider the four cells whose centers are closest to this point. First find the col and row of the lower left one.
   i = xx.to_i
   j = yy.to_i
-  print "x=#{x}, y=#{y}, xx=#{xx}, yy=#{yy}, i=#{i}, j=#{j}\n" # qwe
+  #print "x=#{x}, y=#{y}, xx=#{xx}, yy=#{yy}, i=#{i}, j=#{j}\n" # qwe
   z00 = get_elevation(i,j)
   z10 = get_elevation(i+1,j)
   z01 = get_elevation(i,j+1)
