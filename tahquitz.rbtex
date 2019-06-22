@@ -612,6 +612,76 @@ is pro.
 \upfriction
 
 %=====================================================================
+<% climb("Fools Rush","5.6") %>
+
+\topo{0.3}{fools_rush}
+
+This seldom-climbed route starts inside a hidden alcove between two
+colossal staircases on the right side of the Maiden Buttress. Over in
+the middle of the buttress there is a different square alcove, on a
+less titanic scale, which is not the one you want. The route connects
+with White Maiden's Walkaway at belays 3 and 4, which makes it an
+option for climbing parties trying to keep out of each other's hair on
+a weekend when several groups want to climb the Maiden.  A traverse
+(``From Bad Traverse'') is also possible from The Trough.
+
+The rock quality is slightly more questionable than on other routes on this
+side of the rock, so think carefully about holds and gear placements.
+There is a certain amount of choss and brush. To use the most
+comfortable belays, a 70 meter rope is helpful. The route description here
+is for a 70 m rope and refers to the belays marked with black circles.
+In white circles, I've marked additional or alternative belays that I
+think would work with a 60 m rope. With a 60 m rope, careful planning
+and accurate routefinding are necessary in order to avoid extremely awkward
+belays sitting in bushes or trees.
+
+Most of the climbing is 5.4-5.5, but pitches 2, 3, and 4 have 5.6 spots.
+
+Approach via the Lunch Rock Trail. Turn left next to Lunch Rock, a little
+below the actual base of the rock. The gargantuan right-facing dihedral
+is extremely obvious visually.
+
+Pro to 3". FA Omar Conger, Barbara Lilley, and Don Rappolee, 1959.
+
+\pitch{1} Walk up slabs to a ledge. Climb a crack system and belay at a
+ledge the size of a dining room, next to a fir and an oak. If using a 60 m
+rope, it probably works to end this pitch a little higher, at one of the two
+small ledges above the trees. 45 m, easy 5th class.
+
+\pitch{2} Climb cracks to a 5.6 crux where the route goes up through a chimney
+next to an overhang. Continue up and left to a ledge below an oak tree. 63 m
+
+\pitch{3} Bushwhack through the oak tree's branches on the right and
+insert into the dihedral. Before an overhang, there is an obvious
+weakness where a notch interrupts the wall on the left. Exit by
+climbing the wall's face, 5.6. One flake in the wall looked to me like
+it conceivably might not be attached well enough to hold a lead fall
+on a cam placed behind it. Above the notch is a comfotable saddle,
+located a few meters above and to the right of a spot where the Maiden
+arrives and makes a left turn. 20 m
+
+\pitch{4} Enjoyable, well protected face climbing on excellent rock, mostly 5.5.
+With a 60 m rope, it will be necessary to build a hanging belay somewhere in the middle.
+A 5.6 crux is is formed by a chimney. Continue up to an area where the climbing
+becomes more low-angle and the Maiden again
+intersects the route. 68 m
+
+% The following is duplicated, with slightly different text, in the Maiden, with different pitch and variation numbers.
+
+\pitch{5} Head up and right
+into a cave formed by a claustrophobic overhang.
+Escape the cave by moving out onto a slab, approaching
+a wall that gets in the way.
+Move all the way out to the rightmost side of
+the wall and then mantle up. Locate a bomber hold and a side-pull to make
+the mantling moves more positive.
+
+\variation{1} Head straight up through gaps in the overhangs above
+the belay. The crux is the awkward second gap, 5.8.
+
+\variation{2} I haven't tried this variation. Vogel calls it 5.1.
+
+%=====================================================================
 <% climb("The Frightful Variation of the Trough","5.4") %>
 
 \topo{0.5}{frightful}
@@ -1415,6 +1485,8 @@ it into a right-facing dihedral.  Before getting too close to the ceiling, go ba
 along 3rd-class ledges and flakes.  Gear belay in a one-inch
 crack in a right-facing dihedral in the big gully. Class 3.
 
+% The following is duplicated in Fools Rush, with different pitch and variation numbers.
+
 \pitch{6} For the standard 5.3 finish, head 10 feet up the one-inch crack,
 then exit into a cave formed by a claustrophobic overhang.
 Escape the cave by moving out onto a slab, approaching
@@ -1425,6 +1497,8 @@ the mantling moves more positive.
 
 \variation{4} Head straight up through gaps in the overhangs above
 the belay. The crux is the awkward second gap, 5.8.
+
+% Var. 5, the 5.1, is shown on the topo but not described in the text.
 
 \somespace
 

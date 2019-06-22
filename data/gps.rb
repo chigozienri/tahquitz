@@ -14,7 +14,7 @@ def main()
   gps(7405,222,675,NAD83,'fools_rush',1,'huge ledge')
   gps(7645,255,663,NAD83,'fools_rush',2,'oak tree ledge above crux')
   gps(7761,272,638,NAD83,'fools_rush',3,'saddle-shaped ledge next to 3rd belay on Maiden; z probably too high by ca. 60 ft')
-  gps(7873,271,632,NAD83,'fools_rush',4,'just below 5th belay on Maiden')
+  gps(7873,271,632,NAD83,'fools_rush',4,'just below 5th belay on Maiden, slightly lower than shown on my topo of Fools Rush ')
   gps(7969,271,638,NAD83,'fools_rush',5,'top of 5.3 variation of Maiden; x should be lower')
 
   x,y,z = summit_position()
