@@ -1,4 +1,4 @@
-SINGLE = 10
+SINGLE = 14
 # page number for "make single"
 
 default:
