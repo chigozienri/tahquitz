@@ -71,9 +71,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.2527165"
-     inkscape:cx="207.56274"
-     inkscape:cy="899.50687"
+     inkscape:zoom="4.2453793"
+     inkscape:cx="159.25391"
+     inkscape:cy="311.23468"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -583,7 +583,8 @@
              sodipodi:role="line"
              id="tspan4946-5-1-2"
              x="466.33655"
-             y="408.20065">3</tspan></text>
+             y="408.20065"
+             style="-inkscape-font-specification:'Liberation Sans Bold';font-family:'Liberation Sans';font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal">3</tspan></text>
       </g>
     </g>
     <g
@@ -608,7 +609,8 @@
              sodipodi:role="line"
              id="tspan4946-5-1-7"
              x="466.33655"
-             y="408.20065">2</tspan></text>
+             y="408.20065"
+             style="-inkscape-font-specification:'Liberation Sans Bold';font-family:'Liberation Sans';font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal">2</tspan></text>
       </g>
     </g>
     <g
@@ -633,7 +635,8 @@
              sodipodi:role="line"
              id="tspan4946-5-1-3"
              x="466.33655"
-             y="408.20065">1</tspan></text>
+             y="408.20065"
+             style="-inkscape-font-specification:'Liberation Sans Bold';font-family:'Liberation Sans';font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal">1</tspan></text>
       </g>
     </g>
     <circle
@@ -1718,17 +1721,16 @@
        id="path1156"
        inkscape:connector-curvature="0" />
     <g
-       id="g4754"
-       transform="translate(12.92185,-41.60334)">
+       id="g1163">
       <circle
          r="2.0135818"
-         cy="85.899239"
-         cx="28.355209"
+         cy="44.295898"
+         cx="41.277058"
          id="path4510-3-2-6-2"
          style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.19179282;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
       <g
          style="fill:#ffffff;fill-opacity:1"
-         transform="matrix(0.28222223,0,0,0.28222223,-104.22513,-28.107755)"
+         transform="matrix(0.28222223,0,0,0.28222223,-91.347349,-69.744147)"
          id="g6328-6-2-7">
         <text
            xml:space="preserve"
@@ -1736,6 +1738,7 @@
            x="466.33655"
            y="408.20065"
            id="text4944-7-9-0"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Bold'"
              sodipodi:role="line"
              id="tspan4946-5-1-9"
              x="466.33655"
