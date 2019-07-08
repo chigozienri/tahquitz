@@ -480,7 +480,7 @@ without depending on bad rock.
 
 <% climb("The Error","5.7") %>
 
-\topo{0.4}{error}
+\topo{0.5}{error}
 
 \warn{I've only done this climb once.}
 
