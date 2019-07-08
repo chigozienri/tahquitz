@@ -16,6 +16,8 @@ The whole thing can be downloaded as a single multi-page PDF file, from
 I have also posted single pages for the individual climbs as images
 on mountainproject, but those may become outdated as I make improvements.
 
+You can buy it as a printed book [at lulu.com](http://www.lulu.com/spotlight/benjamin_crowell).
+
 I have a separate repository for photos and photo topos in color:
 http://github.com/bcrowell/tahquitz_photography .
 
