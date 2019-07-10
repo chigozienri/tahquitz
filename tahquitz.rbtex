@@ -319,8 +319,12 @@ routes on the northeast face.
   $count = 1
   $climb_data = []
   def climb(name,grade)
+    # Every climb gets two labels, like this:
+    #   climb:17
+    #   c:jensens-jaunt ... lowercase, spaces converted to hyphens, punctuation removed
     label = "climb:#{$count}"
-    print "\\climb[#{$first_climb}]{#{name}}{#{grade}}\\label{#{label}}\n"
+    label2 = "c:"+name.downcase.gsub(/ /,'-').gsub(/[^a-z\-]/,'')
+    print "\\climb[#{$first_climb}]{#{name}}{#{grade}}\\label{#{label}}\\label{#{label2}}\n"
     $first_climb = 0
     if grade =~ /5\.(\d+)/ then
       decimal = $1.to_i
@@ -1626,9 +1630,58 @@ and come down the north gully.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\pagebreak
+
+\section{Best climbs at grades 5.3-7}\label{sec:best-climbs}
+
+There are a couple of 5.7 climbs that I haven't done,
+so take my opinion on that grade with that grain of salt.
+%%%%%%%%%%%% See p.~\pageref{sec:climbs-by-grade} for a listing of all climbs by grade.
+
+\subsection{By grade, climbs with consistent difficulty}
+
+The following are my opinions about the climbs that have the best climbing, pro, and
+rock quality at each grade, selected to be climbs where the difficulty of the different
+pitches is roughly consistent. 
+
+\begin{tabular}{lllp{100mm}}
+5.3 & p.~\pageref{c:the-trough} & The Trough  \\
+5.4 & p.~\pageref{c:fingertip-traverse} & Fingertip Traverse \\
+5.5 & pp.~\pageref{c:white-maidens-walkway}, \pageref{c:fools-rush} & White Maiden's Walkway to Fools Rush & (best with a 70 m rope)\\
+5.6 & p.~\pageref{c:the-uneventful} & The Uneventful & (some loose rock on belay ledges)\\
+5.7 & p.~\pageref{c:el-whampo} & El Whampo
+\end{tabular}
+
+\subsection{On crowded weekends}
+
+\begin{tabular}{lllp{100mm}}
+5.4 & p.~\pageref{c:west-lark} & West Lark \\
+5.5 & p.~\pageref{c:north-buttress} & North Buttress \\
+5.5 & p.~\pageref{c:fools-rush} & Fools Rush & (best with a 70 m rope)\\
+5.6 & p.~\pageref{c:east-lark} & East Lark \\
+5.7 & p.~\pageref{c:the-error} & The Error
+\end{tabular}
+
+\subsection{Uneven difficulty}
+
+These are good routes for a climbing team of unequal ability, if each person wants to lead something.
+
+\begin{tabular}{llp{100mm}}
+White Maiden's Walkway & p.~\pageref{c:white-maidens-walkway} & 
+       5.6 (first move off the ground), 5.6 (one committing move with pro) or 5.7 var., 5.4, 5.3, 4th, 5.3 \\
+Angel's Fright & p.~\pageref{c:angels-fright} & 
+       5.3 (crack technique), 5.6, 5.2 (to optional belay), 5.6, 5.2, 5.5 (friction) \\
+Northeast Farce/El Whampo & pp.~\pageref{c:northeast-farce}, \pageref{c:el-whampo} &
+       Mix and match pitches from these two climbs, 5.3-7, avoiding the unpleasant and poorly protected P3 of Northeast Farce.\\
+Fingertrip & p.~\pageref{c:fingertrip} &
+       5.7, 5.7, 5.7 and 4th, 5.2, 5.5 (friction)
+\end{tabular}
+
+\section{All climbs by grade}\label{sec:climbs-by-grade}
+
+%See p.~\pageref{sec:best-climbs} for my opinions on the best climbs by grade.
+
 <%
-  print "\\pagebreak\n" 
-  print "\\section{Climbs by grade}\n\n"
   0.upto(20) { |want_grade|
     $climb_data.each { |climb|
       name,grade,decimal,label = climb
