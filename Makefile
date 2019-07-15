@@ -1,9 +1,10 @@
-SINGLE = 12
+SINGLE = 20
 # page number for "make single"
 
 default:
 	make figures # renders any figure whose pdf is older than its svg
 	fruby tahquitz.rbtex >tahquitz.tex
+	pdflatex tahquitz
 	pdflatex tahquitz
 	pdflatex tahquitz
 	cp tahquitz.pdf ~/Lightandmatter/tahquitz
