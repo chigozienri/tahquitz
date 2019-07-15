@@ -25,6 +25,34 @@ def main()
   gps(352,679,2333,NAD83,'error',5,'near mountain mahogany trees, where the climbing gets easier and the ledge starts to develop')
   #gps(,NAD83,'error',0,'')
 
+  # july 11, hike with dogs
+  # There are two north gully trails. There is a fork on the way up. We always go right on the way up (more obvious).
+  # This takes you to the main junction (in front of the dark wall, what I'cve beenthinkingh og as the junction.)
+  # and the climbing areas. This goes through some talus.
+  # We never go left. Thi s is more like the descent trail. It avoids the talus.
+  # So there is really a triangle of trails, with three junctions.
+  # Times below are from watch, arer about 1 min ahead ogf Pi's cloclk.
+  # 18:12 trailhead
+  # 18:25 enter oak grove
+  # 18:48 "the" jct, 574 777 2134
+  # 18:56 foot of class 4 gully that starts below and to right of el whampo and leads tyo it, 510 782 2163
+  # 18:59 on trail, lined up with NE Face E diheadral 439 786 2158
+  # 19:03 on trail bvelow larks, 394 795 2181
+  # 19:06 larks, base of rock 388 797 2174
+  # 19:11 uneventful, talus exactly at base of rock 346 783 2185
+  # 19:19 the error, at base of rock, 304 768 2197
+  # 19:39 entering oak grove on the way dfown
+  # 19:47 car at north gully TH 086 092 1992
+  #
+  # july 12, fri, north buttress with matt
+  # until 8:37 ground anchor on boulder, 332 781 2188
+  # 9:14 first belay at upper pine tree 335 752 2234
+  # third belay 11:30 (big lefge below arches)
+  # fourth belay, at top of right-hand dihedral,lower than first time
+  # ~14:05 arrive at J tree ledge
+  # turned off gps
+  # reactivated gps, I think at endof class 3 ledge (not earlier at trees)
+
   x,y,z = summit_position()
   print "DEM gives summit elevation = #{dem(x,y)}, should be #{z}\n"
 end
