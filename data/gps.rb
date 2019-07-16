@@ -25,6 +25,12 @@ def main()
   gps(352,679,2333,NAD83,'error',5,'near mountain mahogany trees, where the climbing gets easier and the ledge starts to develop')
   #gps(,NAD83,'error',0,'')
 
+  # 2019 july 12, north buttress with matt
+  gps(327,783,2189,NAD83,'north_buttress',0,'ground anchor on top of boulder')
+  gps(341,750,2230,NAD83,'north_buttress',1,'upper pine tree')
+  gps(345,721,2255,NAD83,'north_buttress',2,'probably left side of ledge')
+  gps(348,700,2298,NAD83,'north_buttress',3,'large ledge across from alcove on The Error')
+
   # july 11, hike with dogs
   # There are two north gully trails. There is a fork on the way up. We always go right on the way up (more obvious).
   # This takes you to the main junction (in front of the dark wall, what I'cve beenthinkingh og as the junction.)
@@ -44,14 +50,6 @@ def main()
   # 19:39 entering oak grove on the way dfown
   # 19:47 car at north gully TH 086 092 1992
   #
-  # july 12, fri, north buttress with matt
-  # until 8:37 ground anchor on boulder, 332 781 2188
-  # 9:14 first belay at upper pine tree 335 752 2234
-  # third belay 11:30 (big lefge below arches)
-  # fourth belay, at top of right-hand dihedral,lower than first time
-  # ~14:05 arrive at J tree ledge
-  # turned off gps
-  # reactivated gps, I think at endof class 3 ledge (not earlier at trees)
 
   x,y,z = summit_position()
   print "DEM gives summit elevation = #{dem(x,y)}, should be #{z}\n"

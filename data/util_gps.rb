@@ -57,7 +57,7 @@ end
 
 def sane_elevation(meters,is_a_route)
   idyllwild = 1650 # meters
-  bottom_of_rock = 2194 # 7200'; hundreds of feet lower than the start of any route
+  bottom_of_rock = 2100 # lower than the start of any route
   top_of_rock = summit_position()[2]
   if is_a_route then
     return (meters>bottom_of_rock && meters<top_of_rock+100)
