@@ -6,6 +6,7 @@ require_relative 'dem'
 # In the following, I throw away the results, so all that happens is a sanity check.
 
 def main()
+  gps(346,783,2185,NAD83,'uneventful',0,'talus exactly at base of rock; from hike with dogs')
   gps(440,435,7238,NAD27,'uneventful',1,'first big pine tree; y is not possible')
   gps(444,519,7465,NAD27,'uneventful',2,'second big pine tree; y is not possible')
   # no gps reception at belay 3
@@ -17,7 +18,7 @@ def main()
   gps(271,632,7873,NAD83,'fools_rush',4,'just below 5th belay on Maiden, slightly lower than shown on my topo of Fools Rush ')
   gps(271,638,7969,NAD83,'fools_rush',5,'top of 5.3 variation of Maiden; x should be lower')
   #
-  gps(304,771,2202,NAD83,'error',0,'very bottom of rock')
+  gps(304,770,2200,NAD83,'error',0,'very bottom of rock; average of data from two different days, consistent to a few meters')
   gps(320,738,2231,NAD83,'error',1,'on top of boulder, next to rusty bolt, above pine tree on left')
   gps(327,730,2240,NAD83,'error',2,'ledge under overhangs')
   gps(328,715,2270,NAD83,'error',3,'middle (?) of rubble-strewn ledge')
@@ -31,6 +32,16 @@ def main()
   gps(345,721,2255,NAD83,'north_buttress',2,'probably left side of ledge')
   gps(348,700,2298,NAD83,'north_buttress',3,'large ledge across from alcove on The Error')
 
+  # 2019 july 14, maiden with lara
+  gps(250,700,2248,NAD83,'maiden',0,'tree root on class 3 ledge, before the hard mantling move')
+  gps(245,698,2277,NAD83,'maiden',1,'mountain mahogany')
+
+  gps(388,797,2174,NAD83,'west_lark',0,'base of rock; is the same location as the start of the other larks')
+
+  gps(510,782,2163,NAD83,'el_whampo',0,'foot of class 4/easy 5th gully that is the first easy pitch of El Whampo')
+
+  gps(439,786,2158,NAD83,'northeast_face_east',0,'trail directly below the dihedral')
+
   # july 11, hike with dogs
   # There are two north gully trails. There is a fork on the way up. We always go right on the way up (more obvious).
   # This takes you to the main junction (in front of the dark wall, what I'cve beenthinkingh og as the junction.)
@@ -41,12 +52,12 @@ def main()
   # 18:12 trailhead
   # 18:25 enter oak grove
   # 18:48 "the" jct, 574 777 2134
-  # 18:56 foot of class 4 gully that starts below and to right of el whampo and leads tyo it, 510 782 2163
-  # 18:59 on trail, lined up with NE Face E diheadral 439 786 2158
-  # 19:03 on trail bvelow larks, 394 795 2181
-  # 19:06 larks, base of rock 388 797 2174
-  # 19:11 uneventful, talus exactly at base of rock 346 783 2185
-  # 19:19 the error, at base of rock, 304 768 2197
+  # -----------18:56 foot of class 4 gully that starts below and to right of el whampo and leads tyo it, 510 782 2163
+  # -----------18:59 on trail, lined up with NE Face E diheadral 439 786 2158
+  # -----------19:03 on trail bvelow larks, 394 795 2181
+  # -----------19:06 larks, base of rock 388 797 2174
+  # -----------19:11 uneventful, talus exactly at base of rock 346 783 2185
+  # -----------19:19 the error, at base of rock, 304 768 2197
   # 19:39 entering oak grove on the way dfown
   # 19:47 car at north gully TH 086 092 1992
   #
