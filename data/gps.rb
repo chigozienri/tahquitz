@@ -37,9 +37,8 @@ def main()
   gps(245,698,2277,NAD83,'maiden',1,'mountain mahogany')
 
   # 2019 july 11, hike with dogs
-  gps(86,104,1986,NAD83,'',-1,'North Gully trailhead at Humber Park')  
-  gps(328,39,2068,NAD83,'',-1,'bottom of oak grove on North Gully Trail')
-  # gives error:
+  gps( 86,1104,1986,NAD83,'',-1,'North Gully trailhead at Humber Park')  
+  gps(328,1039,2068,NAD83,'',-1,'bottom of oak grove on North Gully Trail')
   gps(427,990,2098,NAD83,'',-1,'top of oak grove on North Gully Trail (?)')
   gps(574,777,2134,NAD83,'',-1,'junction of North Gully ascent trail at rock wall')
   gps(388,797,2174,NAD83,'west_lark',0,'base of rock; is the same location as the start of the other larks')
