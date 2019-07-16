@@ -26,7 +26,7 @@ def dem(x,y)
   # Consider the four cells whose centers are closest to this point. First find the col and row of the lower left one.
   i = xx.to_i
   j = yy.to_i
-  #print "x=#{x}, y=#{y}, xx=#{xx}, yy=#{yy}, i=#{i}, j=#{j}\n" # qwe
+  # print "x=#{x}, y=#{y}, xx=#{xx}, yy=#{yy}, i=#{i}, j=#{j}\n" # qwe
   z00 = get_elevation(i,j)
   z10 = get_elevation(i+1,j)
   z01 = get_elevation(i,j+1)
@@ -35,6 +35,7 @@ def dem(x,y)
 end
 
 def interpolate_square(x,y,z00,z10,z01,z11)
+  if z00.nil? or z10.nil? or z01.nil? or z11.nil? then return nil end
   # https://en.wikipedia.org/wiki/Bilinear_interpolation#Unit_Square
   # The crucial thing is that this give results that are continuous across boundaries of squares.
   w00 = (1.0-x)*(1.0-y)
@@ -63,6 +64,6 @@ def get_elevation(i,j)
       row = row+1
     }
   }
-  exit(-1)
+  return nil
 end
 

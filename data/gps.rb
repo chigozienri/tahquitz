@@ -36,31 +36,15 @@ def main()
   gps(250,700,2248,NAD83,'maiden',0,'tree root on class 3 ledge, before the hard mantling move')
   gps(245,698,2277,NAD83,'maiden',1,'mountain mahogany')
 
+  # 2019 july 11, hike with dogs
+  gps(86,104,1986,NAD83,'',-1,'North Gully trailhead at Humber Park')  
+  gps(328,39,2068,NAD83,'',-1,'bottom of oak grove on North Gully Trail')
+  # gives error:
+  gps(427,990,2098,NAD83,'',-1,'top of oak grove on North Gully Trail (?)')
+  gps(574,777,2134,NAD83,'',-1,'junction of North Gully ascent trail at rock wall')
   gps(388,797,2174,NAD83,'west_lark',0,'base of rock; is the same location as the start of the other larks')
-
   gps(510,782,2163,NAD83,'el_whampo',0,'foot of class 4/easy 5th gully that is the first easy pitch of El Whampo')
-
   gps(439,786,2158,NAD83,'northeast_face_east',0,'trail directly below the dihedral')
-
-  # july 11, hike with dogs
-  # There are two north gully trails. There is a fork on the way up. We always go right on the way up (more obvious).
-  # This takes you to the main junction (in front of the dark wall, what I'cve beenthinkingh og as the junction.)
-  # and the climbing areas. This goes through some talus.
-  # We never go left. Thi s is more like the descent trail. It avoids the talus.
-  # So there is really a triangle of trails, with three junctions.
-  # Times below are from watch, arer about 1 min ahead ogf Pi's cloclk.
-  # 18:12 trailhead
-  # 18:25 enter oak grove
-  # 18:48 "the" jct, 574 777 2134
-  # -----------18:56 foot of class 4 gully that starts below and to right of el whampo and leads tyo it, 510 782 2163
-  # -----------18:59 on trail, lined up with NE Face E diheadral 439 786 2158
-  # -----------19:03 on trail bvelow larks, 394 795 2181
-  # -----------19:06 larks, base of rock 388 797 2174
-  # -----------19:11 uneventful, talus exactly at base of rock 346 783 2185
-  # -----------19:19 the error, at base of rock, 304 768 2197
-  # 19:39 entering oak grove on the way dfown
-  # 19:47 car at north gully TH 086 092 1992
-  #
 
   x,y,z = summit_position()
   print "DEM gives summit elevation = #{dem(x,y)}, should be #{z}\n"
@@ -74,7 +58,12 @@ def gps(x,y,elevation,datum,route,belay,description)
   end
   data = c[2]
   dem_elevation = dem(x,y)
-  print (sprintf "%3d %3d %3d z-DEM=%4d %20s %1d %s",round(data['x']),round(data['y']),round(data['elevation']),round(data['elevation']-dem_elevation),data['route'],data['belay'],data['description']),"\n"
+  if dem_elevation.nil? then
+    dem_err = -999
+  else
+    dem_err = data['elevation']-dem_elevation
+  end
+  print (sprintf "%3d %3d %3d z-DEM=%4d %20s %1d %s",round(data['x']),round(data['y']),round(data['elevation']),round(dem_err),data['route'],data['belay'],data['description']),"\n"
 end
 
 def round(x)
