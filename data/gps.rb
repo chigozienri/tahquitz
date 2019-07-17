@@ -7,8 +7,8 @@ require_relative 'dem'
 
 def main()
   gps(346,783,2185,NAD83,'uneventful',0,'talus exactly at base of rock; from hike with dogs')
-  gps(440,435,7238,NAD27,'uneventful',1,'first big pine tree; y is not possible')
-  gps(444,519,7465,NAD27,'uneventful',2,'second big pine tree; y is not possible')
+  #gps(440,435,7238,NAD27,'uneventful',1,'first big pine tree; y and z both not possible')
+  #gps(444,519,7465,NAD27,'uneventful',2,'second big pine tree; y is not possible')
   # no gps reception at belay 3
   gps(445,466,7634,NAD27,'uneventful',4,'left side of big J tree ledge')
   #
@@ -22,7 +22,7 @@ def main()
   gps(320,738,2231,NAD83,'error',1,'on top of boulder, next to rusty bolt, above pine tree on left')
   gps(327,730,2240,NAD83,'error',2,'ledge under overhangs')
   gps(328,715,2270,NAD83,'error',3,'middle (?) of rubble-strewn ledge')
-  gps(336,694,2295,NAD83,'error',4,'alcove')
+  gps(336,694,2295,NAD83,'error',4,'alcove; poor agreement between photo surveying and GPS')
   gps(352,679,2333,NAD83,'error',5,'near mountain mahogany trees, where the climbing gets easier and the ledge starts to develop')
   #gps(,NAD83,'error',0,'')
 
@@ -34,7 +34,7 @@ def main()
 
   # 2019 july 14, maiden with lara
   gps(250,700,2248,NAD83,'maiden',0,'tree root on class 3 ledge, before the hard mantling move')
-  gps(245,698,2277,NAD83,'maiden',1,'mountain mahogany')
+  gps(245,698,2277,NAD83,'maiden',1,'mountain mahogany (could be wrong)')
 
   # 2019 july 11, hike with dogs
   gps( 86,1104,1986,NAD83,'',-1,'North Gully trailhead at Humber Park')  
