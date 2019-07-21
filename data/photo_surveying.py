@@ -68,6 +68,19 @@ def init():
   pix(dat,p,im10,3965,2604)
   pix(dat,p,im15,6839,4171)
 
+  #--------- Points without absolute positions measured by GPS:
+
+  p = point("trough-2",None,"pine tree ledge")
+  pix(dat,p,im05,3131,1758)
+  pix(dat,p,im10,4034,1919)
+  pix(dat,p,im15,8774,3910)
+  pix(dat,p,im20,1926,2113)
+  pix(dat,p,im25,519,1417)
+  pix(dat,p,im30,1106,1194)
+  pix(dat,p,im35,1666,1839)
+
+  #--------- 
+
   return [images,dat]
 
 def analyze():
@@ -88,6 +101,8 @@ def analyze():
         if im2!=im:
           continue
         y = ij[coord]
+        if p["p"] is None:
+          continue
         x = p["p"]
         descr = p["description"]
         print "    x=",x,"  y=",y,"   ",descr
@@ -123,8 +138,8 @@ def analyze():
     los = cross_product(i_gradient,j_gradient) # oriented from camera to rock, since j points down
     az = angle_in_2pi(math.atan2(los[1],los[0])) # ccw from E
     print "    line of sight = ",los,", azimuth=",az*180.0/3.141," deg (ccw from E, camera to rock)"
-  #------------ Print results of mapping from pixels to GPS, and compare with actual GPS fixes.
-  print "Results of mapping from pixels to GPS, compared with actual GPS fixes:"
+  #------------ 
+  print "Results of mapping from GPS to pixels, compared with actual pixel locations:"
   for im in images:
     label = im[0]
     print "  ",im[1] # filename
@@ -133,6 +148,9 @@ def analyze():
     c = coeff[label]
     for obs in dat:
       p,im2,ij = obs
+      if p["p"] is None:
+        continue
+      gps = p["p"]
       descr = p["name"]+", "+p["description"]
       if im2!=im:
         continue
@@ -141,7 +159,6 @@ def analyze():
       err = []
       for coord in range(2):
         co_obs = ij[coord]
-        gps = p["p"]
         co_pred = c[coord][1]
         for m in range(3):
           co_pred = co_pred + c[coord][0][m]*gps[m]
@@ -166,8 +183,8 @@ def image(list,label,filename,loc=None,loc_err=None):
 def point(name,coords,description):
   # Define a new point on the rock, such as a belay, but its UTM coordinates (NAD83).
   # Coordinates can be in any of the forms accepted by utm_input_convenience().
-  x,y,z = utm_input_convenience(coords)
-  return {"name":name,"p":[float(x),float(y),float(z)],"description":description}
+  coords = utm_input_convenience(coords)
+  return {"name":name,"p":coords,"description":description}
 
 def cross_product(u,v):
   x = u[1]*v[2]-u[2]*v[1]
@@ -183,17 +200,21 @@ def angle_in_2pi(x):
 
 def utm_input_convenience(p):
   # Return coordinates in meters, NAD83, relative to reference point.
+  # In this simplest case, where p is an array relative to ref point, returns p unchanged.
   # examples of what p can be:
   #   "530300 3737500 2606" ... NAD83 coords in meters
   #   "111 222 2606" ... NAD83 coords in meters, relative to the UTM square containing the rock
   #   [111,222 2606]
+  # If input is None, returns None.
+  if p is None:
+    return None
   if isinstance(p,str):
     return utm_input_convenience(p.split())
   x,y,z = p
   if x>1000.0:
     x = x-reference_point()[0]
     x = x-reference_point()[1]
-  return [x,y,z]
+  return [float(x),float(y),float(z)]
 
 def reference_point():
   return [529000.0,3735000.0] # lower left corner of the UTM square containing the rock, (529 km,3735 km) in zone 11S.
