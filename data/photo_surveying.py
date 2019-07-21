@@ -94,6 +94,17 @@ def init():
   pix(dat,p,im40,1016,1568)
   pix(dat,p,im50,688,2053)
 
+  p = point("jensens-jaunt-5",None,"north, top tip of boulder at end of Jensen's Jaunt, final slab pitch")
+  pix(dat,p,im05,3182,1310)
+  pix(dat,p,im10,4092,1459)
+  pix(dat,p,im15,9428,3364)
+  pix(dat,p,im20,2650,1416)
+  pix(dat,p,im25,1720,630)
+  pix(dat,p,im30,1638,577)
+  pix(dat,p,im35,2103,1351)
+  pix(dat,p,im40,1443,964)
+  pix(dat,p,im50,1170,1410)
+
   #--------- 
 
   return [images,dat]
