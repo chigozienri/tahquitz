@@ -72,6 +72,7 @@ end
 
 def summit_position()
   return [347.0,623.0,2439.0]
+  # lat,lon = (33.7602897489393, -116.68310035249982)
   # data from https://www.peakbagger.com/peak.aspx?pid=1486
   # x and y in meters, relative to 1 km UTM grid, WGS84; 
   # z is elevation in meters
