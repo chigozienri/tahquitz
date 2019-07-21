@@ -11,15 +11,15 @@ def init():
   dat = []
 
   im01 = image(images,"01","01_northeast_from_saddle_jct")
-  im05 = image(images,"05","05_north_side_from_saddle_jct")
-  im10 = image(images,"10","10_north_face_from_old_devils_slide_trail")
-  im15 = image(images,"15","15_panorama_from_low_on_devils_slide")
-  im20 = image(images,"20","20_northwest_face_from_deer_springs_slabs")
-  im25 = image(images,"25","25_northwest_face_from_suicide_junction")
-  im30 = image(images,"30","30_from_fern_valley")
-  im35 = image(images,"35","35_tahquitz_rock_from_pine_cove_ca")
-  im40 = image(images,"40","40_west_side_from_auto_parts_store")
-  im50 = image(images,"50","50_south_face_from_bottom_of_maxwell_trail")
+  im05 = image(images,"05","05_north_side_from_saddle_jct",loc="530300 3737500 2606",loc_err=[200,2000])
+  im10 = image(images,"10","10_north_face_from_old_devils_slide_trail",loc="529854 3737073 2353",loc_err=[200,200])
+  im15 = image(images,"15","15_panorama_from_low_on_devils_slide",loc="529129 3736244 1999",loc_err=[600,600])
+  im20 = image(images,"20","20_northwest_face_from_deer_springs_slabs",loc="525884 3735229 1780",loc_err=[300,1000])
+  im25 = image(images,"25","25_northwest_face_from_suicide_junction",loc="26901 36497 2100",loc_err=[50,50])
+  im30 = image(images,"30","30_from_fern_valley",loc="527612 3735142 1731",loc_err=[30,30])
+  im35 = image(images,"35","35_tahquitz_rock_from_pine_cove_ca",loc="524485 3734651 1829",loc_err=[200,400])
+  im40 = image(images,"40","40_west_side_from_auto_parts_store",loc="525931 3733312 1508",loc_err=[30,30])
+  im50 = image(images,"50","50_south_face_from_bottom_of_maxwell_trail",loc="527668 3733230 1754",loc_err=[30,30])
 
   #--------- Points with absolute positions measured by GPS:
 
@@ -157,15 +157,16 @@ def pix(dat,p,im,i,j):
   # (i,j) = pixel coordinates with respect to top left (the convention used in gimp)
   dat.append([p,im,[float(i),float(j)]])
 
-def image(list,label,filename):
-  im = [label,filename]
+def image(list,label,filename,loc=None,loc_err=None):
+  # The optional loc argument is the UTM coords of the camera, and loc_err=[x,y] is an estimate of the possible error in the horizontal coordinates.
+  im = [label,filename,loc,loc_err]
   list.append(im)
   return im
 
 def point(name,coords,description):
   # Define a new point on the rock, such as a belay, but its UTM coordinates (NAD83).
-  # Coordinates are in meters, relative to (529 km,3735 km) in zone 11S.
-  x,y,z = coords
+  # Coordinates can be in any of the forms accepted by utm_input_convenience().
+  x,y,z = utm_input_convenience(coords)
   return {"name":name,"p":[float(x),float(y),float(z)],"description":description}
 
 def cross_product(u,v):
@@ -179,5 +180,23 @@ def angle_in_2pi(x):
     return x+2.0*math.pi
   else:
    return x
+
+def utm_input_convenience(p):
+  # Return coordinates in meters, NAD83, relative to reference point.
+  # examples of what p can be:
+  #   "530300 3737500 2606" ... NAD83 coords in meters
+  #   "111 222 2606" ... NAD83 coords in meters, relative to the UTM square containing the rock
+  #   [111,222 2606]
+  if isinstance(p,str):
+    return utm_input_convenience(p.split())
+  x,y,z = p
+  if x>1000.0:
+    x = x-reference_point()[0]
+    x = x-reference_point()[1]
+  return [x,y,z]
+
+def reference_point():
+  return [529000.0,3735000.0] # lower left corner of the UTM square containing the rock, (529 km,3735 km) in zone 11S.
+  
 
 main()
