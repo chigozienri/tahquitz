@@ -32,6 +32,10 @@ def init():
   pix(dat,p,im01,2010,326)
   pix(dat,p,im05,2145,360)
   pix(dat,p,im10,2493,280)
+  pix(dat,p,im20,1575,317) # not totally sure of identification
+  pix(dat,p,im35,1562,531) # approximate location, view obscured by rock in front?
+  pix(dat,p,im40,1930,140)
+  pix(dat,p,im50,2451,599)
 
   p = point("error-2",[327,730,2240],"ledge under overhangs; left-right position uncertain by a few meters")
   pix(dat,p,im01,2791,3923)
@@ -78,6 +82,17 @@ def init():
   pix(dat,p,im25,519,1417)
   pix(dat,p,im30,1106,1194)
   pix(dat,p,im35,1666,1839)
+
+  p = point("tall-tree-below-lunch-ledge",None,"tall q-tip pine tree on ledges above optional belay and below lunch ledge, to right of 4th class on Angel's Fright")
+  pix(dat,p,im05,3406,1793)
+  pix(dat,p,im10,4464,1989)
+  pix(dat,p,im15,10125,4218)
+  pix(dat,p,im20,2253,2130)
+  pix(dat,p,im25,1342,1572)
+  pix(dat,p,im30,1236,1138)
+  pix(dat,p,im35,1833,1873)
+  pix(dat,p,im40,1016,1568)
+  pix(dat,p,im50,688,2053)
 
   #--------- 
 
