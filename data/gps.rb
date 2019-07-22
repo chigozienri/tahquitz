@@ -43,7 +43,8 @@ def main()
   gps(574,777,2134,NAD83,'',-1,'junction of North Gully ascent trail at rock wall')
   gps(388,797,2174,NAD83,'west_lark',0,'base of rock; is the same location as the start of the other larks')
   gps(510,782,2163,NAD83,'el_whampo',0,'foot of class 4/easy 5th gully that is the first easy pitch of El Whampo')
-  gps(439,786,2158,NAD83,'northeast_face_east',0,'trail directly below the dihedral')
+  #gps(439,786,2158,NAD83,'northeast_face_east',0,'trail directly below the dihedral')
+  # ... this seems wildly off in x in satellite image; I think this may have been NE face W rather than NE face E
 
   x,y,z = summit_position()
   print "DEM gives summit elevation = #{dem(x,y)}, should be #{z}\n"

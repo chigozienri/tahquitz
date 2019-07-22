@@ -10,6 +10,7 @@ def init():
   images = []
   dat = []
 
+  im00 = image(images,"00","00_satellite")
   im01 = image(images,"01","01_northeast_from_saddle_jct")
   im05 = image(images,"05","05_north_side_from_saddle_jct",loc="530300 3737500 2606",loc_err=[200,2000])
   im10 = image(images,"10","10_north_face_from_old_devils_slide_trail",loc="529854 3737073 2353",loc_err=[200,200])
@@ -29,6 +30,12 @@ def init():
   pix(dat,p,im10,2284,1675)
 
   p = point("summit",[347.0,623.0,2439.0],"summit")
+  pix(dat,p,im00,3154,2320)
+  # ...identified by shadow of summit block and in relation to overhangs on northeast and big crag to the west.
+  #    If I check this point on the image in google maps, I get lat-lon conbverting to UTM about 40 m west of the summit. If I
+  #    locate the point in google maps whose lat-lon converts to the UTM of the summit, it's just clearly not
+  #    the right point. Probably google maps's datum is not what I've been assuming.
+  #    These two numbers are reproduced at coeff['00'] = ... below.
   pix(dat,p,im01,2010,326)
   pix(dat,p,im05,2145,360)
   pix(dat,p,im10,2493,280)
@@ -72,7 +79,27 @@ def init():
   pix(dat,p,im10,3965,2604)
   pix(dat,p,im15,6839,4171)
 
+  p = point("west-lark-0",[388,797,2174],"base of rock; is the same location as the start of the other larks")
+  pix(dat,p,im00,3654,1068)
+
+  p = point("el-whampo-0",[510,782,2163],"foot of class 4/easy 5th gully that is the first easy pitch of El Whampo")
+  pix(dat,p,im00,4690,1230) # x may be off
+
   #--------- Points without absolute positions measured by GPS:
+
+  p = point("jensens-jaunt-5",None,"north/top tip of boulder at end of Jensen's Jaunt, final slab pitch; z from DEM")
+  # Tried clicking in google maps to get lat-lon, then finding UTM from that, then elevation from DEM. Results were
+  # 529163 3735553 2330. But this made results horrible, probably because google maps is using some different datum.
+  pix(dat,p,im00,1978,2846)
+  pix(dat,p,im05,3182,1310)
+  pix(dat,p,im10,4092,1459)
+  pix(dat,p,im15,9428,3364)
+  pix(dat,p,im20,2650,1416)
+  pix(dat,p,im25,1720,630)
+  pix(dat,p,im30,1638,577)
+  pix(dat,p,im35,2103,1351)
+  pix(dat,p,im40,1443,964)
+  pix(dat,p,im50,1170,1410)
 
   p = point("trough-2",None,"pine tree ledge")
   pix(dat,p,im05,3131,1758)
@@ -93,17 +120,7 @@ def init():
   pix(dat,p,im35,1833,1873)
   pix(dat,p,im40,1016,1568)
   pix(dat,p,im50,688,2053)
-
-  p = point("jensens-jaunt-5",None,"north, top tip of boulder at end of Jensen's Jaunt, final slab pitch")
-  pix(dat,p,im05,3182,1310)
-  pix(dat,p,im10,4092,1459)
-  pix(dat,p,im15,9428,3364)
-  pix(dat,p,im20,2650,1416)
-  pix(dat,p,im25,1720,630)
-  pix(dat,p,im30,1638,577)
-  pix(dat,p,im35,2103,1351)
-  pix(dat,p,im40,1443,964)
-  pix(dat,p,im50,1170,1410)
+ 
 
   #--------- 
 
@@ -147,8 +164,26 @@ def analyze():
       c.append([copy.copy(clf.coef_),copy.copy(clf.intercept_)])
     if mapping_determined:
       coeff[label] = c
-  sum_sq = 0.0
-  n = 0
+  # Transformation from GPS to satellite pixels is poorly constrained because so far my points are all on the north face,
+  # and form a plane. The following is cooked up to be roughly sensible for a vertically overhead view, locating the summit exactly.
+  scale = 8.01 # pixels per meter; determined by comparing with google maps for distance from jensens-jaunt-5 to bottom of northeast face west
+  # Checked this for isotropy and precision by doing a distance that was straight north-south, and got 8.05.
+  # There appears to be somewhat of a systematic error in the locations of the bottoms of the climbs on the north side with this scale,
+  # about 20 meters northeast. This can't be fixed by changing scale, or by relocting the summit in the image to anywhere reasonable.
+  coeff['00'] = [
+    [[scale,0,0],3154-scale*347.0],
+    [[0.0,-scale,0],2320+scale*623.0]
+  ]
+  #------
+  print "Coefficients of transformation from GPS to pixels:"
+  for im in images:
+    label = im[0]
+    if not (label in coeff):
+      continue
+    print "  ",im[1] # filename
+    c = coeff[label]
+    print "    ",c[0]
+    print "    ",c[1]
   #------------ Try to determine azimuths of images. This doesn't seem particularly accurate.
   print "Approximate azimuths based on modeling image planes (not very accurate):"
   for im in images:
@@ -166,6 +201,8 @@ def analyze():
     print "    line of sight = ",los,", azimuth=",az*180.0/3.141," deg (ccw from E, camera to rock)"
   #------------ 
   print "Results of mapping from GPS to pixels, compared with actual pixel locations:"
+  sum_sq = 0.0
+  n = 0
   for im in images:
     label = im[0]
     print "  ",im[1] # filename
@@ -229,13 +266,14 @@ def utm_input_convenience(p):
   # In this simplest case, where p is an array relative to ref point, returns p unchanged.
   # examples of what p can be:
   #   "530300 3737500 2606" ... NAD83 coords in meters
+  #   "530300 3737500" ... estimate z from DEM
   #   "111 222 2606" ... NAD83 coords in meters, relative to the UTM square containing the rock
   #   [111,222 2606]
   # If input is None, returns None.
   if p is None:
     return None
   if isinstance(p,str):
-    return utm_input_convenience(p.split())
+    return utm_input_convenience(map(lambda x:float(x),p.split()))
   x,y,z = p
   if x>1000.0:
     x = x-reference_point()[0]
