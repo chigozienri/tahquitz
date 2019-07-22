@@ -218,32 +218,77 @@ def analyze():
     if not (label in coeff):
       continue
     c = coeff[label]
-    this_n,this_sum_sq = goodness_one_image(dat,im,c,if_print=True)
+    this_n,per_df = goodness_one_image(dat,im,c,if_print=True)
     n = n+this_n
-    sum_sq = sum_sq+this_sum_sq
+    sum_sq = sum_sq+per_df*this_n
   print "  n=",n,"  rms error=",math.sqrt(sum_sq/n)
   #------------ 
-  print "Changing coefficients to what we expect from mapping:"
+  print "Changing coefficients to what we expect from mapping, then optimizing orientation and scale:"
   for im in images:
     label = im[0]
-    if label!="15":
-      continue # qwe
     loc = im[2]
     dim = im[4] # [w,h] of image, in pixels
     if loc is None:
       continue
     print "  ",im[1] # filename
-    if label in coeff:
-      c = coeff[label]
-      print "    c was =",c
     guess_scale = (8.0e4)*(dim[1]/6500.0)/dist # just a rough guess based on how many pixels I normally use to cover the rock vertically
     los,dist,alt,az,roll = expected_aar(loc)
-    print "    guessing scale=",guess_scale,", scale*dist=",guess_scale*dist
     scale = guess_scale
-    alt = rad(-5.0) # ********************* fixme **********************
-    az = rad(273.3) # ********************* fixme **********************
-    print "    (setting alt and az by hand for debugging)" # qwe
-    print "    az=",deg(az),",  alt=",deg(alt)
+    c = coeffs_from_altaz(alt,az,roll,scale,dim)
+    par_names = ["alt","az","roll","scale"]
+    par = [alt,az,roll,math.log(scale)]
+    printing = [lambda x:deg(x),lambda x:deg(x),lambda x:deg(x),lambda x:("%5.3e" % math.exp(x))]
+    constr = lambda p : abs(p[2])<rad(2.0) # no more than 2 degrees of roll
+    delta = [rad(1.0),rad(5.0),rad(1.0),1.0]
+    goodness = lambda p : goodness_one_image(dat,im,coeffs_from_altaz(p[0],p[1],p[2],math.exp(p[3]),dim),if_print=False)[1]
+    print "    initial guesses for parameters: ",altaz_pars_to_str(par,printing)
+    par2 = minimize(goodness,par,delta,par_names,if_print=False,printing_funcs=printing,n_print=10,constraint=constr)
+    alt,az,roll,scale = par2
+    scale = math.exp(scale)
+    c = coeffs_from_altaz(alt,az,roll,scale,dim)
+    coeff[label] = c
+    print "    improved parameters:             ",altaz_pars_to_str(par2,printing)
+    this_n,per_df = goodness_one_image(dat,im,c,if_print=True)
+    if not (this_n is None) and this_n>0:
+      print "    n=",this_n,"  rms error=",math.sqrt(per_df)," pixels ~",math.sqrt(per_df)/scale," m"
+
+def minimize(f,x,dx,names,if_print=False,printing_funcs=None,n_print=1,constraint=None):
+  for iter in range(300):
+    for i in range(len(x)):
+      improved,x2 = improve(f,x,dx,i,constraint)
+      if improved:
+        x=x2
+        dx[i]=dx[i]*1.1
+      else:
+        dx[i]=dx[i]*0.75
+    if if_print and iter%n_print==0:
+      print altaz_pars_to_str(x,printing_funcs),dx,("%8.6e" % math.sqrt(f(x)))
+  return x
+
+def altaz_pars_to_str(x,printing_funcs):
+  xp = []
+  for i in range(len(x)):
+    xp.append(printing_funcs[i](x[i]))
+  return str(xp)
+
+def improve(f,x,dx,i,constraint):
+  f0 = f(x)
+  # Try raising it:
+  x2 = copy.copy(x)
+  x2[i] = x2[i]+dx[i]
+  f2 = f(x2)
+  if f2<f0 and constraint(x2):
+    return [True,x2]
+  # Try lowering it:
+  x2 = copy.copy(x)
+  x2[i] = x2[i]-dx[i]
+  f2 = f(x2)
+  if f2<f0 and constraint(x2):
+    return [True,x2]
+  # No improvement:
+  return [False,x]
+
+def coeffs_from_altaz(alt,az,roll,scale,dim):
     r = rotation_matrix(alt,az-math.pi/2.0,roll) # subtract 90 from az, because line of sight is z, to when az=0, x is south
     a = scalar_mult_matrix(r,scale)
     vs = -1.0 # pixel coordinates in the vertical direction are increasing downward
@@ -257,9 +302,7 @@ def analyze():
       [                ic,i_const],
       [scalar_mult(jc,vs),j_const]
     ]
-    print "    now c=",c
-    coeff[label] = c
-    this_n,this_sum_sq = goodness_one_image(dat,im,c,if_print=True)
+    return c
 
 def pix(dat,p,im,i,j):
   # (i,j) = pixel coordinates with respect to top left (the convention used in gimp)
@@ -329,7 +372,9 @@ def goodness_one_image(dat,im,c,if_print):
       sum_sq = sum_sq+(co_pred-co_obs)*(co_pred-co_obs)
     if if_print:
       print "    obs=(%4d,%4d), pred=(%4d,%4d), err=(%4d,%4d) %s" % (obs[0],obs[1],pred[0],pred[1],err[0],err[1],descr)
-  return [n,sum_sq]
+  if n==0:
+    return [None,None]
+  return [n,sum_sq/n]
 
 def cross_product(u,v):
   x = u[1]*v[2]-u[2]*v[1]
