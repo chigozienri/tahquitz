@@ -1,7 +1,11 @@
-import copy,math
+import copy,math,subprocess
 from sklearn import linear_model
 # apt-get install python-sklearn
 # This is in python2 because sklearn seems to be python2.
+
+def find_image_file(filename):
+  return "/home/bcrowell/Tahquitz_photography/mosaics/"+filename+".jpg"
+  # This is currently not needed because the sizes of all the photos are cached for efficiency.
 
 def main():
   analyze()
@@ -10,6 +14,8 @@ def init():
   images = []
   dat = []
 
+  # If adding a new image to this list, add its size to the cached list of sizes inside get_image_size(); otherwise
+  # it will be horribly slow.
   im00 = image(images,"00","00_satellite")
   im01 = image(images,"01","01_northeast_from_saddle_jct",loc="530291 3737145 2469",loc_err=[1000,1000])
   im05 = image(images,"05","05_north_side_from_saddle_jct",loc="530300 3737500 2606",loc_err=[200,1000])
@@ -200,10 +206,10 @@ def analyze():
       print "    from fit,     azimuth=",deg(az),", alt=",deg(alt)
     if not (im[2] is None):
       loc = im[2]
-      los,alt,az,roll = expected_aar(loc)
-      print "    from mapping, azimuth=",deg(az),", alt=",deg(alt)
+      los,dist,alt,az,roll = expected_aar(loc)
+      print "    from mapping, azimuth=",deg(az),", alt=",deg(alt),",   distance=",dist/1000.0," km"
   #------------ 
-  print "Results of mapping from GPS to pixels, compared with actual pixel locations:"
+  print "Results of mapping from GPS to pixels, compared with actual pixel locations, from fit:"
   sum_sq = 0.0
   n = 0
   for im in images:
@@ -212,29 +218,48 @@ def analyze():
     if not (label in coeff):
       continue
     c = coeff[label]
-    for obs in dat:
-      p,im2,ij = obs
-      if p["p"] is None:
-        continue
-      gps = p["p"]
-      descr = p["name"]+", "+p["description"]
-      if im2!=im:
-        continue
-      obs = []
-      pred = []
-      err = []
-      for coord in range(2):
-        co_obs = ij[coord]
-        co_pred = c[coord][1]
-        for m in range(3):
-          co_pred = co_pred + c[coord][0][m]*gps[m]
-        obs.append(co_obs)
-        pred.append(co_pred)
-        err.append(co_pred-co_obs)
-        n = n+1
-        sum_sq = sum_sq+(co_pred-co_obs)*(co_pred-co_obs)
-      print "    obs=(%4d,%4d), pred=(%4d,%4d), err=(%4d,%4d) %s" % (obs[0],obs[1],pred[0],pred[1],err[0],err[1],descr)
+    this_n,this_sum_sq = goodness_one_image(dat,im,c,if_print=True)
+    n = n+this_n
+    sum_sq = sum_sq+this_sum_sq
   print "  n=",n,"  rms error=",math.sqrt(sum_sq/n)
+  #------------ 
+  print "Changing coefficients to what we expect from mapping:"
+  for im in images:
+    label = im[0]
+    if label!="15":
+      continue # qwe
+    loc = im[2]
+    dim = im[4] # [w,h] of image, in pixels
+    if loc is None:
+      continue
+    print "  ",im[1] # filename
+    if label in coeff:
+      c = coeff[label]
+      print "    c was =",c
+    guess_scale = (8.0e4)*(dim[1]/6500.0)/dist # just a rough guess based on how many pixels I normally use to cover the rock vertically
+    los,dist,alt,az,roll = expected_aar(loc)
+    print "    guessing scale=",guess_scale,", scale*dist=",guess_scale*dist
+    scale = guess_scale
+    alt = rad(-5.0) # ********************* fixme **********************
+    az = rad(273.3) # ********************* fixme **********************
+    print "    (setting alt and az by hand for debugging)" # qwe
+    print "    az=",deg(az),",  alt=",deg(alt)
+    r = rotation_matrix(alt,az-math.pi/2.0,roll) # subtract 90 from az, because line of sight is z, to when az=0, x is south
+    a = scalar_mult_matrix(r,scale)
+    vs = -1.0 # pixel coordinates in the vertical direction are increasing downward
+    ic = [a[0][0],a[1][0],a[2][0]] # camera's basis vector pointing to the right
+    jc = [a[0][1],a[1][1],a[2][1]] # camera's basis vector pointing up
+    row0 = [a[0][0],a[0][1],a[0][2]]
+    row1 = [a[1][0],a[1][1],a[1][2]]
+    i_const =    -dot_product(row0,heart_of_rock())+dim[0]/2.0
+    j_const = -vs*dot_product(row1,heart_of_rock())+dim[1]/2.0
+    c = [
+      [                ic,i_const],
+      [scalar_mult(jc,vs),j_const]
+    ]
+    print "    now c=",c
+    coeff[label] = c
+    this_n,this_sum_sq = goodness_one_image(dat,im,c,if_print=True)
 
 def pix(dat,p,im,i,j):
   # (i,j) = pixel coordinates with respect to top left (the convention used in gimp)
@@ -242,15 +267,69 @@ def pix(dat,p,im,i,j):
 
 def image(list,label,filename,loc=None,loc_err=None):
   # The optional loc argument is the UTM coords of the camera, and loc_err=[x,y] is an estimate of the possible error in the horizontal coordinates.
-  im = [label,filename,utm_input_convenience(loc),loc_err]
+  w,h = [get_image_size(filename,'w'),get_image_size(filename,'h')]
+  im = [label,filename,utm_input_convenience(loc),loc_err,[w,h]]
+  print "file ",filename," w,h=",[w,h]
   list.append(im)
   return im
+
+def get_image_size(filename,dim):
+  # dim can be 'w' or 'h'
+  cached_sizes = {"00_satellite":[6688, 4624],
+    "01_northeast_from_saddle_jct":[3077, 5357],
+    "05_north_side_from_saddle_jct":[4512, 3664],
+    "10_north_face_from_old_devils_slide_trail":[5280, 4720],
+    "15_panorama_from_low_on_devils_slide":[11885, 6500],
+    "20_northwest_face_from_deer_springs_slabs":[3264, 4896],
+    "25_northwest_face_from_suicide_junction":[2720, 4592],
+    "30_from_fern_valley":[2723, 2447],
+    "35_tahquitz_rock_from_pine_cove_ca":[3096, 4096],
+    "40_west_side_from_auto_parts_store":[3157, 2983],
+    "50_south_face_from_bottom_of_maxwell_trail":[3586, 3554]
+    }
+  if filename in cached_sizes:
+    d = cached_sizes[filename]
+    if dim=='w':
+      return d[0]
+    else:
+      return d[1]
+  print "********* warning, no size cached for image ",filename,", performance will be horrible"
+  return int(subprocess.check_output('identify -format "%['+dim+']" '+find_image_file(filename),shell=True))
+
 
 def point(name,coords,description):
   # Define a new point on the rock, such as a belay, but its UTM coordinates (NAD83).
   # Coordinates can be in any of the forms accepted by utm_input_convenience().
   coords = utm_input_convenience(coords)
   return {"name":name,"p":coords,"description":description}
+
+def goodness_one_image(dat,im,c,if_print):
+  sum_sq = 0.0
+  n = 0
+  for obs in dat:
+    p,im2,ij = obs
+    if p["p"] is None:
+      continue
+    gps = p["p"]
+    descr = p["name"]+", "+p["description"]
+    if im2!=im:
+      continue
+    obs = []
+    pred = []
+    err = []
+    for coord in range(2):
+      co_obs = ij[coord]
+      co_pred = c[coord][1]
+      for m in range(3):
+        co_pred = co_pred + c[coord][0][m]*gps[m]
+      obs.append(co_obs)
+      pred.append(co_pred)
+      err.append(co_pred-co_obs)
+      n = n+1
+      sum_sq = sum_sq+(co_pred-co_obs)*(co_pred-co_obs)
+    if if_print:
+      print "    obs=(%4d,%4d), pred=(%4d,%4d), err=(%4d,%4d) %s" % (obs[0],obs[1],pred[0],pred[1],err[0],err[1],descr)
+  return [n,sum_sq]
 
 def cross_product(u,v):
   x = u[1]*v[2]-u[2]*v[1]
@@ -288,7 +367,7 @@ def utm_input_convenience(p):
 def rotation_matrix(altitude,azimuth,roll):
   # active rotations that you would apply to the camera
   rx = rotation_matrix_one_axis(0,-roll) # roll>0 means rotating the camera ccw
-  ry = rotation_matrix_one_axis(1,-elevation)
+  ry = rotation_matrix_one_axis(1,-altitude)
   rz = rotation_matrix_one_axis(2,azimuth)
   return matrix_mult(rz,matrix_mult(ry,rx))
 
@@ -299,11 +378,12 @@ def rotation_matrix_one_axis(axis,angle):
   a = zero_matrix()
   c = math.cos(angle)
   s = math.sin(angle)
-  a[cyc(2,axis)][cyc(2,axis)] = 1.0
-  a[cyc(0,axis)][cyc(0,axis)] = c
-  a[cyc(1,axis)][cyc(1,axis)] = c
-  a[cyc(1,axis)][cyc(0,axis)] = s
-  a[cyc(0,axis)][cyc(1,axis)] = -s
+  # The following is written with the axis=2 case in mind, in which case the rotation is in the xy plane, and cyc() is a no-op.
+  a[cyc(2,axis+1)][cyc(2,axis+1)] = 1.0
+  a[cyc(0,axis+1)][cyc(0,axis+1)] = c
+  a[cyc(1,axis+1)][cyc(1,axis+1)] = c
+  a[cyc(1,axis+1)][cyc(0,axis+1)] = s
+  a[cyc(0,axis+1)][cyc(1,axis+1)] = -s
   return a
 
 def matrix_mult(a,b):
@@ -335,6 +415,13 @@ def norm(u):
 def scalar_mult(u,s):
   return [u[0]*s,u[1]*s,u[2]*s]
 
+def scalar_mult_matrix(m,s):
+  n = zero_matrix()
+  for i in range(3):
+    for j in range(3):
+      n[i][j] = m[i][j]*s
+  return n
+
 def normalize(u):
   return scalar_mult(u,1.0/norm(u))
 
@@ -344,16 +431,21 @@ def pythag2(x,y):
 def deg(x):
   return "%5.1f" % (x*180.0/math.pi)
 
+def rad(x):
+  return x*math.pi/180.0
+
 def vec_to_str(u):
   return "[%5.4f,%5.4f,%5.4f]" % (u[0],u[1],u[2])
 
 def expected_aar(loc):
   # expected line of sight, altitude, azimuth, and roll for a given camera location
   # azimuth is ccw from E
-  los = normalize(sub_vectors(heart_of_rock(),loc)) # approximate line of sight to center of rock
+  displ = sub_vectors(heart_of_rock(),loc) # displacement to center of rock
+  los = normalize(displ) # approximate line of sight
+  distance = norm(displ)
   altitude,azimuth = los_to_alt_az(los)
   roll = 0.0
-  return [los,altitude,azimuth,roll]
+  return [los,distance,altitude,azimuth,roll]
 
 def los_to_alt_az(los):
   # convert a line of sight to an altitude and azimuth
