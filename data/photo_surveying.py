@@ -218,7 +218,7 @@ def analyze():
     if not (label in coeff):
       continue
     c = coeff[label]
-    this_n,per_df = goodness_one_image(dat,im,c,if_print=True)
+    this_n,per_df,est_rescale = goodness_one_image(dat,im,c,if_print=True)
     n = n+this_n
     sum_sq = sum_sq+per_df*this_n
   print "  n=",n,"  rms error=",math.sqrt(sum_sq/n)
@@ -228,6 +228,7 @@ def analyze():
     label = im[0]
     loc = im[2]
     dim = im[4] # [w,h] of image, in pixels
+    debug = False
     if loc is None:
       continue
     print "  ",im[1] # filename
@@ -235,26 +236,56 @@ def analyze():
     los,dist,alt,az,roll = expected_aar(loc)
     scale = guess_scale
     c = coeffs_from_altaz(alt,az,roll,scale,dim)
+    if debug:
+      print "    initial estimates:"
+      goodness_one_image(dat,im,coeffs_from_altaz(alt,az,roll,scale,dim),if_print=True)
+
+    this_n,per_df,est_rescale = goodness_one_image(dat,im,c,if_print=False)
+    if debug:
+      print "    estimated rescaling = ",est_rescale
+    if this_n>=2:
+      scale = scale*est_rescale
+
+    n = count_observations(dat,im)
+    if n<2:
+      print "    can't optimize, number of observations is only ",n
+      continue
     par_names = ["alt","az","roll","scale"]
-    par = [alt,az,roll,math.log(scale)]
-    printing = [lambda x:deg(x),lambda x:deg(x),lambda x:deg(x),lambda x:("%5.3e" % math.exp(x))]
-    constr = lambda p : abs(p[2])<rad(2.0) # no more than 2 degrees of roll
-    delta = [rad(1.0),rad(5.0),rad(1.0),1.0]
-    goodness = lambda p : goodness_one_image(dat,im,coeffs_from_altaz(p[0],p[1],p[2],math.exp(p[3]),dim),if_print=False)[1]
+    par = [alt,az,roll,scale]
+    printing = [lambda x:deg(x),lambda x:deg(x),lambda x:deg(x),lambda x:("%5.3e" % x)]
+    constr = lambda p : abs(p[2])<rad(2.0) and abs(p[0]-alt)<rad(5.0) and abs(p[1]-az)<rad(5.0)
+    # ... no more than 2 degrees of roll, and off from estimated elevation and azimuth by no more than 5 deg
+    delta = [rad(1.0),rad(1.0),rad(1.0),scale*0.01]
+    goodness = lambda p : goodness_one_image(dat,im,coeffs_from_altaz(p[0],p[1],p[2],p[3],dim),if_print=False)[1]
     print "    initial guesses for parameters: ",altaz_pars_to_str(par,printing)
-    par2 = minimize(goodness,par,delta,par_names,if_print=False,printing_funcs=printing,n_print=10,constraint=constr)
+    par2 = par
+
+    par2 = minimize(goodness,par2,delta,par_names,if_print=False,printing_funcs=printing,n_print=10,constraint=constr,allow=[True,True,True,True])
+    if debug:
+      print "    final:"
+      goodness_one_image(dat,im,coeffs_from_altaz(par2[0],par2[1],par2[2],par2[3],dim),if_print=True)
+
     alt,az,roll,scale = par2
-    scale = math.exp(scale)
+    scale = scale
     c = coeffs_from_altaz(alt,az,roll,scale,dim)
     coeff[label] = c
-    print "    improved parameters:             ",altaz_pars_to_str(par2,printing)
-    this_n,per_df = goodness_one_image(dat,im,c,if_print=True)
+    print "    improved parameters:            ",altaz_pars_to_str(par2,printing)
+    this_n,per_df,est_rescale = goodness_one_image(dat,im,c,if_print=True)
     if not (this_n is None) and this_n>0:
-      print "    n=",this_n,"  rms error=",math.sqrt(per_df)," pixels ~",math.sqrt(per_df)/scale," m"
+      if n==2:
+        print "    exact fit, only 2 x-y points to determine 4 parameters"
+      else:
+        rms = math.sqrt(per_df*n/(n-2.0)) # root mean square error, in pixels
+        pct = 100.0*rms/pythag2(dim[0],dim[1]) # as a percentage of image size
+        print "    n=",this_n,"  rms error=",int(rms)," pixels =",("%4.1f" % pct)," % of image size ~",int(rms/scale)," m"
 
-def minimize(f,x,dx,names,if_print=False,printing_funcs=None,n_print=1,constraint=None):
+def minimize(f,x_orig,dx_orig,names,if_print=False,printing_funcs=None,n_print=1,constraint=None,allow=None):
+  x = copy.copy(x_orig)
+  dx = copy.copy(dx_orig)
   for iter in range(300):
     for i in range(len(x)):
+      if not (allow is None) and not allow[i]:
+        continue # not allowed to adjust this parameter
       improved,x2 = improve(f,x,dx,i,constraint)
       if improved:
         x=x2
@@ -294,10 +325,8 @@ def coeffs_from_altaz(alt,az,roll,scale,dim):
     vs = -1.0 # pixel coordinates in the vertical direction are increasing downward
     ic = [a[0][0],a[1][0],a[2][0]] # camera's basis vector pointing to the right
     jc = [a[0][1],a[1][1],a[2][1]] # camera's basis vector pointing up
-    row0 = [a[0][0],a[0][1],a[0][2]]
-    row1 = [a[1][0],a[1][1],a[1][2]]
-    i_const =    -dot_product(row0,heart_of_rock())+dim[0]/2.0
-    j_const = -vs*dot_product(row1,heart_of_rock())+dim[1]/2.0
+    i_const =    -dot_product(ic,heart_of_rock())+dim[0]/2.0
+    j_const = -vs*dot_product(jc,heart_of_rock())+dim[1]/2.0
     c = [
       [                ic,i_const],
       [scalar_mult(jc,vs),j_const]
@@ -346,7 +375,21 @@ def point(name,coords,description):
   coords = utm_input_convenience(coords)
   return {"name":name,"p":coords,"description":description}
 
+def count_observations(dat,im):
+  sum_sq = 0.0
+  n = 0
+  for obs in dat:
+    p,im2,ij = obs
+    if p["p"] is None or im2!=im:
+      continue
+    n = n+1
+  return n
+
 def goodness_one_image(dat,im,c,if_print):
+  i_obs = []
+  j_obs = []
+  i_pred = []
+  j_pred = []
   sum_sq = 0.0
   n = 0
   for obs in dat:
@@ -368,13 +411,37 @@ def goodness_one_image(dat,im,c,if_print):
       obs.append(co_obs)
       pred.append(co_pred)
       err.append(co_pred-co_obs)
-      n = n+1
       sum_sq = sum_sq+(co_pred-co_obs)*(co_pred-co_obs)
+    n = n+1
+    i_obs.append(obs[0])
+    j_obs.append(obs[1])
+    i_pred.append(pred[0])
+    j_pred.append(pred[1])
     if if_print:
       print "    obs=(%4d,%4d), pred=(%4d,%4d), err=(%4d,%4d) %s" % (obs[0],obs[1],pred[0],pred[1],err[0],err[1],descr)
   if n==0:
-    return [None,None]
-  return [n,sum_sq/n]
+    return [None,None,1.0]
+  if n>=2:
+    z = std_dev(i_pred)**2+std_dev(j_pred)**2
+    if z==0.0:
+      print "i_pred=",i_pred,", j_pred=",j_pred
+      print "z=0???"
+      exit(-1)
+    est_rescale = math.sqrt((std_dev(i_obs)**2+std_dev(j_obs)**2)/z)
+  else:
+    est_rescale = 1.0
+  return [n,sum_sq/n,est_rescale]
+
+def std_dev(x):
+  n = len(x)
+  av = 0.0
+  for i in range(len(x)):
+    av = av+x[i]
+  av = av/n
+  sd = 0.0
+  for i in range(len(x)):
+    sd = sd+(x[i]-av)**2
+  return math.sqrt(sd/n)
 
 def cross_product(u,v):
   x = u[1]*v[2]-u[2]*v[1]
