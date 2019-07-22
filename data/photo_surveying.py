@@ -11,12 +11,12 @@ def init():
   dat = []
 
   im00 = image(images,"00","00_satellite")
-  im01 = image(images,"01","01_northeast_from_saddle_jct")
-  im05 = image(images,"05","05_north_side_from_saddle_jct",loc="530300 3737500 2606",loc_err=[200,2000])
+  im01 = image(images,"01","01_northeast_from_saddle_jct",loc="530291 3737145 2469",loc_err=[1000,1000])
+  im05 = image(images,"05","05_north_side_from_saddle_jct",loc="530300 3737500 2606",loc_err=[200,1000])
   im10 = image(images,"10","10_north_face_from_old_devils_slide_trail",loc="529854 3737073 2353",loc_err=[200,200])
   im15 = image(images,"15","15_panorama_from_low_on_devils_slide",loc="529129 3736244 1999",loc_err=[600,600])
   im20 = image(images,"20","20_northwest_face_from_deer_springs_slabs",loc="525884 3735229 1780",loc_err=[300,1000])
-  im25 = image(images,"25","25_northwest_face_from_suicide_junction",loc="26901 36497 2100",loc_err=[50,50])
+  im25 = image(images,"25","25_northwest_face_from_suicide_junction",loc="526901 3736497 2100",loc_err=[50,50])
   im30 = image(images,"30","30_from_fern_valley",loc="527612 3735142 1731",loc_err=[30,30])
   im35 = image(images,"35","35_tahquitz_rock_from_pine_cove_ca",loc="524485 3734651 1829",loc_err=[200,400])
   im40 = image(images,"40","40_west_side_from_auto_parts_store",loc="525931 3733312 1508",loc_err=[30,30])
@@ -184,21 +184,24 @@ def analyze():
     c = coeff[label]
     print "    ",c[0]
     print "    ",c[1]
-  #------------ Try to determine azimuths of images. This doesn't seem particularly accurate.
-  print "Approximate azimuths based on modeling image planes (not very accurate):"
+  #------------ 
+  print "Lines of sight (camera to rock, azimuth defined ccw from E):"
   for im in images:
     label = im[0]
     print "  ",im[1] # filename
-    if not (label in coeff):
-      continue
-    c = coeff[label]
-    # If we express pixels coordinates i and j in terms of x, y, and z, then the gradients of the functions i and j give
-    # vectors parallel to the pixel axes. Taking the cross product of these gives the direction of the line of sight.
-    i_gradient = [c[0][0][0],c[0][0][1],c[0][0][2]]
-    j_gradient = [c[1][0][0],c[1][0][1],c[1][0][2]]
-    los = cross_product(i_gradient,j_gradient) # oriented from camera to rock, since j points down
-    az = angle_in_2pi(math.atan2(los[1],los[0])) # ccw from E
-    print "    line of sight = ",los,", azimuth=",az*180.0/3.141," deg (ccw from E, camera to rock)"
+    if label in coeff:
+      c = coeff[label]
+      # If we express pixels coordinates i and j in terms of x, y, and z, then the gradients of the functions i and j give
+      # vectors parallel to the pixel axes. Taking the cross product of these gives the direction of the line of sight.
+      i_gradient = [c[0][0][0],c[0][0][1],c[0][0][2]]
+      j_gradient = [c[1][0][0],c[1][0][1],c[1][0][2]]
+      los = normalize(cross_product(i_gradient,j_gradient)) # oriented from camera to rock, since j points down
+      alt,az = los_to_alt_az(los)
+      print "    from fit,     azimuth=",deg(az),", alt=",deg(alt)
+    if not (im[2] is None):
+      loc = im[2]
+      los,alt,az,roll = expected_aar(loc)
+      print "    from mapping, azimuth=",deg(az),", alt=",deg(alt)
   #------------ 
   print "Results of mapping from GPS to pixels, compared with actual pixel locations:"
   sum_sq = 0.0
@@ -239,7 +242,7 @@ def pix(dat,p,im,i,j):
 
 def image(list,label,filename,loc=None,loc_err=None):
   # The optional loc argument is the UTM coords of the camera, and loc_err=[x,y] is an estimate of the possible error in the horizontal coordinates.
-  im = [label,filename,loc,loc_err]
+  im = [label,filename,utm_input_convenience(loc),loc_err]
   list.append(im)
   return im
 
@@ -275,13 +278,101 @@ def utm_input_convenience(p):
   if isinstance(p,str):
     return utm_input_convenience(map(lambda x:float(x),p.split()))
   x,y,z = p
-  if x>1000.0:
+  if x>1000.0 or y>1000.0 or x<0.0 or y<0.0:
     x = x-reference_point()[0]
-    x = x-reference_point()[1]
+    y = y-reference_point()[1]
+  if pythag2(x,y)>1.0e5:
+    raise RuntimeError('Distance from reference point fails sanity check.');
   return [float(x),float(y),float(z)]
+
+def rotation_matrix(altitude,azimuth,roll):
+  # active rotations that you would apply to the camera
+  rx = rotation_matrix_one_axis(0,-roll) # roll>0 means rotating the camera ccw
+  ry = rotation_matrix_one_axis(1,-elevation)
+  rz = rotation_matrix_one_axis(2,azimuth)
+  return matrix_mult(rz,matrix_mult(ry,rx))
+
+def rotation_matrix_one_axis(axis,angle):
+  # axis=0, 1, 2 for x, y, z
+  # angle in radians
+  # Order of indices is such that applying the matrix to a vector is sum of a_{ij}x_j.
+  a = zero_matrix()
+  c = math.cos(angle)
+  s = math.sin(angle)
+  a[cyc(2,axis)][cyc(2,axis)] = 1.0
+  a[cyc(0,axis)][cyc(0,axis)] = c
+  a[cyc(1,axis)][cyc(1,axis)] = c
+  a[cyc(1,axis)][cyc(0,axis)] = s
+  a[cyc(0,axis)][cyc(1,axis)] = -s
+  return a
+
+def matrix_mult(a,b):
+  c = zero_matrix()
+  for i in range(3):
+    for j in range(3):
+      for k in range(3):
+        c[i][j] += a[i][k]*b[k][j]
+  return c
+
+def zero_matrix():
+  return [[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]]
+
+def cyc(n,k):
+  return (n+k)%3
+
+def add_vectors(u,v):
+  return [u[0]+v[0],u[1]+v[1],u[2]+v[2]]
+
+def sub_vectors(u,v):
+  return [u[0]-v[0],u[1]-v[1],u[2]-v[2]]
+
+def dot_product(u,v):
+  return u[0]*v[0]+u[1]*v[1]+u[2]*v[2]
+
+def norm(u):
+  return math.sqrt(dot_product(u,u))
+
+def scalar_mult(u,s):
+  return [u[0]*s,u[1]*s,u[2]*s]
+
+def normalize(u):
+  return scalar_mult(u,1.0/norm(u))
+
+def pythag2(x,y):
+  return math.sqrt(x*x+y*y)
+
+def deg(x):
+  return "%5.1f" % (x*180.0/math.pi)
+
+def vec_to_str(u):
+  return "[%5.4f,%5.4f,%5.4f]" % (u[0],u[1],u[2])
+
+def expected_aar(loc):
+  # expected line of sight, altitude, azimuth, and roll for a given camera location
+  # azimuth is ccw from E
+  los = normalize(sub_vectors(heart_of_rock(),loc)) # approximate line of sight to center of rock
+  altitude,azimuth = los_to_alt_az(los)
+  roll = 0.0
+  return [los,altitude,azimuth,roll]
+
+def los_to_alt_az(los):
+  # convert a line of sight to an altitude and azimuth
+  altitude = math.atan2(los[2],pythag2(los[0],los[1]))
+  if abs(los[0])<1.0e-5 and abs(los[1])<1.0e-5:
+    azimuth = 0.0 # really undefined
+  else:
+    azimuth = angle_in_2pi(math.atan2(los[1],los[0]))
+  return [altitude,azimuth]  
 
 def reference_point():
   return [529000.0,3735000.0] # lower left corner of the UTM square containing the rock, (529 km,3735 km) in zone 11S.
-  
 
+def summit_position():
+  return [347.0,623.0,2439.0] # see comments in util_gps.rb
+
+def heart_of_rock():
+  p = summit_position()
+  p[2] = p[2]-100.0 # an approximation to where we're pointing the camera
+  return p
+  
 main()
