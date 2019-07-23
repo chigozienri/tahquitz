@@ -1,4 +1,4 @@
-import copy,math,subprocess
+import copy,math,subprocess,re
 from sklearn import linear_model
 # apt-get install python-sklearn
 # This is in python2 because sklearn seems to be python2.
@@ -341,7 +341,6 @@ def image(list,label,filename,loc=None,loc_err=None):
   # The optional loc argument is the UTM coords of the camera, and loc_err=[x,y] is an estimate of the possible error in the horizontal coordinates.
   w,h = [get_image_size(filename,'w'),get_image_size(filename,'h')]
   im = [label,filename,utm_input_convenience(loc),loc_err,[w,h]]
-  print "file ",filename," w,h=",[w,h]
   list.append(im)
   return im
 
@@ -421,6 +420,8 @@ def goodness_one_image(dat,im,c,if_print):
       print "    obs=(%4d,%4d), pred=(%4d,%4d), err=(%4d,%4d) %s" % (obs[0],obs[1],pred[0],pred[1],err[0],err[1],descr)
   if n==0:
     return [None,None,1.0]
+  if True:
+    do_svg_error_arrows(im[0],im[4],find_image_file(im[1]),i_obs,j_obs,i_pred,j_pred)
   if n>=2:
     z = std_dev(i_pred)**2+std_dev(j_pred)**2
     if z==0.0:
@@ -431,6 +432,84 @@ def goodness_one_image(dat,im,c,if_print):
   else:
     est_rescale = 1.0
   return [n,sum_sq/n,est_rescale]
+
+def do_svg_error_arrows(label,dim,filename,i_obs,j_obs,i_pred,j_pred):
+  svg_code = """
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <!-- Created with Inkscape (http://www.inkscape.org/) -->
+  <svg   xmlns:svg="http://www.w3.org/2000/svg"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs2">
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend"
+       style="overflow:visible;"
+       inkscape:isstock="true">
+      <path
+         id="path820"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#d60000;stroke-width:1pt;stroke-opacity:1;fill:#d60000;fill-opacity:1"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+  </defs>
+  RECTANGLE
+  IMAGE
+  ARROWS
+  </svg>
+  """.strip()
+  arrow = """
+    <path
+       style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#dd0000;stroke-width:0.176;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="M _X,_Y l _DX,_DY" />
+  """.strip()
+  rect = """
+  <rect
+     style="fill:#dbdbdb;fill-opacity:1;stroke:none;stroke-width:0.6861555;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     id="rect829"
+     width="_WIDTH"
+     height="_HEIGHT"
+     x="0"
+     y="0" />
+  """.strip()
+  image = """
+    <image
+     sodipodi:absref="_FILENAME"
+     y="0"
+     x="0" 
+     id="image930"   
+     xlink:href="_FILENAME"
+     preserveAspectRatio="none"
+     height="_HEIGHT"
+     width="_WIDTH" />
+  """.strip()
+  arrows = ''
+  s = 0.03
+  for m in range(len(i_obs)):
+    i = i_obs[m]
+    j = j_obs[m]
+    i_err = i_pred[m]-i_obs[m]
+    j_err = j_pred[m]-j_obs[m]
+    a = copy.copy(arrow)
+    a = re.sub("_X",str(i*s),a)
+    a = re.sub("_Y",str(j*s),a)
+    a = re.sub("_DX",str((i_err)*s),a)
+    a = re.sub("_DY",str((j_err)*s),a)
+    arrows = arrows + a + "\n    "
+  w = str(dim[0]*s)
+  h = str(dim[1]*s)
+  rect = re.sub("_WIDTH",w,rect)
+  rect = re.sub("_HEIGHT",h,rect)
+  image = re.sub("_FILENAME",filename,image)
+  image = re.sub("_WIDTH",w,image)
+  image = re.sub("_HEIGHT",h,image)
+  svg_code = re.sub("RECTANGLE",rect,svg_code)
+  svg_code = re.sub("IMAGE",image,svg_code)
+  svg_code = re.sub("ARROWS",arrows,svg_code)
+  with open("err_"+label+".svg", 'w') as f:
+    f.write(svg_code+"\n")
 
 def std_dev(x):
   n = len(x)
