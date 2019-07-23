@@ -219,7 +219,7 @@ def analyze():
     if not (label in coeff):
       continue
     c = coeff[label]
-    this_n,per_df,est_rescale = goodness_one_image(dat,im,c,if_print=True)
+    this_n,per_df,est_rescale,est_i_shift,est_j_shift = goodness_one_image(dat,im,c,if_print=True)
     n = n+this_n
     sum_sq = sum_sq+per_df*this_n
   print "  n=",n,"  rms error=",math.sqrt(sum_sq/n)
@@ -233,17 +233,16 @@ def analyze():
     if loc is None:
       continue
     print "  ",im[1] # filename
-    guess_scale = (8.0e4)*(dim[1]/6500.0)/dist # just a rough guess based on how many pixels I normally use to cover the rock vertically
+    guess_scale = (5.0e4)*(dim[1]/6500.0)/dist # just a rough guess based on how many pixels I normally use to cover the rock vertically
     los,dist,alt,az,roll = expected_aar(loc)
     scale = guess_scale
-    c = coeffs_from_altaz(alt,az,roll,scale,dim)
+    c = coeffs_from_altaz(loc,alt,az,roll,scale,dim)
     if debug:
       print "    initial estimates:"
-      goodness_one_image(dat,im,coeffs_from_altaz(alt,az,roll,scale,dim),if_print=True)
+      goodness_one_image(dat,im,coeffs_from_altaz(loc,alt,az,roll,scale,dim),if_print=True)
 
-    this_n,per_df,est_rescale = goodness_one_image(dat,im,c,if_print=False)
-    if debug:
-      print "    estimated rescaling = ",est_rescale
+    this_n,per_df,est_rescale,est_i_shift,est_j_shift = goodness_one_image(dat,im,c,if_print=False)
+    print "    estimated rescaling = ",est_rescale
     if this_n>=2:
       scale = scale*est_rescale
 
@@ -254,24 +253,24 @@ def analyze():
     par_names = ["alt","az","roll","scale"]
     par = [alt,az,roll,scale]
     printing = [lambda x:deg(x),lambda x:deg(x),lambda x:deg(x),lambda x:("%5.3e" % x)]
-    constr = lambda p : abs(p[2])<rad(2.0) and abs(p[0]-alt)<rad(5.0) and abs(p[1]-az)<rad(5.0)
-    # ... no more than 2 degrees of roll, and off from estimated elevation and azimuth by no more than 5 deg
+    constr = lambda p : abs(p[2])<rad(20.0) and abs(p[0]-alt)<rad(20.0) and abs(p[1]-az)<rad(5.0)
+    # ... limit changes in alt, az, and roll
     delta = [rad(1.0),rad(1.0),rad(1.0),scale*0.01]
-    goodness = lambda p : goodness_one_image(dat,im,coeffs_from_altaz(p[0],p[1],p[2],p[3],dim),if_print=False)[1]
+    goodness = lambda p : goodness_one_image(dat,im,coeffs_from_altaz(loc,p[0],p[1],p[2],p[3],dim),if_print=False)[1]
     print "    initial guesses for parameters: ",altaz_pars_to_str(par,printing)
     par2 = par
 
     par2 = minimize(goodness,par2,delta,par_names,if_print=False,printing_funcs=printing,n_print=10,constraint=constr,allow=[True,True,True,True])
     if debug:
       print "    final:"
-      goodness_one_image(dat,im,coeffs_from_altaz(par2[0],par2[1],par2[2],par2[3],dim),if_print=True)
+      goodness_one_image(dat,im,coeffs_from_altaz(loc,par2[0],par2[1],par2[2],par2[3],dim),if_print=True)
 
     alt,az,roll,scale = par2
     scale = scale
-    c = coeffs_from_altaz(alt,az,roll,scale,dim)
+    c = coeffs_from_altaz(loc,alt,az,roll,scale,dim)
     coeff[label] = c
     print "    improved parameters:            ",altaz_pars_to_str(par2,printing)
-    this_n,per_df,est_rescale = goodness_one_image(dat,im,c,if_print=True)
+    this_n,per_df,est_rescale,est_i_shift,est_j_shift = goodness_one_image(dat,im,c,if_print=True)
     if not (this_n is None) and this_n>0:
       if n==2:
         print "    exact fit, only 2 x-y points to determine 4 parameters"
@@ -320,14 +319,17 @@ def improve(f,x,dx,i,constraint):
   # No improvement:
   return [False,x]
 
-def coeffs_from_altaz(alt,az,roll,scale,dim):
+def coeffs_from_altaz(loc,alt,az,roll,scale,dim):
+    # The constant terms are off by quite a bit. We correct them later as a side-effect of calling goodness_one_image(),
+    # which does a first pass in order to adjust them.
     r = rotation_matrix(alt,az-math.pi/2.0,roll) # subtract 90 from az, because line of sight is z, to when az=0, x is south
     a = scalar_mult_matrix(r,scale)
     vs = -1.0 # pixel coordinates in the vertical direction are increasing downward
     ic = [a[0][0],a[1][0],a[2][0]] # camera's basis vector pointing to the right
     jc = [a[0][1],a[1][1],a[2][1]] # camera's basis vector pointing up
-    i_const =    -dot_product(ic,heart_of_rock())+dim[0]/2.0
-    j_const = -vs*dot_product(jc,heart_of_rock())+dim[1]/2.0
+    los = sub_vectors(heart_of_rock(),loc) # line of sight
+    i_const =    -dot_product(ic,los)+dim[0]/2.0
+    j_const = -vs*dot_product(jc,los)+dim[1]/2.0
     c = [
       [                ic,i_const],
       [scalar_mult(jc,vs),j_const]
@@ -386,6 +388,16 @@ def count_observations(dat,im):
   return n
 
 def goodness_one_image(dat,im,c,if_print):
+  # Modifies c.
+  this_n,per_df,est_rescale,est_i_shift,est_j_shift = goodness_one_image_one_pass(dat,im,c,False)
+  if this_n==0:
+    return [this_n,per_df,est_rescale,est_i_shift,est_j_shift]
+  c[0][1] += est_i_shift
+  c[1][1] += est_j_shift
+  this_n,per_df,est_rescale,est_i_shift,est_j_shift = goodness_one_image_one_pass(dat,im,c,if_print)
+  return [this_n,per_df,est_rescale,est_i_shift,est_j_shift]
+
+def goodness_one_image_one_pass(dat,im,c,if_print):
   i_obs = []
   j_obs = []
   i_pred = []
@@ -420,19 +432,17 @@ def goodness_one_image(dat,im,c,if_print):
     if if_print:
       print "    obs=(%4d,%4d), pred=(%4d,%4d), err=(%4d,%4d) %s" % (obs[0],obs[1],pred[0],pred[1],err[0],err[1],descr)
   if n==0:
-    return [None,None,1.0]
+    return [None,None,1.0,0.0,0.0]
   if True:
     do_svg_error_arrows(im[0],im[4],find_image_file(im[1]),i_obs,j_obs,i_pred,j_pred)
   if n>=2:
     z = std_dev(i_pred)**2+std_dev(j_pred)**2
-    if z==0.0:
-      print "i_pred=",i_pred,", j_pred=",j_pred
-      print "z=0???"
-      exit(-1)
     est_rescale = math.sqrt((std_dev(i_obs)**2+std_dev(j_obs)**2)/z)
   else:
     est_rescale = 1.0
-  return [n,sum_sq/n,est_rescale]
+  est_i_shift = avg(i_obs)-avg(i_pred)
+  est_j_shift = avg(j_obs)-avg(j_pred)
+  return [n,sum_sq/n,est_rescale,est_i_shift,est_j_shift]
 
 def do_svg_error_arrows(label,dim,filename,i_obs,j_obs,i_pred,j_pred):
   svg_code = """
@@ -512,12 +522,16 @@ def do_svg_error_arrows(label,dim,filename,i_obs,j_obs,i_pred,j_pred):
   with open("err_"+label+".svg", 'w') as f:
     f.write(svg_code+"\n")
 
-def std_dev(x):
+def avg(x):
   n = len(x)
   av = 0.0
   for i in range(len(x)):
     av = av+x[i]
-  av = av/n
+  return av/n
+
+def std_dev(x):
+  n = len(x)
+  av = avg(x)
   sd = 0.0
   for i in range(len(x)):
     sd = sd+(x[i]-av)**2
