@@ -45,6 +45,7 @@ def init():
   pix(dat,p,im01,2010,326)
   pix(dat,p,im05,2145,360)
   pix(dat,p,im10,2493,280)
+  pix(dat,p,im15,5316,684) # can't actually see the point, slightly hidden, but very close to this position
   pix(dat,p,im20,1575,317) # not totally sure of identification
   pix(dat,p,im35,1562,531) # approximate location, view obscured by rock in front?
   pix(dat,p,im40,1930,140)
@@ -83,7 +84,7 @@ def init():
   p = point("maiden-1",[245,698,2277],"mountain mahogany (could be wrong)")
   pix(dat,p,im05,3109,2476)
   pix(dat,p,im10,3965,2604)
-  pix(dat,p,im15,6839,4171)
+  pix(dat,p,im15,6939,4052)
 
   p = point("west-lark-0",[388,797,2174],"base of rock; is the same location as the start of the other larks")
   pix(dat,p,im00,3654,1068)
