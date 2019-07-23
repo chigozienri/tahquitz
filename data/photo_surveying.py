@@ -3,9 +3,34 @@ from sklearn import linear_model
 # apt-get install python-sklearn
 # This is in python2 because sklearn seems to be python2.
 
+# State as of 2019 jul 22:
+#   Implemented two methods of finding the mapping from GPS coords to pixel coords. The first is a totally free linear
+#   regression, which can be unphysical because the simulated camera's basis vectors can fail to be orthogonal. This method
+#   also doesn't necessarily give well-determined results if the points all lie in the same plane, which mine basically do.
+#   The second method is basically a four-parameter fit to the camera's altitude, azimuth, roll, and scale. As with the
+#   first method, the projection is for a perspective at infinity. The pixel coordinates are also displaced in order
+#   to match the average of the data; this confuses me -- shouldn't the alt-az stuff be sufficient for aiming?
+#   When the number of points is small (is currently 2 for the high-numbered images), there is certainly not enough
+#   data to determine this many parameters.
+#   Currently I calculate method 1, then immediately overwrite it with method 2.
+#   Results are OK, not great.
+#   The code writes svg files err_NN.svg, which give a graphical depiction of the errors.
+#   It seems to want to use big roll angles, even when the trees in the image are clearly not off vertical by more than a couple of degrees.
+#   The data contains my estimated error bars on the camera locations, but currently doesn't do anything with these, and
+#   we don't try to vary the camera location in order to improve the fit. Could do that, and also maybe try to model
+#   aberration somehow, although I would probably need a ton more data for that.
+#   The errors seem to be a continuous vector field, i.e., differential errors seem to be small for nearby points.
+#   This means that I could probably, e.g., very accurately estimate GPS coords for a belay on one climb if I knew
+#   GPS data for a climb next to it on the rock.
+#   I have some points that seem useful because they are visible on almost every photo:
+#     summit
+#     jensens-jaunt-5 (top of boulder)
+#     trough-2 (pine tree ledge)
+#     tall-tree-below-lunch-ledge (off route a little to the right, in 4th class terrain)
+#   It would be very helpful to get actual GPS coordinates for the remaining ones of these.
+
 def find_image_file(filename):
   return "/home/bcrowell/Tahquitz_photography/mosaics/"+filename+".jpg"
-  # This is currently not needed because the sizes of all the photos are cached for efficiency.
 
 def main():
   analyze()
