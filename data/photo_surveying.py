@@ -22,12 +22,23 @@ from sklearn import linear_model
 #   The errors seem to be a continuous vector field, i.e., differential errors seem to be small for nearby points.
 #   This means that I could probably, e.g., very accurately estimate GPS coords for a belay on one climb if I knew
 #   GPS data for a climb next to it on the rock.
+#   Distances range from 0.74 to 5.0 km, so angles can be as big as 75 degrees from center to corner of photo. Expect
+#   huge aberrations for these nearby points of view. If aberrations cause angular errors as big as O(theta^2), then
+#   they can be ginormous. It's conceivable that I could use data from hugin to correct for this completely, but I
+#   didn't preserve the data, would need to redo the photos or reconstruct the projections. Some images, such as the
+#   one from Pine Cove, are single frames rather than mosaics, but I have a paucity of data for them.
 #   I have some points that seem useful because they are visible on almost every photo:
 #     summit
 #     jensens-jaunt-5 (top of boulder)
 #     trough-2 (pine tree ledge)
 #     tall-tree-below-lunch-ledge (off route a little to the right, in 4th class terrain)
 #   It would be very helpful to get actual GPS coordinates for the remaining ones of these.
+#   Notation:
+#     (x,y,z) = UTM coordinates, NAD83, relative to corner of 1 km squarethat includes Tahquitz
+#     (i,j) = pixel coordinates, origin at opper left
+#     c = data structure containing 8 coefficients of the linear transformation from xyz to ij:
+#       i = ax+by+cz+constant
+#       j = similar
 
 def find_image_file(filename):
   return "/home/bcrowell/Tahquitz_photography/mosaics/"+filename+".jpg"
@@ -41,7 +52,7 @@ def init():
 
   # If adding a new image to this list, add its size to the cached list of sizes inside get_image_size(); otherwise
   # it will be horribly slow.
-  im00 = image(images,"00","00_satellite")
+  im00 = image(images,"00","00_satellite",is_satellite=True)
   im01 = image(images,"01","01_northeast_from_saddle_jct",loc="530291 3737145 2469",loc_err=[1000,1000])
   im05 = image(images,"05","05_north_side_from_saddle_jct",loc="530300 3737500 2606",loc_err=[200,1000])
   im10 = image(images,"10","10_north_face_from_old_devils_slide_trail",loc="529854 3737073 2353",loc_err=[200,200])
@@ -52,6 +63,7 @@ def init():
   im35 = image(images,"35","35_tahquitz_rock_from_pine_cove_ca",loc="524485 3734651 1829",loc_err=[200,400])
   im40 = image(images,"40","40_west_side_from_auto_parts_store",loc="525931 3733312 1508",loc_err=[30,30])
   im50 = image(images,"50","50_south_face_from_bottom_of_maxwell_trail",loc="527668 3733230 1754",loc_err=[30,30])
+  im90 = image(images,"90","90_satellite_esri_clarity",is_satellite=True)
 
   #--------- Points with absolute positions measured by GPS:
 
@@ -62,11 +74,7 @@ def init():
 
   p = point("summit",[347.0,623.0,2439.0],"summit")
   pix(dat,p,im00,3154,2320)
-  # ...identified by shadow of summit block and in relation to overhangs on northeast and big crag to the west.
-  #    If I check this point on the image in google maps, I get lat-lon conbverting to UTM about 40 m west of the summit. If I
-  #    locate the point in google maps whose lat-lon converts to the UTM of the summit, it's just clearly not
-  #    the right point. Probably google maps's datum is not what I've been assuming.
-  #    These two numbers are reproduced at coeff['00'] = ... below.
+  # ...identified by shadow of summit block and in relation to overhangs on northeast and big crag to the west; may be wrong
   pix(dat,p,im01,2010,326)
   pix(dat,p,im05,2145,360)
   pix(dat,p,im10,2493,280)
@@ -118,6 +126,17 @@ def init():
   pix(dat,p,im00,4690,1230) # x may be off
 
   #--------- Points without absolute positions measured by GPS:
+
+  p = point("lunch-rock",None,"not certain this is actually Lunch Rock; point is black crevice near north side")
+  pix(dat,p,im00,1566,2151)
+  pix(dat,p,im90,1600,4941)
+
+  p = point("square-flake-inside-lambda",None,"corner of distinctive square flake in the middle of the Northeast Face lambda")
+  pix(dat,p,im00,4078,1497)
+  pix(dat,p,im01,1028,3886)
+  pix(dat,p,im05,1480,2893)
+  pix(dat,p,im15,930,5166) # could be off by (-70,-70) pixels, but I think this is actually it
+  pix(dat,p,im90,4151,4293)
 
   p = point("jensens-jaunt-5",None,"north/top tip of boulder at end of Jensen's Jaunt, final slab pitch; z from DEM")
   # Tried clicking in google maps to get lat-lon, then finding UTM from that, then elevation from DEM. Results were
@@ -196,15 +215,14 @@ def analyze():
       c.append([copy.copy(clf.coef_),copy.copy(clf.intercept_)])
     if mapping_determined:
       coeff[label] = c
-  # Transformation from GPS to satellite pixels is poorly constrained because so far my points are all on the north face,
-  # and form a plane. The following is cooked up to be roughly sensible for a vertically overhead view, locating the summit exactly.
-  scale = 8.01 # pixels per meter; determined by comparing with google maps for distance from jensens-jaunt-5 to bottom of northeast face west
-  # Checked this for isotropy and precision by doing a distance that was straight north-south, and got 8.05.
-  # There appears to be somewhat of a systematic error in the locations of the bottoms of the climbs on the north side with this scale,
-  # about 20 meters northeast. This can't be fixed by changing scale, or by relocting the summit in the image to anywhere reasonable.
+  # Transformation from UTM to satellite pixels is done by code in subdirectory satellite:
   coeff['00'] = [
-    [[scale,0,0],3154-scale*347.0],
-    [[0.0,-scale,0],2320+scale*623.0]
+    [[8.38053607, -0.69082108, 0.0],962.506047077437],
+    [[-0.02427133, -8.11101721, 0.0],7342.9289958528725]
+  ]
+  coeff['90'] = [
+    [[8.088, 0.0, 0.0],629.8],
+    [[0, -8.080, 0.0],10108.0]
   ]
   #------
   print "Coefficients of transformation from GPS to pixels:"
@@ -245,12 +263,15 @@ def analyze():
       continue
     c = coeff[label]
     this_n,per_df,est_rescale,est_i_shift,est_j_shift = goodness_one_image(dat,im,c,if_print=True)
-    n = n+this_n
-    sum_sq = sum_sq+per_df*this_n
+    if not (this_n is None):
+      n = n+this_n
+      sum_sq = sum_sq+per_df*this_n
   print "  n=",n,"  rms error=",math.sqrt(sum_sq/n)
   #------------ 
-  print "Changing coefficients to what we expect from mapping, then optimizing orientation and scale:"
+  print "Changing coefficients for ground-based images to what we expect from mapping, then optimizing orientation and scale:"
   for im in images:
+    if is_satellite(im):
+      continue
     label = im[0]
     loc = im[2]
     dim = im[4] # [w,h] of image, in pixels
@@ -303,6 +324,12 @@ def analyze():
         rms = math.sqrt(per_df*n/(n-2.0)) # root mean square error, in pixels
         pct = 100.0*rms/pythag2(dim[0],dim[1]) # as a percentage of image size
         print "    n=",this_n,"  rms error=",int(rms)," pixels =",("%4.1f" % pct)," % of image size ~",int(rms/scale)," m"
+    ang_scale = angular_scale(loc,c) # radians per pixel
+    print "    distance = ",("%4.1f" % (dist/1000.0))," km"
+    print "    angular scale ~ ",("%.2e" % ang_scale)," pixels/radian = ",("%.2e" % deg_float(ang_scale))," pixels/degree"
+    max_angle = 0.5*pythag2(dim[0],dim[1])*ang_scale
+    print "    max angle ~",("%.2e" % max_angle)," radians = ",("%5.1f" % deg_float(max_angle))," deg"
+    print "    max theta^2 ~ ",("%.2e" % (max_angle**2/ang_scale))," pixels ~ ",("%.2e" % (max_angle**2/(ang_scale*scale)))," m"
 
 def minimize(f,x_orig,dx_orig,names,if_print=False,printing_funcs=None,n_print=1,constraint=None,allow=None):
   x = copy.copy(x_orig)
@@ -344,6 +371,24 @@ def improve(f,x,dx,i,constraint):
   # No improvement:
   return [False,x]
 
+def angular_scale(loc,c):
+  # Approximate angular scale, in radians per pixel, based on heart of rock and summit.
+  # This doesn't make sense for satellite view, both because I don't know how high the satellite is and because the two
+  # points will almost exactly line up from overhead.
+  # two lines of sight:
+  p1 = heart_of_rock()
+  p2 = summit_position()
+  los1 = sub_vectors(p1,loc)
+  los2 = sub_vectors(p2,loc)
+  angle = math.acos(dot_product(normalize(los1),normalize(los2)))
+  ij1 = gps_to_pixel(p1,c)
+  ij2 = gps_to_pixel(p2,c)
+  pixels = pythag2(ij1[0]-ij2[0],ij1[1]-ij2[1])
+  if angle<0.01:
+    return None # satellite view
+  else:
+    return angle/pixels
+
 def coeffs_from_altaz(loc,alt,az,roll,scale,dim):
     # The constant terms are off by quite a bit. We correct them later as a side-effect of calling goodness_one_image(),
     # which does a first pass in order to adjust them.
@@ -365,12 +410,15 @@ def pix(dat,p,im,i,j):
   # (i,j) = pixel coordinates with respect to top left (the convention used in gimp)
   dat.append([p,im,[float(i),float(j)]])
 
-def image(list,label,filename,loc=None,loc_err=None):
+def image(list,label,filename,loc=None,loc_err=None,is_satellite=False):
   # The optional loc argument is the UTM coords of the camera, and loc_err=[x,y] is an estimate of the possible error in the horizontal coordinates.
   w,h = [get_image_size(filename,'w'),get_image_size(filename,'h')]
-  im = [label,filename,utm_input_convenience(loc),loc_err,[w,h]]
+  im = [label,filename,utm_input_convenience(loc),loc_err,[w,h],is_satellite]
   list.append(im)
   return im
+
+def is_satellite(im):
+  return im[5]
 
 def get_image_size(filename,dim):
   # dim can be 'w' or 'h'
@@ -384,7 +432,8 @@ def get_image_size(filename,dim):
     "30_from_fern_valley":[2723, 2447],
     "35_tahquitz_rock_from_pine_cove_ca":[3096, 4096],
     "40_west_side_from_auto_parts_store":[3157, 2983],
-    "50_south_face_from_bottom_of_maxwell_trail":[3586, 3554]
+    "50_south_face_from_bottom_of_maxwell_trail":[3586, 3554],
+    "90_satellite_esri_clarity":[6758,7000]
     }
   if filename in cached_sizes:
     d = cached_sizes[filename]
@@ -440,12 +489,11 @@ def goodness_one_image_one_pass(dat,im,c,if_print):
     obs = []
     pred = []
     err = []
+    coords_pred = gps_to_pixel(gps,c)
     for coord in range(2):
       co_obs = ij[coord]
-      co_pred = c[coord][1]
-      for m in range(3):
-        co_pred = co_pred + c[coord][0][m]*gps[m]
       obs.append(co_obs)
+      co_pred = coords_pred[coord]
       pred.append(co_pred)
       err.append(co_pred-co_obs)
       sum_sq = sum_sq+(co_pred-co_obs)*(co_pred-co_obs)
@@ -468,6 +516,15 @@ def goodness_one_image_one_pass(dat,im,c,if_print):
   est_i_shift = avg(i_obs)-avg(i_pred)
   est_j_shift = avg(j_obs)-avg(j_pred)
   return [n,sum_sq/n,est_rescale,est_i_shift,est_j_shift]
+
+def gps_to_pixel(gps,c):
+  ij = []
+  for coord in range(2):
+    co_pred = c[coord][1]
+    for m in range(3):
+      co_pred = co_pred + c[coord][0][m]*gps[m]
+    ij.append(co_pred)
+  return ij
 
 def do_svg_error_arrows(label,dim,filename,i_obs,j_obs,i_pred,j_pred):
   svg_code = """
@@ -661,6 +718,9 @@ def pythag2(x,y):
 
 def deg(x):
   return "%5.1f" % (x*180.0/math.pi)
+
+def deg_float(x):
+  return x*180.0/math.pi
 
 def rad(x):
   return x*math.pi/180.0

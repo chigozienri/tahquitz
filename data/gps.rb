@@ -3,7 +3,7 @@
 require_relative 'util_gps'
 require_relative 'dem'
 
-# In the following, I throw away the results, so all that happens is a sanity check.
+# In the following, I throw away the results, so all that happens is a sanity check and a printout.
 
 def main()
   gps(346,783,2185,NAD83,'uneventful',0,'talus exactly at base of rock; from hike with dogs')
