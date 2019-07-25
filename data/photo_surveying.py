@@ -32,13 +32,14 @@ from sklearn import linear_model
 #     jensens-jaunt-5 (top of boulder)
 #     trough-2 (pine tree ledge)
 #     tall-tree-below-lunch-ledge (off route a little to the right, in 4th class terrain)
-#   It would be very helpful to get actual GPS coordinates for the remaining ones of these.
+#   It would be very helpful to get directly measured GPS coordinates, including z, for the remaining ones of these.
 #   Notation:
 #     (x,y,z) = UTM coordinates, NAD83, relative to corner of 1 km squarethat includes Tahquitz
 #     (i,j) = pixel coordinates, origin at opper left
 #     c = data structure containing 8 coefficients of the linear transformation from xyz to ij:
 #       i = ax+by+cz+constant
 #       j = similar
+#     roll = + means camera tilted cw, so trees in image tilt ccw
 
 def find_image_file(filename):
   return "/home/bcrowell/Tahquitz_photography/mosaics/"+filename+".jpg"
@@ -57,12 +58,12 @@ def init():
   im05 = image(images,"05","05_north_side_from_saddle_jct",loc="530300 3737500 2606",loc_err=[200,1000])
   im10 = image(images,"10","10_north_face_from_old_devils_slide_trail",loc="529854 3737073 2353",loc_err=[200,200])
   im15 = image(images,"15","15_panorama_from_low_on_devils_slide",loc="529129 3736244 1999",loc_err=[600,600])
-  im20 = image(images,"20","20_northwest_face_from_deer_springs_slabs",loc="525884 3735229 1780",loc_err=[300,1000])
-  im25 = image(images,"25","25_northwest_face_from_suicide_junction",loc="526901 3736497 2100",loc_err=[50,50])
+  im20 = image(images,"20","20_northwest_face_from_deer_springs_slabs",loc="525884 3735229 1780",loc_err=[300,1000],tree_roll=7.5)
+  im25 = image(images,"25","25_northwest_face_from_suicide_junction",loc="526901 3736497 2100",loc_err=[50,50],tree_roll=-1.0)
   im30 = image(images,"30","30_from_fern_valley",loc="527612 3735142 1731",loc_err=[30,30])
-  im35 = image(images,"35","35_tahquitz_rock_from_pine_cove_ca",loc="524485 3734651 1829",loc_err=[200,400])
-  im40 = image(images,"40","40_west_side_from_auto_parts_store",loc="525931 3733312 1508",loc_err=[30,30])
-  im50 = image(images,"50","50_south_face_from_bottom_of_maxwell_trail",loc="527668 3733230 1754",loc_err=[30,30])
+  im35 = image(images,"35","35_tahquitz_rock_from_pine_cove_ca",loc="524485 3734651 1829",loc_err=[200,400],tree_roll=7.8)
+  im40 = image(images,"40","40_west_side_from_auto_parts_store",loc="525931 3733312 1508",loc_err=[30,30],tree_roll=0.5)
+  im50 = image(images,"50","50_south_face_from_bottom_of_maxwell_trail",loc="527668 3733230 1754",loc_err=[30,30],tree_roll=1.0) # tree roll could be 0 to 2
   im90 = image(images,"90","90_satellite_esri_clarity",is_satellite=True)
 
   #--------- Points with absolute positions measured by GPS:
@@ -74,7 +75,9 @@ def init():
 
   p = point("summit",[347.0,623.0,2439.0],"summit")
   pix(dat,p,im00,3154,2320)
-  # ...identified by shadow of summit block and in relation to overhangs on northeast and big crag to the west; may be wrong
+  # ...identified by shadow of summit block and in relation to overhangs on northeast and big crag to the west
+  #    This doesn't give correct coordinates when I put it through the inverse transformation. I think that actually
+  #    means that the inverse transformation is wrong. Unfortunately I can't make out this point on the ESRI image.
   pix(dat,p,im01,2010,326)
   pix(dat,p,im05,2145,360)
   pix(dat,p,im10,2493,280)
@@ -127,9 +130,22 @@ def init():
 
   #--------- Points without absolute positions measured by GPS:
 
-  p = point("lunch-rock",None,"not certain this is actually Lunch Rock; point is black crevice near north side")
-  pix(dat,p,im00,1566,2151)
-  pix(dat,p,im90,1600,4941)
+  p = point("friction-descent-boulder",None,"top/center of crack in split, house-size boulder at top of friction descent, surrounded by brush")
+  pix(dat,p,im00,2618,2567)
+  pix(dat,p,im90,3012,5407)
+  pix(dat,p,im35,1818,1014) # desired point slightly obscured, guessing at exact height
+  pix(dat,p,im40,1665,649)
+  pix(dat,p,im50,1780,1107)
+
+  p = point("lunch-rock",None,"top/center of lunch rock")
+  pix(dat,p,im00,1545,2189)
+  pix(dat,p,im90,1581,4973)
+  pix(dat,p,im35,1114,3086)
+
+  p = point("lunch-rock-clearing",None,"second large open space west of lunch rock; likely accurate DEM because of flat ground")
+  pix(dat,p,im00,608,2712)
+  pix(dat,p,im90,615,5385)
+  pix(dat,p,im35,1699,3883)
 
   p = point("square-flake-inside-lambda",None,"corner of distinctive square flake in the middle of the Northeast Face lambda")
   pix(dat,p,im00,4078,1497)
@@ -139,8 +155,6 @@ def init():
   pix(dat,p,im90,4151,4293)
 
   p = point("jensens-jaunt-5",None,"north/top tip of boulder at end of Jensen's Jaunt, final slab pitch; z from DEM")
-  # Tried clicking in google maps to get lat-lon, then finding UTM from that, then elevation from DEM. Results were
-  # 529163 3735553 2330. But this made results horrible, probably because google maps is using some different datum.
   pix(dat,p,im00,1978,2846)
   pix(dat,p,im05,3182,1310)
   pix(dat,p,im10,4092,1459)
@@ -215,7 +229,7 @@ def analyze():
       c.append([copy.copy(clf.coef_),copy.copy(clf.intercept_)])
     if mapping_determined:
       coeff[label] = c
-  # Transformation from UTM to satellite pixels is done by code in subdirectory satellite:
+  # Transformation from UTM to satellite pixels was done by method described in notes and code in subdirectory satellite:
   coeff['00'] = [
     [[8.38053607, -0.69082108, 0.0],962.506047077437],
     [[-0.02427133, -8.11101721, 0.0],7342.9289958528725]
@@ -224,6 +238,25 @@ def analyze():
     [[8.088, 0.0, 0.0],629.8],
     [[0, -8.080, 0.0],10108.0]
   ]
+  #------
+  print "UTM coordinates inferred from satellite images"
+  for im in images:
+    if not is_satellite(im):
+      continue
+    print "  ",im[1] # filename
+    for obs in dat:
+      p,im2,ij = obs
+      if im2!=im:
+        continue
+      label = im[0]
+      c = coeff[label]
+      descr = p["name"]+", "+p["description"]
+      x,y = satellite_pixel_to_utm(ij,c)
+      print "    ",x,y," ",descr
+      if not (p["p"] is None):
+        # We also have a direct GPS fix:
+        gps = p["p"]
+        print "        direct GPS fix:",gps
   #------
   print "Coefficients of transformation from GPS to pixels:"
   for im in images:
@@ -252,6 +285,8 @@ def analyze():
       loc = im[2]
       los,dist,alt,az,roll = expected_aar(loc)
       print "    from mapping, azimuth=",deg(az),", alt=",deg(alt),",   distance=",dist/1000.0," km"
+    if not (tree_roll(im) is None):
+      roll = tree_roll(im)
   #------------ 
   print "Results of mapping from GPS to pixels, compared with actual pixel locations, from fit:"
   sum_sq = 0.0
@@ -306,7 +341,9 @@ def analyze():
     print "    initial guesses for parameters: ",altaz_pars_to_str(par,printing)
     par2 = par
 
-    par2 = minimize(goodness,par2,delta,par_names,if_print=False,printing_funcs=printing,n_print=10,constraint=constr,allow=[True,True,True,True])
+    free_roll = (tree_roll(im) is None) # OK to freely adjust the roll parameter
+
+    par2 = minimize(goodness,par2,delta,par_names,if_print=False,printing_funcs=printing,n_print=10,constraint=constr,allow=[True,True,free_roll,True])
     if debug:
       print "    final:"
       goodness_one_image(dat,im,coeffs_from_altaz(loc,par2[0],par2[1],par2[2],par2[3],dim),if_print=True)
@@ -410,15 +447,22 @@ def pix(dat,p,im,i,j):
   # (i,j) = pixel coordinates with respect to top left (the convention used in gimp)
   dat.append([p,im,[float(i),float(j)]])
 
-def image(list,label,filename,loc=None,loc_err=None,is_satellite=False):
+def image(list,label,filename,loc=None,loc_err=None,is_satellite=False,tree_roll=None):
   # The optional loc argument is the UTM coords of the camera, and loc_err=[x,y] is an estimate of the possible error in the horizontal coordinates.
+  # The parameter tree_roll is to fix the roll parameter. If the trees lean left by 3 degrees, this parameter is 3. Often the lean of the trees
+  # various obviously from left to right, a sign of aberration/projection; if so, then this is the estimate of the angle near the center of the field.
   w,h = [get_image_size(filename,'w'),get_image_size(filename,'h')]
-  im = [label,filename,utm_input_convenience(loc),loc_err,[w,h],is_satellite]
+  if not (tree_roll is None):
+    tree_roll = rad(tree_roll)
+  im = [label,filename,utm_input_convenience(loc),loc_err,[w,h],is_satellite,tree_roll]
   list.append(im)
   return im
 
 def is_satellite(im):
   return im[5]
+
+def tree_roll(im):
+  return im[6]
 
 def get_image_size(filename,dim):
   # dim can be 'w' or 'h'
@@ -480,12 +524,12 @@ def goodness_one_image_one_pass(dat,im,c,if_print):
   n = 0
   for obs in dat:
     p,im2,ij = obs
+    if im2!=im:
+      continue
     if p["p"] is None:
       continue
     gps = p["p"]
     descr = p["name"]+", "+p["description"]
-    if im2!=im:
-      continue
     obs = []
     pred = []
     err = []
@@ -525,6 +569,25 @@ def gps_to_pixel(gps,c):
       co_pred = co_pred + c[coord][0][m]*gps[m]
     ij.append(co_pred)
   return ij
+
+def satellite_pixel_to_utm(ij,coeffs):
+  i,j = ij
+  a,b,c = coeffs[0][0]
+  d = coeffs[0][1]
+  e,f,g = coeffs[1][0]
+  h = coeffs[1][1]
+  ii = i-d
+  jj = j-h
+  determ = a*f-b*e
+  x = (1.0/determ)*(f*ii-b*jj)
+  y = (1.0/determ)*(-e*ii+a*jj)
+  if False:
+    #-- testing: check that we can do a round-trip:
+    i2,j2 = gps_to_pixel([x,y,0.0],coeffs)
+    print "  @@ ",i,j
+    print "     ",x,y
+    print "     ",i2,j2
+  return [x,y]
 
 def do_svg_error_arrows(label,dim,filename,i_obs,j_obs,i_pred,j_pred):
   svg_code = """
