@@ -142,7 +142,7 @@ def init():
   p = point("west-lark-2",[382,735,2251],"middle/left of a set of 4-5 ledges; ID on photos very uncertain")
   pix(dat,p,im01,1818,4120)
   pix(dat,p,im05,1996,3055)
-  pix(dat,p,im20,2226,5172)
+  pix(dat,p,im15,2226,5172)
 
   # Bad GPS point for West Lark belay 3; see commented out line in gps.rb.
 
