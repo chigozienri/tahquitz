@@ -1,7 +1,4 @@
 import copy,math,subprocess,re
-from sklearn import linear_model
-# apt-get install python-sklearn
-# This is in python2 because sklearn seems to be python2.
 
 # State as of 2019 jul 22:
 #   Implemented two methods of finding the mapping from GPS coords to pixel coords. The first is a totally free linear
@@ -253,41 +250,6 @@ def init():
 def analyze():
   images,dat = init()
   coeff = {}
-  for im in images:
-    label = im[0]
-    #print im[1] # filename
-    c = [] # coefficients for this image
-    mapping_determined = False
-    for coord in range(2): # 0=i=horizontal coord of pixel in image, 1=j=vertical (from top)
-      #print "  coord=",coord
-      # In the following, x refers to the GPS coordinates and y to the pixel coordinates.
-      x_list = []
-      y_list = []
-      for obs in dat:
-        p,im2,ij = obs
-        if im2!=im:
-          continue
-        y = ij[coord]
-        if p["p"] is None:
-          continue
-        x = p["p"]
-        descr = p["description"]
-        print "    x=",x,"  y=",y,"   ",descr
-        x_list.append(x)
-        y_list.append(y)
-      if len(x_list)<4:
-        continue # not enough gps fixes for this point
-      else:
-        mapping_determined = True
-      #print "  x_list=",x_list
-      #print "  y_list=",y_list
-      # https://stackoverflow.com/a/11479279/1142217
-      clf = linear_model.LinearRegression(fit_intercept=True)
-      clf.fit(x_list,y_list)
-      #print "    ",clf.coef_," ",clf.intercept_
-      c.append([copy.copy(clf.coef_),copy.copy(clf.intercept_)])
-    if mapping_determined:
-      coeff[label] = c
   # Transformation from UTM to satellite pixels was done by method described in notes and code in subdirectory satellite:
   coeff['00'] = [
     [[8.38053607, -0.69082108, 0.0],962.506047077437],
@@ -316,30 +278,11 @@ def analyze():
         # We also have a direct GPS fix:
         gps = p["p"]
         print "        direct GPS fix:",gps
-  #------
-  print "Coefficients of transformation from GPS to pixels:"
-  for im in images:
-    label = im[0]
-    if not (label in coeff):
-      continue
-    print "  ",im[1] # filename
-    c = coeff[label]
-    print "    ",c[0]
-    print "    ",c[1]
   #------------ 
   print "Lines of sight (camera to rock, azimuth defined ccw from E):"
   for im in images:
     label = im[0]
     print "  ",im[1] # filename
-    if label in coeff:
-      c = coeff[label]
-      # If we express pixels coordinates i and j in terms of x, y, and z, then the gradients of the functions i and j give
-      # vectors parallel to the pixel axes. Taking the cross product of these gives the direction of the line of sight.
-      i_gradient = [c[0][0][0],c[0][0][1],c[0][0][2]]
-      j_gradient = [c[1][0][0],c[1][0][1],c[1][0][2]]
-      los = normalize(cross_product(i_gradient,j_gradient)) # oriented from camera to rock, since j points down
-      alt,az = los_to_alt_az(los)
-      print "    from fit,     azimuth=",deg(az),", alt=",deg(alt)
     if not (im[2] is None):
       loc = im[2]
       los,dist,alt,az,roll = expected_aar(loc)
@@ -347,22 +290,7 @@ def analyze():
     if not (tree_roll(im) is None):
       roll = tree_roll(im)
   #------------ 
-  print "Results of mapping from GPS to pixels, compared with actual pixel locations, from fit:"
-  sum_sq = 0.0
-  n = 0
-  for im in images:
-    label = im[0]
-    print "  ",im[1] # filename
-    if not (label in coeff):
-      continue
-    c = coeff[label]
-    this_n,per_df,est_rescale,est_i_shift,est_j_shift = goodness_one_image(dat,im,c,if_print=True)
-    if not (this_n is None):
-      n = n+this_n
-      sum_sq = sum_sq+per_df*this_n
-  print "  n=",n,"  rms error=",math.sqrt(sum_sq/n)
-  #------------ 
-  print "Changing coefficients for ground-based images to what we expect from mapping, then optimizing orientation and scale:"
+  print "Determining coefficients for ground-based images to what we expect from mapping, then optimizing orientation and scale:"
   for im in images:
     if is_satellite(im):
       continue
