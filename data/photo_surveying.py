@@ -40,6 +40,16 @@ from sklearn import linear_model
 #       i = ax+by+cz+constant
 #       j = similar
 #     roll = + means camera tilted cw, so trees in image tilt ccw
+#  Notes on aberration/projection:
+#    On most images, I can see that the trees in the bottom left and bottom right corners form lines that either converge or diverge in the upward direction.
+#    This is an indication of a common form of aberration/perspective distortion in photos. Expect the correction to be of the form
+#      r -> Ar+Br^3
+#    where r is distance from some point (i0,j0) which is the center of aberration. The A term is really just a rescaling by 1+A, but if scale has
+#    already been adjusted globally, then introducing a nonzero B will require readjusting A as well. This is 4 d.f.: i0,j0,A,B.
+#    The converging trees do not depend on A at all. If I assume that (i0,j0) is at the center of the image (why would it not be?), then
+#    can basically choose B to parallelize the trees, then readjust scale. Or could simply use my existing fitting routines to fit B as
+#    an additional parameter. On my error maps err_NN.svg, I'm seeing a combination of A and B, so can't just look at the error arrows and
+#    interpret them as a measure of B, and they don't necessarily converge at the center of aberration.
 
 def find_image_file(filename):
   return "/home/bcrowell/Tahquitz_photography/mosaics/"+filename+".jpg"
@@ -99,7 +109,7 @@ def init():
   pix(dat,p,im10,2933,2701)
   pix(dat,p,im15,4232,4211)
 
-  p = point("error-4",[336,694,2295],"alcove before steep part; poor agreement between photo surveying and GPS")
+  p = point("error-4",[336,694,2295],"alcove before steep part")
   pix(dat,p,im01,2329,3024)
   pix(dat,p,im05,2319,2301)
   pix(dat,p,im10,2755,2380)
@@ -129,6 +139,20 @@ def init():
   pix(dat,p,im00,4690,1230) # x may be off
 
   #--------- Points without absolute positions measured by GPS:
+
+  p = point("dead-tree-at-top-of-gendarme",None,"at end of larks, the dead tree that's visually prominent from below")
+  pix(dat,p,im00,4047,2337) # x and y uncertain by 10 pixels
+  pix(dat,p,im01,525,1260)
+  pix(dat,p,im05,1138,1066)
+  pix(dat,p,im10,1262,1033)
+  pix(dat,p,im15,2584,2271)
+
+  p = point("prow-near-dead-tree-at-top-of-gendarme",None,"rock prow, 135 degree angle, 5-10 m to left of dead tree at top of larks, accurately locatable in satellite photos")
+  pix(dat,p,im00,4134,2287)
+  pix(dat,p,im01,366,1425)
+  pix(dat,p,im05,1031,1174)
+  pix(dat,p,im10,1122,1160)
+
 
   p = point("friction-descent-boulder",None,"top/center of crack in split, house-size boulder at top of friction descent, surrounded by brush")
   pix(dat,p,im00,2618,2567)
