@@ -50,6 +50,10 @@ from sklearn import linear_model
 #    can basically choose B to parallelize the trees, then readjust scale. Or could simply use my existing fitting routines to fit B as
 #    an additional parameter. On my error maps err_NN.svg, I'm seeing a combination of A and B, so can't just look at the error arrows and
 #    interpret them as a measure of B, and they don't necessarily converge at the center of aberration.
+#    Projection/perspective errors should be easy to partially eliminate simply by using a more reasonable projection. Currently I'm just
+#    projecting perpendicularly onto a plane perpendicular to the central line of sight. Should switch this to something more physically
+#    reasonable such as a gnomonic (=tangent to sphere) or cylindrical projection. After that, can see if there are residual errors that
+#    require further modeling.
 
 def find_image_file(filename):
   return "/home/bcrowell/Tahquitz_photography/mosaics/"+filename+".jpg"
@@ -120,8 +124,8 @@ def init():
   pix(dat,p,im05,2533,3198)
   pix(dat,p,im15,3368,5057)
 
-  p = point("west-lark-0",[388,797,2174],"base of rock; is the same location as the start of the other larks")
-  pix(dat,p,im01,2065,5280)
+  #p = point("west-lark-0",[388,797,2174],"base of rock; is the same location as the start of the other larks")
+  #pix(dat,p,im01,2065,5280)
 
   p = point("maiden-0",[250,700,2248],"tree root on class 3 ledge, before the hard mantling move")
   pix(dat,p,im05,3131,2841)
@@ -132,22 +136,53 @@ def init():
   pix(dat,p,im10,3965,2604)
   pix(dat,p,im15,6939,4052)
 
-  p = point("west-lark-0",[388,797,2174],"base of rock; is the same location as the start of the other larks")
-  pix(dat,p,im00,3654,1068)
+  # Bad GPS point for West Lark, start of climb; see commented out line in gps.rb.
+
+  p = point("west-lark-1",[382,760,2217],"first belay ledge; ID on photos very uncertain")
+  pix(dat,p,im01,1957,4833)
+  pix(dat,p,im05,2092,3536)
+
+  p = point("west-lark-2",[382,735,2251],"middle/left of a set of 4-5 ledges; ID on photos very uncertain")
+  pix(dat,p,im01,1818,4120)
+  pix(dat,p,im05,1996,3055)
+  pix(dat,p,im20,2226,5172)
+
+  # Bad GPS point for West Lark belay 3; see commented out line in gps.rb.
+
+  p = point("west-lark-4",[391,685,2305],"half-way up the dihedral; can't really tell exact spot in photos")
+  pix(dat,p,im01,1383,2819)
+  pix(dat,p,im05,1703,2157)
+  pix(dat,p,im10,1955,2219)
+  pix(dat,p,im15,2625,3802)
+
+  p = point("west-lark-5",[404,645,2335],"big belay ledge behind the table-sized flake; ID on photos somewhat uncertain")
+  pix(dat,p,im01,1019,2017)
+  pix(dat,p,im05,1460,1593)
+  pix(dat,p,im10,1656,1595)
+  pix(dat,p,im15,2721,3234)
 
   p = point("el-whampo-0",[510,782,2163],"foot of class 4/easy 5th gully that is the first easy pitch of El Whampo")
   pix(dat,p,im00,4690,1230) # x may be off
 
+  p = point("dead-tree-at-top-of-gendarme",[420,623,2378],"at end of larks, the dead tree that's visually prominent from below; extremely precise location of branch in 01, 05, and 10; GPS hanging from branch on climber's left; tree is about 10 m to the left of the final belay inside the gully; ")
+  pix(dat,p,im00,4047,2337) # x and y uncertain by 10 pixels, tree itself not actually visible, estimated from position relative to rocks; compared to GPS, comes out pretty close, err=(-1 m,-7 m), which may be identification of point or calibration of google's projection
+  pix(dat,p,im01,515,1232)
+  pix(dat,p,im05,1132,1043)
+  pix(dat,p,im10,1255,1016)
+  pix(dat,p,im15,2570,2250)
+
   #--------- Points without absolute positions measured by GPS:
 
-  p = point("dead-tree-at-top-of-gendarme",None,"at end of larks, the dead tree that's visually prominent from below")
-  pix(dat,p,im00,4047,2337) # x and y uncertain by 10 pixels
-  pix(dat,p,im01,525,1260)
-  pix(dat,p,im05,1138,1066)
-  pix(dat,p,im10,1262,1033)
-  pix(dat,p,im15,2584,2271)
+  #p = point("west-lark-3",[370,729,2279],"1 m above the gap in the overlaps; ID on photos somewhat uncertain")
+  # ... GPS coordinates off by about 10 meters to the west; route is actually straight and trends to the east
+  p = point("west-lark-3",None,"1 m above the gap in the overlaps; ID on photos somewhat uncertain")
+  pix(dat,p,im01,1605,3425)
+  pix(dat,p,im05,1850,2587)
+  pix(dat,p,im10,2130,2683)
+  pix(dat,p,im15,2449,4431)
 
-  p = point("prow-near-dead-tree-at-top-of-gendarme",None,"rock prow, 135 degree angle, 5-10 m to left of dead tree at top of larks, accurately locatable in satellite photos")
+
+  p = point("prow-near-dead-tree-at-top-of-gendarme",None,"rock prow, 135 degree angle, 5-10 m to left of dead tree at top of larks, accurately locatable in satellite photos; tried to identify this while there, and couldn't")
   pix(dat,p,im00,4134,2287)
   pix(dat,p,im01,366,1425)
   pix(dat,p,im05,1031,1174)

@@ -36,12 +36,24 @@ def main()
   gps(250,700,2248,NAD83,'maiden',0,'tree root on class 3 ledge, before the hard mantling move')
   gps(245,698,2277,NAD83,'maiden',1,'mountain mahogany (could be wrong)')
 
+  # 2019 jul 27, west lark with bethany reichard
+  # Start of climb is under july 11, is not accurate.
+  # I got coords for the dead tree at the top, but not the final belay at the top of the gully.
+  gps(382,760,2217,NAD83,'west_lark',1,'first belay ledge')
+  gps(382,735,2251,NAD83,'west_lark',2,'middle/left of a set of 4-5 ledges')
+  #gps(370,729,2279,NAD83,'west_lark',3,'1 m above the gap in the overlaps')
+  # ... bad fix, is about 15 m too far west compared to the line of the climb
+  gps(391,685,2305,NAD83,'west_lark',4,'half-way up the dihedral')
+  gps(404,645,2335,NAD83,'west_lark',5,'big belay ledge behind the table-sized flake')
+  gps(420,623,2378,NAD83,'',-1,'the big, prominent dead tree about 10 m to the left of the final belay inside the gully; hanging from branch on climber\'s left')
+
   # 2019 july 11, hike with dogs
   gps( 86,1104,1986,NAD83,'',-1,'North Gully trailhead at Humber Park')  
   gps(328,1039,2068,NAD83,'',-1,'bottom of oak grove on North Gully Trail')
   gps(427,990,2098,NAD83,'',-1,'top of oak grove on North Gully Trail (?)')
   gps(574,777,2134,NAD83,'',-1,'junction of North Gully ascent trail at rock wall')
-  gps(388,797,2174,NAD83,'west_lark',0,'base of rock; is the same location as the start of the other larks')
+  #gps(388,797,2174,NAD83,'west_lark',0,'base of rock; is the same location as the start of the other larks')
+  # z is too low by about 20 m based on coords of belay 1 and 30 m length of pitch
   gps(510,782,2163,NAD83,'el_whampo',0,'foot of class 4/easy 5th gully that is the first easy pitch of El Whampo')
   #gps(439,786,2158,NAD83,'northeast_face_east',0,'trail directly below the dihedral')
   # ... this seems wildly off in x in satellite image; I think this may have been NE face W rather than NE face E
