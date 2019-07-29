@@ -121,8 +121,8 @@ def init():
   pix(dat,p,im05,2533,3198)
   pix(dat,p,im15,3368,5057)
 
-  #p = point("west-lark-0",[388,797,2174],"base of rock; is the same location as the start of the other larks")
-  #pix(dat,p,im01,2065,5280)
+  p = point("west-lark-0",[382,785,2188],"base of rock; is the same location as the start of the other larks; ad hoc combination of my fix from hike with dogs and Bethany's from belaying")
+  pix(dat,p,im01,2065,5280)
 
   p = point("maiden-0",[250,700,2248],"tree root on class 3 ledge, before the hard mantling move")
   pix(dat,p,im05,3131,2841)
@@ -144,7 +144,11 @@ def init():
   pix(dat,p,im05,1996,3055)
   pix(dat,p,im15,2226,5172)
 
-  # Bad GPS point for West Lark belay 3; see commented out line in gps.rb.
+  p = point("west-lark-3",[388,714,2279],"1 m above the gap in the overlaps; ad hoc combo of the z that I believe from my GPS and the x,y that I believe from Bethany's")
+  pix(dat,p,im01,1648,3544)
+  pix(dat,p,im05,1880,2669)
+  pix(dat,p,im10,2168,2796)
+  pix(dat,p,im15,2445,4551)
 
   p = point("west-lark-4",[391,685,2305],"half-way up the dihedral; can't really tell exact spot in photos")
   pix(dat,p,im01,1383,2819)
