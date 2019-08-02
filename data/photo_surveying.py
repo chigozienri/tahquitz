@@ -1,4 +1,5 @@
 import copy,math,subprocess,re
+from geom import *
 
 # State as of 2019 jul 22:
 #   Implemented two methods of finding the mapping from GPS coords to pixel coords. The first is a totally free linear
@@ -32,7 +33,8 @@ import copy,math,subprocess,re
 #   It would be very helpful to get directly measured GPS coordinates, including z, for the remaining ones of these.
 #   Notation:
 #     (x,y,z) = UTM coordinates, NAD83, relative to corner of 1 km squarethat includes Tahquitz
-#     (i,j) = pixel coordinates, origin at opper left
+#     (u,v,w) = coordinates in the camera's basis frame, defined so that the center of the image is at (0,0,w)
+#     (i,j) = pixel coordinates, origin at upper left
 #     c = data structure containing 8 coefficients of the linear transformation from xyz to ij:
 #       i = ax+by+cz+constant
 #       j = similar
@@ -51,6 +53,17 @@ import copy,math,subprocess,re
 #    projecting perpendicularly onto a plane perpendicular to the central line of sight. Should switch this to something more physically
 #    reasonable such as a gnomonic (=tangent to sphere) or cylindrical projection. After that, can see if there are residual errors that
 #    require further modeling.
+#  Idea:
+#    Instead of screwing around with anything this complicated, a mathematically more elegant thing to do would probably be to simply postcompose
+#    my plane projection with a correction in which we simply scale (u,v)->(w0/w)(u,v), where w0 is a reference distance. This is simple and
+#    mathematically elegant, is similar to a perspectivity, https://en.wikipedia.org/wiki/Perspectivity#Perspective_collineations .
+#    Makes more distant things look smaller, gives vanishing points, etc. Easy to implement. Big advantage is that it's relatively easy to
+#    guess a reasonable value for w0 (distance to heart of rock) and then refine the scaling of the image.
+#  Notes on using UTM as an approximation to Cartesian coordinates:
+#    I verified by converting to Cartesian using proj4 library that UTM coordinates are orthogonal and isotropic to extremely good precision.
+#    The angle between x-hat and y-hat rounds to 90 degrees to within machine precision. Isotropy is good to |xhat|/|yhat|-1 < 3e-9.
+#    There is a scaling factor of approximately 0.9996 (see WP), but including that would not improve my results, would just introduce
+#    inconveniences.
 
 def find_image_file(filename):
   return "/home/bcrowell/Tahquitz_photography/mosaics/"+filename+".jpg"
@@ -259,6 +272,7 @@ def analyze():
     [[8.38053607, -0.69082108, 0.0],962.506047077437],
     [[-0.02427133, -8.11101721, 0.0],7342.9289958528725]
   ]
+  # ... doesn't work very well, because the projection isn't affine. The horizontal scale varies by ~5-10% between top and bottom of my image.
   coeff['90'] = [
     [[8.088, 0.0, 0.0],629.8],
     [[0, -8.080, 0.0],10108.0]
@@ -658,33 +672,6 @@ def do_svg_error_arrows(label,dim,filename,i_obs,j_obs,i_pred,j_pred):
   with open("err_"+label+".svg", 'w') as f:
     f.write(svg_code+"\n")
 
-def avg(x):
-  n = len(x)
-  av = 0.0
-  for i in range(len(x)):
-    av = av+x[i]
-  return av/n
-
-def std_dev(x):
-  n = len(x)
-  av = avg(x)
-  sd = 0.0
-  for i in range(len(x)):
-    sd = sd+(x[i]-av)**2
-  return math.sqrt(sd/n)
-
-def cross_product(u,v):
-  x = u[1]*v[2]-u[2]*v[1]
-  y = u[2]*v[0]-u[0]*v[2]
-  z = u[0]*v[1]-u[1]*v[0]
-  return [x,y,z]
-
-def angle_in_2pi(x):
-  if x<0.0:
-    return x+2.0*math.pi
-  else:
-   return x
-
 def utm_input_convenience(p):
   # Return coordinates in meters, NAD83, relative to reference point.
   # In this simplest case, where p is an array relative to ref point, returns p unchanged.
@@ -705,82 +692,6 @@ def utm_input_convenience(p):
   if pythag2(x,y)>1.0e5:
     raise RuntimeError('Distance from reference point fails sanity check.');
   return [float(x),float(y),float(z)]
-
-def rotation_matrix(altitude,azimuth,roll):
-  # active rotations that you would apply to the camera
-  rx = rotation_matrix_one_axis(0,-roll) # roll>0 means rotating the camera ccw
-  ry = rotation_matrix_one_axis(1,-altitude)
-  rz = rotation_matrix_one_axis(2,azimuth)
-  return matrix_mult(rz,matrix_mult(ry,rx))
-
-def rotation_matrix_one_axis(axis,angle):
-  # axis=0, 1, 2 for x, y, z
-  # angle in radians
-  # Order of indices is such that applying the matrix to a vector is sum of a_{ij}x_j.
-  a = zero_matrix()
-  c = math.cos(angle)
-  s = math.sin(angle)
-  # The following is written with the axis=2 case in mind, in which case the rotation is in the xy plane, and cyc() is a no-op.
-  a[cyc(2,axis+1)][cyc(2,axis+1)] = 1.0
-  a[cyc(0,axis+1)][cyc(0,axis+1)] = c
-  a[cyc(1,axis+1)][cyc(1,axis+1)] = c
-  a[cyc(1,axis+1)][cyc(0,axis+1)] = s
-  a[cyc(0,axis+1)][cyc(1,axis+1)] = -s
-  return a
-
-def matrix_mult(a,b):
-  c = zero_matrix()
-  for i in range(3):
-    for j in range(3):
-      for k in range(3):
-        c[i][j] += a[i][k]*b[k][j]
-  return c
-
-def zero_matrix():
-  return [[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]]
-
-def cyc(n,k):
-  return (n+k)%3
-
-def add_vectors(u,v):
-  return [u[0]+v[0],u[1]+v[1],u[2]+v[2]]
-
-def sub_vectors(u,v):
-  return [u[0]-v[0],u[1]-v[1],u[2]-v[2]]
-
-def dot_product(u,v):
-  return u[0]*v[0]+u[1]*v[1]+u[2]*v[2]
-
-def norm(u):
-  return math.sqrt(dot_product(u,u))
-
-def scalar_mult(u,s):
-  return [u[0]*s,u[1]*s,u[2]*s]
-
-def scalar_mult_matrix(m,s):
-  n = zero_matrix()
-  for i in range(3):
-    for j in range(3):
-      n[i][j] = m[i][j]*s
-  return n
-
-def normalize(u):
-  return scalar_mult(u,1.0/norm(u))
-
-def pythag2(x,y):
-  return math.sqrt(x*x+y*y)
-
-def deg(x):
-  return "%5.1f" % (x*180.0/math.pi)
-
-def deg_float(x):
-  return x*180.0/math.pi
-
-def rad(x):
-  return x*math.pi/180.0
-
-def vec_to_str(u):
-  return "[%5.4f,%5.4f,%5.4f]" % (u[0],u[1],u[2])
 
 def expected_aar(loc):
   # expected line of sight, altitude, azimuth, and roll for a given camera location
