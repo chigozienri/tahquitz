@@ -5,36 +5,10 @@ class Perspective:
     if type(self) is Base:
       raise Exception('Perspective is an abstract class and cannot be instantiated directly')
 
-class Ortho(Perspective):
-  # A view from an infinite distance, with no vanishing points. This is simply projection onto a plane, followed by a scaling and translation.
-  # After calling the constructor, the scaling and translation are not yet set properly. These need to be set using the fit() method.
-  def __init__(self,alt,az,roll):
-    a = rotation_matrix(alt,az-math.pi/2.0,roll) # subtract 90 from az, because line of sight is z, so when az=0, x is south
-    vs = -1.0 # pixel coordinates in the vertical direction are increasing downward
-    ic = [a[0][0],a[1][0],a[2][0]] # camera's basis vector pointing to the right
-    jc = [a[0][2],a[1][2],a[2][2]] # camera's basis vector pointing up *** changed 2nd index from 1 to 2 -- is this right??
-    # coefficients of the affine transformation from (x,y,z) to (i,j):
-    self.c = [
-      [                ic,0.0],
-      [scalar_mult(jc,vs),0.0]
-    ]
-
-  def __str__(self):
-    return str("%9.4f %9.4f %9.4f | %9.4f\n%9.4f %9.4f %9.4f | %9.4f " % (
-      self.c[0][0][0],self.c[0][0][1],self.c[0][0][2],self.c[0][1],
-      self.c[1][0][0],self.c[1][0][1],self.c[1][0][2],self.c[0][1]
-    ))
-
   def apply(self,xyz):
-    if len(xyz)!=3:
-      raise Exception('xyz has wrong number of coordinates')
-    ij = []
-    for coord in range(2):
-      co_pred = self.c[coord][1]
-      for m in range(3):
-        co_pred = co_pred + self.c[coord][0][m]*xyz[m]
-      ij.append(co_pred)
-    return ij
+    # returns [i,j], throwing away k
+    ij = self.apply3(xyz)
+    return [ij[0],ij[1]]
 
   def fit(self,fit_in,fit_out,what=0):
     # fit_in = list of xyz coords of points
@@ -59,15 +33,57 @@ class Ortho(Perspective):
       j1.append(out[1])
     if what==1: # scale only
       s = math.sqrt((std_dev(i1)**2+std_dev(j1)**2)/(std_dev(i0)**2+std_dev(j0)**2))
-      for m in range(2):
-        for n in range(3):
-          self.c[m][0][n] = self.c[m][0][n]*s
+      self.rescale(s)
       return
     if what==2: # translation only
-      self.c[0][1] = avg(i1)-avg(i0)
-      self.c[1][1] = avg(j1)-avg(j0)
+      self.translate([avg(i1)-avg(i0),avg(j1)-avg(j0),0.0])
       return
     raise Exception('huh? is what set wrong in fit()?')
+
+class Ortho(Perspective):
+  # A view from an infinite distance, with no vanishing points. This is simply projection onto a plane, followed by a scaling and translation.
+  # After calling the constructor, the scaling and translation are not yet set properly. These need to be set using the fit() method.
+  def __init__(self,alt,az,roll):
+    a = rotation_matrix(alt,az-math.pi/2.0,roll) # subtract 90 from az, because line of sight is z, so when az=0, x is south
+    ic = [a[0][0],a[1][0],a[2][0]] # camera's basis vector pointing to the right
+    jc = [a[0][2],a[1][2],a[2][2]] 
+    jc = scalar_mult(jc,-1.0) # camera's basis vector pointing down; pixel coordinates in the vertical direction are increasing downward
+    kc = [a[0][1],a[1][1],a[2][1]] # camera's basis vector pointing in the direction you're looking
+    # coefficients of the affine transformation from (x,y,z) to (i,j,k):
+    self.c = [
+      [ic,0.0],
+      [jc,0.0],
+      [kc,0.0]
+    ]
+
+  def __str__(self):
+    return str("%9.4f %9.4f %9.4f | %9.4f\n%9.4f %9.4f %9.4f | %9.4f\n%9.4f %9.4f %9.4f | %9.4f " % (
+      self.c[0][0][0],self.c[0][0][1],self.c[0][0][2],self.c[0][1],
+      self.c[1][0][0],self.c[1][0][1],self.c[1][0][2],self.c[1][1],
+      self.c[2][0][0],self.c[2][0][1],self.c[2][0][2],self.c[2][1]
+    ))
+
+  def apply3(self,xyz):
+    # returns [i,j,k]
+    if len(xyz)!=3:
+      raise Exception('xyz has wrong number of coordinates')
+    ij = []
+    for coord in range(3):
+      co_pred = self.c[coord][1]
+      for m in range(3):
+        co_pred = co_pred + self.c[coord][0][m]*xyz[m]
+      ij.append(co_pred)
+    return ij
+
+  def rescale(self,s):
+    for m in range(2):
+      for n in range(3):
+        self.c[m][0][n] = self.c[m][0][n]*s
+
+  def translate(self,d):
+    for m in range(3):
+      self.c[m][1] += d[m]
+
 
 
 
