@@ -141,8 +141,6 @@ def init():
   pix(dat,p,im10,3965,2604)
   pix(dat,p,im15,6939,4052)
 
-  # Bad GPS point for West Lark, start of climb; see commented out line in gps.rb.
-
   p = point("west-lark-1",[382,760,2217],"first belay ledge; ID on photos very uncertain")
   pix(dat,p,im01,1957,4833)
   pix(dat,p,im05,2092,3536)
@@ -253,15 +251,20 @@ def analyze():
   for im in images:
     label = im[0]
     print "  ",im[1] # filename
-    if not (im[2] is None):
-      loc = im[2]
-      los,dist,alt,az,roll = expected_aar(loc)
-      print "    from mapping, azimuth=",deg(az),", alt=",deg(alt),",   distance=",dist/1000.0," km"
+    loc = im[2]
+    los,dist,alt,az,roll = expected_aar(loc)
     if not (tree_roll(im) is None):
       roll = tree_roll(im)
-  #------------ 
-  print "Determining coefficients for ground-based images to what we expect from mapping, then optimizing orientation and scale:"
+    else:
+      roll = 0.0
+    print "    from mapping, azimuth=",deg(az),", alt=",deg(alt),", roll=",deg(roll),"  distance=",dist/1000.0," km"
+  #------------
+  pr = {} # hash of perspectives by label of image 
+  print "Determining perspective mappings:"
   for im in images:
+    n = count_observations(dat,im)
+    if n<2:
+      continue
     label = im[0]
     loc = im[2]
     dim = im[4] # [w,h] of image, in pixels
@@ -269,66 +272,42 @@ def analyze():
     if loc is None:
       continue
     print "  ",im[1] # filename
-    guess_scale = (5.0e4)*(dim[1]/6500.0)/dist # just a rough guess based on how many pixels I normally use to cover the rock vertically
     los,dist,alt,az,roll = expected_aar(loc)
-    scale = guess_scale
-    c = coeffs_from_altaz(loc,alt,az,roll,scale,dim)
-    if debug:
-      print "    initial estimates:"
-      goodness_one_image(dat,im,coeffs_from_altaz(loc,alt,az,roll,scale,dim),if_print=True)
-
-    this_n,per_df,est_rescale,est_i_shift,est_j_shift = goodness_one_image(dat,im,c,if_print=False)
-    print "    estimated rescaling = ",est_rescale
-    if this_n>=2:
-      scale = scale*est_rescale
-
-    n = count_observations(dat,im)
-    if n<2:
-      print "    can't optimize, number of observations is only ",n
-      continue
-    par_names = ["alt","az","roll","scale"]
-    par = [alt,az,roll,scale]
-    printing = [lambda x:deg(x),lambda x:deg(x),lambda x:deg(x),lambda x:("%5.3e" % x)]
-    constr = lambda p : abs(p[2])<rad(20.0) and abs(p[0]-alt)<rad(20.0) and abs(p[1]-az)<rad(5.0)
-    # ... limit changes in alt, az, and roll
-    delta = [rad(1.0),rad(1.0),rad(1.0),scale*0.01]
-    goodness = lambda p : goodness_one_image(dat,im,coeffs_from_altaz(loc,p[0],p[1],p[2],p[3],dim),if_print=False)[1]
-    print "    initial guesses for parameters: ",altaz_pars_to_str(par,printing)
-    par2 = par
-
-    free_roll = (tree_roll(im) is None) # OK to freely adjust the roll parameter
-
-    par2 = minimize(goodness,par2,delta,par_names,if_print=False,printing_funcs=printing,n_print=10,constraint=constr,allow=[True,True,free_roll,True])
-    if debug:
-      print "    final:"
-      goodness_one_image(dat,im,coeffs_from_altaz(loc,par2[0],par2[1],par2[2],par2[3],dim),if_print=True)
-
-    alt,az,roll,scale = par2
-    scale = scale
-    c = coeffs_from_altaz(loc,alt,az,roll,scale,dim)
-    coeff[label] = c
-    print "    improved parameters:            ",altaz_pars_to_str(par2,printing)
-    this_n,per_df,est_rescale,est_i_shift,est_j_shift = goodness_one_image(dat,im,c,if_print=True)
-    if not (this_n is None) and this_n>0:
-      if n==2:
-        print "    exact fit, only 2 x-y points to determine 4 parameters"
-      else:
-        rms = math.sqrt(per_df*n/(n-2.0)) # root mean square error, in pixels
-        pct = 100.0*rms/pythag2(dim[0],dim[1]) # as a percentage of image size
-        print "    n=",this_n,"  rms error=",int(rms)," pixels =",("%4.1f" % pct)," % of image size ~",int(rms/scale)," m"
-    ang_scale = angular_scale(loc,c) # radians per pixel
-    print "    distance = ",("%4.1f" % (dist/1000.0))," km"
-    print "    angular scale ~ ",("%.2e" % ang_scale)," pixels/radian = ",("%.2e" % deg_float(ang_scale))," pixels/degree"
-    max_angle = 0.5*pythag2(dim[0],dim[1])*ang_scale
-    print "    max angle ~",("%.2e" % max_angle)," radians = ",("%5.1f" % deg_float(max_angle))," deg"
-    print "    max theta^2 ~ ",("%.2e" % (max_angle**2/ang_scale))," pixels ~ ",("%.2e" % (max_angle**2/(ang_scale*scale)))," m"
-    #--------------
-    print "New code @@@@@@@@@@@@@@@@"
-    print "old=",c
     perspective = Ortho(alt,az,roll)
     fit_in,fit_out = gather_in_and_out_for_fit(dat,im)
     perspective.fit(fit_in,fit_out)
-    print "new=",perspective.c
+    pr[label] = perspective
+    print "  ",perspective
+  #------------ 
+  print "Calculating errors:"
+  for im in images:
+    label = im[0]
+    if not (label in pr):
+      continue
+    print "  ",label
+    perspective = pr[label]
+    i_obs = []
+    j_obs = []
+    i_pred = []
+    j_pred = []
+    for obs in dat:
+      p,im2,ij = obs
+      if im2!=im:
+        continue
+      if p["p"] is None:
+        continue
+      descr = p["name"]+", "+p["description"]
+      gps = p["p"]
+      pred = perspective.apply(gps)
+      err = [None,None]
+      err[0] = pred[0]-ij[0]
+      err[1] = pred[1]-ij[1]
+      i_obs.append(ij[0])
+      j_obs.append(ij[1])
+      i_pred.append(pred[0])
+      j_pred.append(pred[1])
+      print "    obs=(%4d,%4d), pred=(%4d,%4d), err=(%4d,%4d) %s" % (ij[0],ij[1],pred[0],pred[1],err[0],err[1],descr)
+    do_svg_error_arrows(im[0],im[4],find_image_file(im[1]),i_obs,j_obs,i_pred,j_pred)
 
 def gather_in_and_out_for_fit(dat,im):
   fit_in = []
@@ -344,80 +323,11 @@ def gather_in_and_out_for_fit(dat,im):
     fit_out.append(ij)
   return [fit_in,fit_out]
 
-def minimize(f,x_orig,dx_orig,names,if_print=False,printing_funcs=None,n_print=1,constraint=None,allow=None):
-  x = copy.copy(x_orig)
-  dx = copy.copy(dx_orig)
-  for iter in range(300):
-    for i in range(len(x)):
-      if not (allow is None) and not allow[i]:
-        continue # not allowed to adjust this parameter
-      improved,x2 = improve(f,x,dx,i,constraint)
-      if improved:
-        x=x2
-        dx[i]=dx[i]*1.1
-      else:
-        dx[i]=dx[i]*0.75
-    if if_print and iter%n_print==0:
-      print altaz_pars_to_str(x,printing_funcs),dx,("%8.6e" % math.sqrt(f(x)))
-  return x
-
 def altaz_pars_to_str(x,printing_funcs):
   xp = []
   for i in range(len(x)):
     xp.append(printing_funcs[i](x[i]))
   return str(xp)
-
-def improve(f,x,dx,i,constraint):
-  f0 = f(x)
-  # Try raising it:
-  x2 = copy.copy(x)
-  x2[i] = x2[i]+dx[i]
-  f2 = f(x2)
-  if f2<f0 and constraint(x2):
-    return [True,x2]
-  # Try lowering it:
-  x2 = copy.copy(x)
-  x2[i] = x2[i]-dx[i]
-  f2 = f(x2)
-  if f2<f0 and constraint(x2):
-    return [True,x2]
-  # No improvement:
-  return [False,x]
-
-def angular_scale(loc,c):
-  # Approximate angular scale, in radians per pixel, based on heart of rock and summit.
-  # This doesn't make sense for satellite view, both because I don't know how high the satellite is and because the two
-  # points will almost exactly line up from overhead.
-  # two lines of sight:
-  p1 = heart_of_rock()
-  p2 = summit_position()
-  los1 = sub_vectors(p1,loc)
-  los2 = sub_vectors(p2,loc)
-  angle = math.acos(dot_product(normalize(los1),normalize(los2)))
-  ij1 = gps_to_pixel(p1,c)
-  ij2 = gps_to_pixel(p2,c)
-  pixels = pythag2(ij1[0]-ij2[0],ij1[1]-ij2[1])
-  if angle<0.01:
-    return None # satellite view
-  else:
-    return angle/pixels
-
-def coeffs_from_altaz(loc,alt,az,roll,scale,dim):
-    # The constant terms are off by quite a bit. We correct them later as a side-effect of calling goodness_one_image(),
-    # which does a first pass in order to adjust them.
-    r = rotation_matrix(alt,az-math.pi/2.0,roll) # subtract 90 from az, because line of sight is z, to when az=0, x is south
-    a = scalar_mult_matrix(r,scale)
-    vs = -1.0 # pixel coordinates in the vertical direction are increasing downward
-    ic = [a[0][0],a[1][0],a[2][0]] # camera's basis vector pointing to the right
-    jc = [a[0][1],a[1][1],a[2][1]] # camera's basis vector pointing up
-    los = sub_vectors(heart_of_rock(),loc) # line of sight
-    i_const =    -dot_product(ic,los)+dim[0]/2.0
-    j_const = -vs*dot_product(jc,los)+dim[1]/2.0
-    c = [
-      [                ic,i_const],
-      [scalar_mult(jc,vs),j_const]
-    ]
-    return c
 
 def pix(dat,p,im,i,j):
   # (i,j) = pixel coordinates with respect to top left (the convention used in gimp)
@@ -479,71 +389,6 @@ def count_observations(dat,im):
       continue
     n = n+1
   return n
-
-def goodness_one_image(dat,im,c,if_print):
-  # Modifies c.
-  this_n,per_df,est_rescale,est_i_shift,est_j_shift = goodness_one_image_one_pass(dat,im,c,False)
-  if this_n==0:
-    return [this_n,per_df,est_rescale,est_i_shift,est_j_shift]
-  c[0][1] += est_i_shift
-  c[1][1] += est_j_shift
-  this_n,per_df,est_rescale,est_i_shift,est_j_shift = goodness_one_image_one_pass(dat,im,c,if_print)
-  return [this_n,per_df,est_rescale,est_i_shift,est_j_shift]
-
-def goodness_one_image_one_pass(dat,im,c,if_print):
-  i_obs = []
-  j_obs = []
-  i_pred = []
-  j_pred = []
-  sum_sq = 0.0
-  n = 0
-  for obs in dat:
-    p,im2,ij = obs
-    if im2!=im:
-      continue
-    if p["p"] is None:
-      continue
-    gps = p["p"]
-    descr = p["name"]+", "+p["description"]
-    obs = []
-    pred = []
-    err = []
-    coords_pred = gps_to_pixel(gps,c)
-    for coord in range(2):
-      co_obs = ij[coord]
-      obs.append(co_obs)
-      co_pred = coords_pred[coord]
-      pred.append(co_pred)
-      err.append(co_pred-co_obs)
-      sum_sq = sum_sq+(co_pred-co_obs)*(co_pred-co_obs)
-    n = n+1
-    i_obs.append(obs[0])
-    j_obs.append(obs[1])
-    i_pred.append(pred[0])
-    j_pred.append(pred[1])
-    if if_print:
-      print "    obs=(%4d,%4d), pred=(%4d,%4d), err=(%4d,%4d) %s" % (obs[0],obs[1],pred[0],pred[1],err[0],err[1],descr)
-  if n==0:
-    return [None,None,1.0,0.0,0.0]
-  if True:
-    do_svg_error_arrows(im[0],im[4],find_image_file(im[1]),i_obs,j_obs,i_pred,j_pred)
-  if n>=2:
-    z = std_dev(i_pred)**2+std_dev(j_pred)**2
-    est_rescale = math.sqrt((std_dev(i_obs)**2+std_dev(j_obs)**2)/z)
-  else:
-    est_rescale = 1.0
-  est_i_shift = avg(i_obs)-avg(i_pred)
-  est_j_shift = avg(j_obs)-avg(j_pred)
-  return [n,sum_sq/n,est_rescale,est_i_shift,est_j_shift]
-
-def gps_to_pixel(gps,c):
-  ij = []
-  for coord in range(2):
-    co_pred = c[coord][1]
-    for m in range(3):
-      co_pred = co_pred + c[coord][0][m]*gps[m]
-    ij.append(co_pred)
-  return ij
 
 def do_svg_error_arrows(label,dim,filename,i_obs,j_obs,i_pred,j_pred):
   svg_code = """
