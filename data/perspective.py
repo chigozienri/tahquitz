@@ -53,12 +53,9 @@ class Ortho:
       j1.append(out[1])
     if what==1: # scale only
       s = math.sqrt((std_dev(i1)**2+std_dev(j1)**2)/(std_dev(i0)**2+std_dev(j0)**2))
-      print "s=",s # qwe
       for m in range(2):
         for n in range(3):
-          print "  was ",self.c[m][0][n] # qwe
           self.c[m][0][n] = self.c[m][0][n]*s
-          print "  now ",self.c[m][0][n] # qwe
       return
     if what==2: # translation only
       self.c[0][1] = avg(i1)-avg(i0)

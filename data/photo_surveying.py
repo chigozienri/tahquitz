@@ -78,7 +78,6 @@ def init():
 
   # If adding a new image to this list, add its size to the cached list of sizes inside get_image_size(); otherwise
   # it will be horribly slow.
-  im00 = image(images,"00","00_satellite",is_satellite=True)
   im01 = image(images,"01","01_northeast_from_saddle_jct",loc="530291 3737145 2469",loc_err=[1000,1000])
   im05 = image(images,"05","05_north_side_from_saddle_jct",loc="530300 3737500 2606",loc_err=[200,1000])
   im10 = image(images,"10","10_north_face_from_old_devils_slide_trail",loc="529854 3737073 2353",loc_err=[200,200])
@@ -89,7 +88,6 @@ def init():
   im35 = image(images,"35","35_tahquitz_rock_from_pine_cove_ca",loc="524485 3734651 1829",loc_err=[200,400],tree_roll=7.8)
   im40 = image(images,"40","40_west_side_from_auto_parts_store",loc="525931 3733312 1508",loc_err=[30,30],tree_roll=0.5)
   im50 = image(images,"50","50_south_face_from_bottom_of_maxwell_trail",loc="527668 3733230 1754",loc_err=[30,30],tree_roll=1.0) # tree roll could be 0 to 2
-  im90 = image(images,"90","90_satellite_esri_clarity",is_satellite=True)
 
   #--------- Points with absolute positions measured by GPS:
 
@@ -99,10 +97,6 @@ def init():
   pix(dat,p,im10,2284,1675)
 
   p = point("summit",[347.0,623.0,2439.0],"summit")
-  pix(dat,p,im00,3154,2320)
-  # ...identified by shadow of summit block and in relation to overhangs on northeast and big crag to the west
-  #    This doesn't give correct coordinates when I put it through the inverse transformation. I think that actually
-  #    means that the inverse transformation is wrong. Unfortunately I can't make out this point on the ESRI image.
   pix(dat,p,im01,2010,326)
   pix(dat,p,im05,2145,360)
   pix(dat,p,im10,2493,280)
@@ -176,11 +170,7 @@ def init():
   pix(dat,p,im10,1656,1595)
   pix(dat,p,im15,2721,3234)
 
-  p = point("el-whampo-0",[510,782,2163],"foot of class 4/easy 5th gully that is the first easy pitch of El Whampo")
-  pix(dat,p,im00,4690,1230) # x may be off
-
   p = point("dead-tree-at-top-of-gendarme",[420,623,2378],"at end of larks, the dead tree that's visually prominent from below; extremely precise location of branch in 01, 05, and 10; GPS hanging from branch on climber's left; tree is about 10 m to the left of the final belay inside the gully; ")
-  pix(dat,p,im00,4047,2337) # x and y uncertain by 10 pixels, tree itself not actually visible, estimated from position relative to rocks; compared to GPS, comes out pretty close, err=(-1 m,-7 m), which may be identification of point or calibration of google's projection
   pix(dat,p,im01,515,1232)
   pix(dat,p,im05,1132,1043)
   pix(dat,p,im10,1255,1016)
@@ -198,38 +188,28 @@ def init():
 
 
   p = point("prow-near-dead-tree-at-top-of-gendarme",None,"rock prow, 135 degree angle, 5-10 m to left of dead tree at top of larks, accurately locatable in satellite photos; tried to identify this while there, and couldn't")
-  pix(dat,p,im00,4134,2287)
   pix(dat,p,im01,366,1425)
   pix(dat,p,im05,1031,1174)
   pix(dat,p,im10,1122,1160)
 
 
   p = point("friction-descent-boulder",None,"top/center of crack in split, house-size boulder at top of friction descent, surrounded by brush")
-  pix(dat,p,im00,2618,2567)
-  pix(dat,p,im90,3012,5407)
   pix(dat,p,im35,1818,1014) # desired point slightly obscured, guessing at exact height
   pix(dat,p,im40,1665,649)
   pix(dat,p,im50,1780,1107)
 
   p = point("lunch-rock",None,"top/center of lunch rock")
-  pix(dat,p,im00,1545,2189)
-  pix(dat,p,im90,1581,4973)
   pix(dat,p,im35,1114,3086)
 
   p = point("lunch-rock-clearing",None,"second large open space west of lunch rock; likely accurate DEM because of flat ground")
-  pix(dat,p,im00,608,2712)
-  pix(dat,p,im90,615,5385)
   pix(dat,p,im35,1699,3883)
 
   p = point("square-flake-inside-lambda",None,"corner of distinctive square flake in the middle of the Northeast Face lambda")
-  pix(dat,p,im00,4078,1497)
   pix(dat,p,im01,1028,3886)
   pix(dat,p,im05,1480,2893)
   pix(dat,p,im15,930,5166) # could be off by (-70,-70) pixels, but I think this is actually it
-  pix(dat,p,im90,4151,4293)
 
   p = point("jensens-jaunt-5",None,"north/top tip of boulder at end of Jensen's Jaunt, final slab pitch; z from DEM")
-  pix(dat,p,im00,1978,2846)
   pix(dat,p,im05,3182,1310)
   pix(dat,p,im10,4092,1459)
   pix(dat,p,im15,9428,3364)
@@ -268,35 +248,6 @@ def init():
 def analyze():
   images,dat = init()
   coeff = {}
-  # Transformation from UTM to satellite pixels was done by method described in notes and code in subdirectory satellite:
-  coeff['00'] = [
-    [[8.38053607, -0.69082108, 0.0],962.506047077437],
-    [[-0.02427133, -8.11101721, 0.0],7342.9289958528725]
-  ]
-  # ... doesn't work very well, because the projection isn't affine. The horizontal scale varies by ~5-10% between top and bottom of my image.
-  coeff['90'] = [
-    [[8.088, 0.0, 0.0],629.8],
-    [[0, -8.080, 0.0],10108.0]
-  ]
-  #------
-  print "UTM coordinates inferred from satellite images"
-  for im in images:
-    if not is_satellite(im):
-      continue
-    print "  ",im[1] # filename
-    for obs in dat:
-      p,im2,ij = obs
-      if im2!=im:
-        continue
-      label = im[0]
-      c = coeff[label]
-      descr = p["name"]+", "+p["description"]
-      x,y = satellite_pixel_to_utm(ij,c)
-      print "    ",x,y," ",descr
-      if not (p["p"] is None):
-        # We also have a direct GPS fix:
-        gps = p["p"]
-        print "        direct GPS fix:",gps
   #------------ 
   print "Lines of sight (camera to rock, azimuth defined ccw from E):"
   for im in images:
@@ -311,8 +262,6 @@ def analyze():
   #------------ 
   print "Determining coefficients for ground-based images to what we expect from mapping, then optimizing orientation and scale:"
   for im in images:
-    if is_satellite(im):
-      continue
     label = im[0]
     loc = im[2]
     dim = im[4] # [w,h] of image, in pixels
@@ -393,7 +342,6 @@ def gather_in_and_out_for_fit(dat,im):
     gps = p["p"]
     fit_in.append(gps)
     fit_out.append(ij)
-  print "in,out=",fit_in,fit_out # qwe
   return [fit_in,fit_out]
 
 def minimize(f,x_orig,dx_orig,names,if_print=False,printing_funcs=None,n_print=1,constraint=None,allow=None):
@@ -494,7 +442,7 @@ def tree_roll(im):
 
 def get_image_size(filename,dim):
   # dim can be 'w' or 'h'
-  cached_sizes = {"00_satellite":[6688, 4624],
+  cached_sizes = {
     "01_northeast_from_saddle_jct":[3077, 5357],
     "05_north_side_from_saddle_jct":[4512, 3664],
     "10_north_face_from_old_devils_slide_trail":[5280, 4720],
@@ -505,7 +453,6 @@ def get_image_size(filename,dim):
     "35_tahquitz_rock_from_pine_cove_ca":[3096, 4096],
     "40_west_side_from_auto_parts_store":[3157, 2983],
     "50_south_face_from_bottom_of_maxwell_trail":[3586, 3554],
-    "90_satellite_esri_clarity":[6758,7000]
     }
   if filename in cached_sizes:
     d = cached_sizes[filename]
@@ -597,25 +544,6 @@ def gps_to_pixel(gps,c):
       co_pred = co_pred + c[coord][0][m]*gps[m]
     ij.append(co_pred)
   return ij
-
-def satellite_pixel_to_utm(ij,coeffs):
-  i,j = ij
-  a,b,c = coeffs[0][0]
-  d = coeffs[0][1]
-  e,f,g = coeffs[1][0]
-  h = coeffs[1][1]
-  ii = i-d
-  jj = j-h
-  determ = a*f-b*e
-  x = (1.0/determ)*(f*ii-b*jj)
-  y = (1.0/determ)*(-e*ii+a*jj)
-  if False:
-    #-- testing: check that we can do a round-trip:
-    i2,j2 = gps_to_pixel([x,y,0.0],coeffs)
-    print "  @@ ",i,j
-    print "     ",x,y
-    print "     ",i2,j2
-  return [x,y]
 
 def do_svg_error_arrows(label,dim,filename,i_obs,j_obs,i_pred,j_pred):
   svg_code = """
