@@ -273,7 +273,10 @@ def analyze():
       continue
     print "  ",im[1] # filename
     los,dist,alt,az,roll = expected_aar(loc)
-    perspective = Ortho(alt,az,roll)
+    if False:
+      perspective = Ortho(alt,az,roll)
+    else:
+      perspective = Point(Ortho(alt,az,roll),loc)
     fit_in,fit_out = gather_in_and_out_for_fit(dat,im)
     perspective.fit(fit_in,fit_out)
     pr[label] = perspective
