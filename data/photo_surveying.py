@@ -81,13 +81,14 @@ def init():
   im01 = image(images,"01","01_northeast_from_saddle_jct",loc="530291 3737145 2469",loc_err=[1000,1000])
   im05 = image(images,"05","05_north_side_from_saddle_jct",loc="530300 3737500 2606",loc_err=[200,1000])
   im10 = image(images,"10","10_north_face_from_old_devils_slide_trail",loc="529854 3737073 2353",loc_err=[200,200])
-  im15 = image(images,"15","15_panorama_from_low_on_devils_slide",loc="529129 3736244 1999",loc_err=[600,600])
+  im15 = image(images,"15","15_panorama_from_low_on_devils_slide",loc="529129 3736244 1999",loc_err=[600,600],fudge_altaz=[-20,10])
   im20 = image(images,"20","20_northwest_face_from_deer_springs_slabs",loc="525884 3735229 1780",loc_err=[300,1000],tree_roll=7.5)
   im25 = image(images,"25","25_northwest_face_from_suicide_junction",loc="526901 3736497 2100",loc_err=[50,50],tree_roll=-1.0)
   im30 = image(images,"30","30_from_fern_valley",loc="527612 3735142 1731",loc_err=[30,30])
   im35 = image(images,"35","35_tahquitz_rock_from_pine_cove_ca",loc="524485 3734651 1829",loc_err=[200,400],tree_roll=7.8)
   im40 = image(images,"40","40_west_side_from_auto_parts_store",loc="525931 3733312 1508",loc_err=[30,30],tree_roll=0.5)
   im50 = image(images,"50","50_south_face_from_bottom_of_maxwell_trail",loc="527668 3733230 1754",loc_err=[30,30],tree_roll=1.0) # tree roll could be 0 to 2
+
 
   #--------- Points with absolute positions measured by GPS:
 
@@ -273,11 +274,16 @@ def analyze():
       continue
     print "  ",im[1] # filename
     los,dist,alt,az,roll = expected_aar(loc)
-    if False:
-      perspective = Ortho(alt,az,roll)
-    else:
-      perspective = Point(Ortho(alt,az,roll),loc)
+    fudge_altaz = im[7]
+    alt = alt+rad(fudge_altaz[0])
+    az = az+rad(fudge_altaz[1])
     fit_in,fit_out = gather_in_and_out_for_fit(dat,im)
+    method = 2
+    if method==1:
+      perspective = Ortho(alt,az,roll)
+    if method==2:
+      o = Ortho(alt,az,roll)
+      perspective = Point(o,loc)
     perspective.fit(fit_in,fit_out)
     pr[label] = perspective
     print "  ",perspective
@@ -336,14 +342,14 @@ def pix(dat,p,im,i,j):
   # (i,j) = pixel coordinates with respect to top left (the convention used in gimp)
   dat.append([p,im,[float(i),float(j)]])
 
-def image(list,label,filename,loc=None,loc_err=None,is_satellite=False,tree_roll=None):
+def image(list,label,filename,loc=None,loc_err=None,is_satellite=False,tree_roll=None,fudge_altaz=[0.0,0.0]):
   # The optional loc argument is the UTM coords of the camera, and loc_err=[x,y] is an estimate of the possible error in the horizontal coordinates.
   # The parameter tree_roll is to fix the roll parameter. If the trees lean left by 3 degrees, this parameter is 3. Often the lean of the trees
   # various obviously from left to right, a sign of aberration/projection; if so, then this is the estimate of the angle near the center of the field.
   w,h = [get_image_size(filename,'w'),get_image_size(filename,'h')]
   if not (tree_roll is None):
     tree_roll = rad(tree_roll)
-  im = [label,filename,utm_input_convenience(loc),loc_err,[w,h],is_satellite,tree_roll]
+  im = [label,filename,utm_input_convenience(loc),loc_err,[w,h],is_satellite,tree_roll,fudge_altaz]
   list.append(im)
   return im
 

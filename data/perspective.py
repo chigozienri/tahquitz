@@ -11,6 +11,7 @@ class Perspective:
     return [ij[0],ij[1]]
 
   def fit(self,fit_in,fit_out,what=0):
+    # Adjust the final scale and translation to fit a list of observations.
     # fit_in = list of xyz coords of points
     # fit_out = list of ij coords of pixels that we want those to map to
     # what = 0 to fit both scale and translation, 1 for scale (to be done first), 2 for translation
@@ -26,10 +27,10 @@ class Perspective:
     j1 = []
     for m in range(len(fit_in)):
       i,j = self.apply(fit_in[m])
-      i0.append(i)
+      i0.append(i) # i0,j0 = predicted
       j0.append(j)
       out = fit_out[m]
-      i1.append(out[0])
+      i1.append(out[0]) # i1,j1 = observed
       j1.append(out[1])
     if what==1: # scale only
       s = math.sqrt((std_dev(i1)**2+std_dev(j1)**2)/(std_dev(i0)**2+std_dev(j0)**2))
@@ -51,7 +52,7 @@ class Point(Perspective):
     self.trans = [0.0,0.0]
 
   def __str__(self):
-    return str(self.ortho)+"\n"+("loc=%9.4f %9.4f %9.4f" % (self.loc[0],self.loc[1],self.loc[2]))
+    return str(self.ortho)+"\n"+("loc=%9.4f %9.4f %9.4f" % (self.loc[0],self.loc[1],self.loc[2]))+"\n"+("scale=%9.4f trans=%9.4f %9.4f" % (self.scale,self.trans[0],self.trans[1]))
 
   def apply(self,xyz):
     # override class method; 3rd component wouldn't make sense, so no apply3()
