@@ -1,5 +1,6 @@
 import copy,math,subprocess,re
 from geom import *
+from perspective import *
 
 # State as of 2019 jul 22:
 #   Implemented two methods of finding the mapping from GPS coords to pixel coords. The first is a totally free linear
@@ -372,6 +373,28 @@ def analyze():
     max_angle = 0.5*pythag2(dim[0],dim[1])*ang_scale
     print "    max angle ~",("%.2e" % max_angle)," radians = ",("%5.1f" % deg_float(max_angle))," deg"
     print "    max theta^2 ~ ",("%.2e" % (max_angle**2/ang_scale))," pixels ~ ",("%.2e" % (max_angle**2/(ang_scale*scale)))," m"
+    #--------------
+    print "New code @@@@@@@@@@@@@@@@"
+    print "old=",c
+    perspective = Ortho(alt,az,roll)
+    fit_in,fit_out = gather_in_and_out_for_fit(dat,im)
+    perspective.fit(fit_in,fit_out)
+    print "new=",perspective.c
+
+def gather_in_and_out_for_fit(dat,im):
+  fit_in = []
+  fit_out = []
+  for obs in dat:
+    p,im2,ij = obs
+    if im2!=im:
+      continue
+    if p["p"] is None:
+      continue
+    gps = p["p"]
+    fit_in.append(gps)
+    fit_out.append(ij)
+  print "in,out=",fit_in,fit_out # qwe
+  return [fit_in,fit_out]
 
 def minimize(f,x_orig,dx_orig,names,if_print=False,printing_funcs=None,n_print=1,constraint=None,allow=None):
   x = copy.copy(x_orig)
