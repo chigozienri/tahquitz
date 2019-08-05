@@ -1202,6 +1202,73 @@ The exit on the right consists of class 4 ledges.
 
 %=================================================================================
 
+
+<% climb("Northeast Rib","5.6") %>
+
+\warn{I have only done this route once. Vogel and Wiltz both describe it in vague terms,
+as a make-your-own-adventure climb. The climbing was considerably harder than I
+would have expected from Vogel's 5.0 rating, so it could be that we didn't find the
+easiest route. I haven't done P5.}
+
+\topo{0.4}{northeast_rib}
+
+On the extreme northeast side of the rock are two large, right-facing dihedrals.
+The larger one on the right is Northeast Farce. The smaller one on the left forms
+part of the northeast rib. The start of the climb is marked by a 6-foot-diameter tree
+and the distinctive El Grandote overhang to the right.
+
+Pro to 2". FA John and Ruth Mendenhall, 1940.
+
+\somespace
+
+\pitch{1} To  the left of the El Grandote arch is a gully with a headwall at the top
+formed by a bus-sized boulder. 
+Head up this gully, but
+before the climbing becomes 5th class, exit left into easier climbing up a series
+of ledges. A hip belay may be desirable
+for one short section that is somewhat exposed. Finish on top of the bus-sized boulder.
+4th class.
+
+\variation{1} Go straight up the gully and pass around the boulder on the right. 5th class.
+
+\pitch{2} Head up and left on scrambling terrain, which quickly becomes a class 5 chimney
+with brush growing in it. A 5.6 crux can be well protected. Continue to a small ledge
+with a pine tree. 50 m, mostly 4th or easy 5th, but with some harder moves.
+
+\pitch{3} Up and left on 3rd/4th class terrain to a ledge that may be the ``Large Ledge'' referred to by Vogel.
+Continue directly up the Northeast Rib dihedral. Two parallel cracks run up the dihedral,
+varying from hand width to squeeze chimney. The angle varies greatly, from low-angle to
+overhanging. The overhanging crux, 5.7, is at the bottom of a large bulge. Protection and
+rock quality are good, but there are lots of pine needles. Near the top of the pitch, the
+dihedral tapers off. Here a squeeze chimney forms a second crux. After the squeeze chimney,
+exit left to a small pine tree. Hanging belay at the pine tree or gear belay above it
+at a small, sloping ledge at the bottom of orange-stained slabs. 57 m, 5.6.
+
+\pitch{4} Continue up the orange slabs, then bushwhack left through chinquapins at the rib's crest.
+Continue traversing down off of the crest, through
+a tunnel, and into a shady, fairy-wonderland refuge inside a giant tree. From here it is
+a short, easy scramble down to a point on the North Gully trail, just below the turn-off
+below the slabs. 20 m, class 4.
+
+\pitch{5} A 5th pitch looks possible, but I don't know if it goes because we didn't try it.
+Above the chinquapins, back on the crest of the rib, is a big area of low-angle slabs
+with lots and lots of huge knobs and other features. From where we were, the climbing
+looked like 5.0, but there did not seem to be any pro. Photos show what looks like a crack
+going straight up the crest, through the middle of the slabs, but we couldn't verify that
+from where we were or tell whether it would take gear. A low-angle area with a tree on the left might be a possible belay.
+Photos make it look like it would not be easy to downclimb from this spot to the north
+gully, so one might then be committed to a 6th pitch up to the apex of the rib. I haven't
+verified whether it's easy to downclimb off of the apex.
+
+
+\somespace
+
+\northgully
+
+
+%=================================================================================
+
+
 <% climb("The Trough","5.3") %>
 
 \topo{0.3}{trough}
