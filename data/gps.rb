@@ -41,7 +41,7 @@ def main()
   # I got coords for the dead tree at the top, but not the final belay at the top of the gully.
   gps(382,760,2217,NAD83,'west_lark',1,'first belay ledge')
   gps(382,735,2251,NAD83,'west_lark',2,'middle/left of a set of 4-5 ledges')
-  gps(388,714,2279,NAD83,'west_lark',3,'1 m above the gap in the overlaps; ad hoc combo of the z that I believe from my GPS and the x,y that I believe from Bethany's')
+  gps(388,714,2279,NAD83,'west_lark',3,'1 m above the gap in the overlaps; ad hoc combo of the z that I believe from my GPS and the x,y that I believe from Bethany\'s')
   # mine = (370,729,2279), about 15 m too far west compared to the line of the climb
   # hers = (388,714,2266), about 15 m too low in elevation compared to belays 2 and 4; comes immediately after a 15 min gap in data, unclear if correct time
   gps(391,685,2305,NAD83,'west_lark',4,'half-way up the dihedral')
@@ -58,8 +58,14 @@ def main()
   # Bethany's fix from belaying was 377,768,2188, y would make pitch 1 much too steep.
 
   gps(510,782,2163,NAD83,'el_whampo',0,'foot of class 4/easy 5th gully that is the first easy pitch of El Whampo')
-  #gps(439,786,2158,NAD83,'northeast_face_east',0,'trail directly below the dihedral')
-  # ... this seems wildly off in x in satellite image; I think this may have been NE face W rather than NE face E
+  gps(488,715,2235,NAD83,'el_whampo',1,'on top of huge boulder, south of pine tree and at same height as middle of the tree')
+  gps(439,786,2158,NAD83,'northeast_face_east',0,'trail directly below the dihedral')
+
+  # 2019 aug 4, NE rib with lara
+  # Belay 1 is same as belay 1 of El Whampo.
+  gps(496,685,2263,NAD83,'northeast_rib',2,'small ledge with pine tree, to the right of the right-facing diheadral')
+  gps(487,687,2318,NAD83,'northeast_rib',3,'sloping ledge on bottom right of orange rock, just above small pine tree, at end of right-facing dihedral')
+  gps(503,654,2319,NAD83,'northeast_rib',4,'huge tree growing in niche above north gully, above the wooded area on NE rib and at same elevation as bottom of slabs in north gully')
 
   x,y,z = summit_position()
   print "DEM gives summit elevation = #{dem(x,y)}, should be #{z}\n"

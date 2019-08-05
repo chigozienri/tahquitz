@@ -81,7 +81,7 @@ def init():
   im01 = image(images,"01","01_northeast_from_saddle_jct",loc="530291 3737145 2469",loc_err=[1000,1000])
   im05 = image(images,"05","05_north_side_from_saddle_jct",loc="530300 3737500 2606",loc_err=[200,1000])
   im10 = image(images,"10","10_north_face_from_old_devils_slide_trail",loc="529854 3737073 2353",loc_err=[200,200])
-  im15 = image(images,"15","15_panorama_from_low_on_devils_slide",loc="529129 3736244 1999",loc_err=[600,600],fudge_altaz=[-20,10])
+  im15 = image(images,"15","15_panorama_from_low_on_devils_slide",loc="529121 3736249 2002",loc_err=[10,10],fudge_altaz=[-20,10])
   im20 = image(images,"20","20_northwest_face_from_deer_springs_slabs",loc="525884 3735229 1780",loc_err=[300,1000],tree_roll=7.5)
   im25 = image(images,"25","25_northwest_face_from_suicide_junction",loc="526901 3736497 2100",loc_err=[50,50],tree_roll=-1.0)
   im30 = image(images,"30","30_from_fern_valley",loc="527612 3735142 1731",loc_err=[30,30])
@@ -174,6 +174,18 @@ def init():
   pix(dat,p,im05,1132,1043)
   pix(dat,p,im10,1255,1016)
   pix(dat,p,im15,2570,2250)
+
+  p = point("el-whampo-1",[488,715,2235],"on top of huge boulder, south of pine tree and at same height as middle of the tree")
+  pix(dat,p,im05,753,3118)
+
+  p = point("northeast-rib-2",[496,685,2263],"small ledge with pine tree, to the right of the right-facing diheadral")
+  pix(dat,p,im05,567,2684)
+
+  p = point("northeast-rib-3",[487,687,2318],"sloping ledge on bottom right of orange rock, just above small pine tree, at end of right-facing dihedral")
+  pix(dat,p,im05,599,2088)
+
+  p = point("northeast-rib-4",[503,654,2319],"huge tree growing in niche above north gully, above the wooded area on NE rib and at same elevation as bottom of slabs in north gully")
+  pix(dat,p,im05,491,1901) # inside tree, position uncertain by 20 pixels
 
   #--------- Points without absolute positions measured by GPS:
 
