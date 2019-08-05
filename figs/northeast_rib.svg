@@ -7,7 +7,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="210mm"
@@ -58,7 +57,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.77606493"
-     inkscape:cx="164.77411"
+     inkscape:cx="1449.4604"
      inkscape:cy="538.2024"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -86,16 +85,6 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <image
-       sodipodi:absref="/home/bcrowell/a/05_north_side_from_saddle_jct.jpg"
-       y="169.03024"
-       x="137.02057"
-       id="image1238"
-       xlink:href="file:///home/bcrowell/a/05_north_side_from_saddle_jct.jpg"
-       preserveAspectRatio="none"
-       height="333.60568"
-       width="410.8157"
-       transform="rotate(-15.346596)" />
     <path
        style="opacity:1;vector-effect:none;fill:#c2c2c2;fill-opacity:1;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none"
        d="m 53.029471,137.26148 c -1.207325,2.13604 -1.857425,3.80773 -0.278614,4.27208 1.578811,0.46436 5.38653,3.25049 5.758016,1.85743 0.371485,-1.39307 3.064751,-3.43624 1.207325,-4.08634 -1.857422,-0.6501 -4.55069,-2.69326 -5.015044,-2.69326 -0.464357,0 -1.671683,0.65009 -1.671683,0.65009 z"
