@@ -79,7 +79,7 @@ def init():
   # If adding a new image to this list, add its size to the cached list of sizes inside get_image_size(); otherwise
   # it will be horribly slow.
   im01 = image(images,"01","01_northeast_from_saddle_jct",loc="530291 3737145 2469",loc_err=[1000,1000])
-  im05 = image(images,"05","05_north_side_from_saddle_jct",loc="530300 3737500 2606",loc_err=[200,1000])
+  im05 = image(images,"05","05_north_side_from_saddle_jct",loc="530300 3737500 2606",loc_err=[200,1000],fudge_altaz=[12,0])
   im10 = image(images,"10","10_north_face_from_old_devils_slide_trail",loc="529854 3737073 2353",loc_err=[200,200])
   im15 = image(images,"15","15_panorama_from_low_on_devils_slide",loc="529121 3736249 2002",loc_err=[10,10],fudge_altaz=[-20,10])
   im20 = image(images,"20","20_northwest_face_from_deer_springs_slabs",loc="525884 3735229 1780",loc_err=[300,1000],tree_roll=7.5)

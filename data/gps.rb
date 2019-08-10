@@ -57,7 +57,7 @@ def main()
   # My fix from hike with dogs was 388,797,2174, whose z is too low by about 20 m based on coords of belay 1 and 30 m length of pitch
   # Bethany's fix from belaying was 377,768,2188, y would make pitch 1 much too steep.
 
-  gps(510,782,2163,NAD83,'el_whampo',0,'foot of class 4/easy 5th gully that is the first easy pitch of El Whampo')
+  gps(510,782,2163,NAD83,'el_whampo',0,'foot of class 4/easy 5th gully that is the first easy pitch of El Whampo; x coordinate seems too big by 30 m')
   gps(488,715,2235,NAD83,'el_whampo',1,'on top of huge boulder, south of pine tree and at same height as middle of the tree')
   gps(439,786,2158,NAD83,'northeast_face_east',0,'trail directly below the dihedral')
 
