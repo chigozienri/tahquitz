@@ -44,7 +44,7 @@ def main()
   gps(388,714,2279,NAD83,'west_lark',3,'1 m above the gap in the overlaps; ad hoc combo of the z that I believe from my GPS and the x,y that I believe from Bethany\'s')
   # mine = (370,729,2279), about 15 m too far west compared to the line of the climb
   # hers = (388,714,2266), about 15 m too low in elevation compared to belays 2 and 4; comes immediately after a 15 min gap in data, unclear if correct time
-  gps(391,685,2305,NAD83,'west_lark',4,'half-way up the dihedral')
+  gps(391,685,2305,NAD83,'west_lark',4,'half-way up the dihedral, not the higher belay on my topo')
   gps(404,645,2335,NAD83,'west_lark',5,'big belay ledge behind the table-sized flake')
   gps(420,623,2378,NAD83,'',-1,'the big, prominent dead tree about 10 m to the left of the final belay inside the gully; hanging from branch on climber\'s left')
 
