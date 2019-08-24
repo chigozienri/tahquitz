@@ -187,6 +187,73 @@ def init():
   p = point("northeast-rib-4",[503,654,2319],"huge tree growing in niche above north gully, above the wooded area on NE rib and at same elevation as bottom of slabs in north gully")
   pix(dat,p,im05,491,1901) # inside tree, position uncertain by 20 pixels
 
+  p = point("jensens-jaunt-5",[182,559,2349],"north/top tip of boulder at end of Jensen's Jaunt, final slab pitch")
+  # ... raw datum was [182,556,2349], estimated to  be 3 m south of north tip
+  pix(dat,p,im05,3182,1310)
+  pix(dat,p,im10,4092,1459)
+  pix(dat,p,im15,9428,3364)
+  pix(dat,p,im20,2650,1416)
+  pix(dat,p,im25,1720,630)
+  pix(dat,p,im30,1638,577)
+  pix(dat,p,im35,2103,1351)
+  pix(dat,p,im40,1443,964)
+  pix(dat,p,im50,1170,1410)
+
+  p = point("trough-3",None,"big pine tree at the top of the trough")
+  pix(dat,p,im05,3056,1274)
+  pix(dat,p,im10,3898,1392)
+  pix(dat,p,im15,8944,3228)
+  pix(dat,p,im20,2442,1384)
+  pix(dat,p,im25,1249,494)
+  pix(dat,p,im30,1548,611)
+  pix(dat,p,im35,1996,1312)
+  pix(dat,p,im40,1480,931)
+
+  p = point("fingertip-traverse-0",[110,531,2216],"on trail, at crack with succulents growing in it")
+  pix(dat,p,im20,3144,3531) # can't see exact spot, could be off by 50 pixels
+  pix(dat,p,im30,1738,2111) # can't see exact spot, could be off by 50 pixels
+  pix(dat,p,im35,2376,2834) # can't see exact spot, could be off by 50 pixels
+  pix(dat,p,im40,1057,2664) # decent view, only slightly obscured
+  # Didn't get GPS fix for ant tree, belay 1.
+  p = point("fingertip-traverse-2",[121,553,2276],"jungle ledge, on fingertip traverse, highest of the three small oak trees")
+  pix(dat,p,im20,2750,2880)
+  pix(dat,p,im25,2185,2709)
+  pix(dat,p,im30,1503,1639)
+  pix(dat,p,im35,2129,2393)
+  pix(dat,p,im40,1043,2151)
+  pix(dat,p,im50,470,2677)
+  p = point("fingertip-traverse-3",[142,561,2289],"small ledge before the traverse; intersection of two cracks in a Y")
+  pix(dat,p,im30,1445,1355)
+  pix(dat,p,im35,2041,2115)
+  pix(dat,p,im40,1070,1836)
+  pix(dat,p,im25,1930,2133)
+  pix(dat,p,im20,2601,2480)
+  p = point("fingertip-traverse-4",[166,578,2315],"lunch ledge")
+  pix(dat,p,im15,10107,4101) # view obscured by q-tip tree, could be off by 30 pixels
+  pix(dat,p,im20,2322,2055)
+  pix(dat,p,im25,1400,1440)
+  pix(dat,p,im30,1277,1055)
+  pix(dat,p,im35,1870,1800)
+  pix(dat,p,im40,1054,1508) # poor view, could be off by 20 pixels
+  p = point("fingertip-traverse-5",[174,569,2330],"flakes above oak trees, where the route forks into three variations")
+  pix(dat,p,im15,10007,3859)
+  pix(dat,p,im20,2468,1757)
+  pix(dat,p,im25,1568,1104)
+  pix(dat,p,im30,1426,846)
+  pix(dat,p,im35,1959,1622)
+  pix(dat,p,im40,1196,1268)
+  pix(dat,p,im50,865,1763)
+  p = point("fingertip-traverse-6",[183,555,2349],"oak tree above lunch ledge slabs, just a few feet to the right of end of the trough")
+  pix(dat,p,im15,9102,3280)
+  pix(dat,p,im20,2477,1392)
+  pix(dat,p,im25,1345,541)
+  pix(dat,p,im30,1544,614)
+  pix(dat,p,im35,2025,1336)
+  pix(dat,p,im40,1433,958)
+
+  p = point("lunch-rock",[112,629,2224],"top/center of lunch rock")
+  pix(dat,p,im35,1114,3086)
+
   #--------- Points without absolute positions measured by GPS:
 
   #p = point("west-lark-3",[370,729,2279],"1 m above the gap in the overlaps; ID on photos somewhat uncertain")
@@ -197,20 +264,10 @@ def init():
   pix(dat,p,im10,2130,2683)
   pix(dat,p,im15,2449,4431)
 
-
-  p = point("prow-near-dead-tree-at-top-of-gendarme",None,"rock prow, 135 degree angle, 5-10 m to left of dead tree at top of larks, accurately locatable in satellite photos; tried to identify this while there, and couldn't")
-  pix(dat,p,im01,366,1425)
-  pix(dat,p,im05,1031,1174)
-  pix(dat,p,im10,1122,1160)
-
-
-  p = point("friction-descent-boulder",None,"top/center of crack in split, house-size boulder at top of friction descent, surrounded by brush")
+  p = point("friction-descent-boulder",[249,590,2386],"top of split, house-size boulder at top of friction descent, surrounded by brush")
   pix(dat,p,im35,1818,1014) # desired point slightly obscured, guessing at exact height
-  pix(dat,p,im40,1665,649)
-  pix(dat,p,im50,1780,1107)
-
-  p = point("lunch-rock",None,"top/center of lunch rock")
-  pix(dat,p,im35,1114,3086)
+  pix(dat,p,im40,1625,617)
+  pix(dat,p,im50,1724,1072)
 
   p = point("lunch-rock-clearing",None,"second large open space west of lunch rock; likely accurate DEM because of flat ground")
   pix(dat,p,im35,1699,3883)
@@ -219,17 +276,6 @@ def init():
   pix(dat,p,im01,1028,3886)
   pix(dat,p,im05,1480,2893)
   pix(dat,p,im15,930,5166) # could be off by (-70,-70) pixels, but I think this is actually it
-
-  p = point("jensens-jaunt-5",None,"north/top tip of boulder at end of Jensen's Jaunt, final slab pitch; z from DEM")
-  pix(dat,p,im05,3182,1310)
-  pix(dat,p,im10,4092,1459)
-  pix(dat,p,im15,9428,3364)
-  pix(dat,p,im20,2650,1416)
-  pix(dat,p,im25,1720,630)
-  pix(dat,p,im30,1638,577)
-  pix(dat,p,im35,2103,1351)
-  pix(dat,p,im40,1443,964)
-  pix(dat,p,im50,1170,1410)
 
   p = point("trough-2",None,"pine tree ledge")
   pix(dat,p,im05,3131,1758)
