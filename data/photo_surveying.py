@@ -28,7 +28,6 @@ from perspective import *
 #   one from Pine Cove, are single frames rather than mosaics, but I have a paucity of data for them.
 #   I have some points that seem useful because they are visible on almost every photo:
 #     summit
-#     jensens-jaunt-5 (top of boulder)
 #     trough-2 (pine tree ledge)
 #     tall-tree-below-lunch-ledge (off route a little to the right, in 4th class terrain)
 #   It would be very helpful to get directly measured GPS coordinates, including z, for the remaining ones of these.
@@ -199,7 +198,7 @@ def init():
   pix(dat,p,im40,1443,964)
   pix(dat,p,im50,1170,1410)
 
-  p = point("trough-3",None,"big pine tree at the top of the trough")
+  p = point("trough-3",[202,568,2360],"big pine tree at the top of the trough")
   pix(dat,p,im05,3056,1274)
   pix(dat,p,im10,3898,1392)
   pix(dat,p,im15,8944,3228)
@@ -243,7 +242,8 @@ def init():
   pix(dat,p,im35,1959,1622)
   pix(dat,p,im40,1196,1268)
   pix(dat,p,im50,865,1763)
-  p = point("fingertip-traverse-6",[183,555,2349],"oak tree above lunch ledge slabs, just a few feet to the right of end of the trough")
+  p = point("fingertip-traverse-6",[199,568,2360],"oak tree above lunch ledge slabs, just a few feet to the right of end of the trough")
+  # GPS data point was clearly an error, was a dupe of jensens-jaunt-5. These coords are simply trough-3 plus a westward displacement of 3 m.
   pix(dat,p,im15,9102,3280)
   pix(dat,p,im20,2477,1392)
   pix(dat,p,im25,1345,541)
