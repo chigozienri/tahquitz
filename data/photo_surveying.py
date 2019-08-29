@@ -53,12 +53,6 @@ from perspective import *
 #    projecting perpendicularly onto a plane perpendicular to the central line of sight. Should switch this to something more physically
 #    reasonable such as a gnomonic (=tangent to sphere) or cylindrical projection. After that, can see if there are residual errors that
 #    require further modeling.
-#  Idea:
-#    Instead of screwing around with anything this complicated, a mathematically more elegant thing to do would probably be to simply postcompose
-#    my plane projection with a correction in which we simply scale (u,v)->(w0/w)(u,v), where w0 is a reference distance. This is simple and
-#    mathematically elegant, is similar to a perspectivity, https://en.wikipedia.org/wiki/Perspectivity#Perspective_collineations .
-#    Makes more distant things look smaller, gives vanishing points, etc. Easy to implement. Big advantage is that it's relatively easy to
-#    guess a reasonable value for w0 (distance to heart of rock) and then refine the scaling of the image.
 #  Notes on using UTM as an approximation to Cartesian coordinates:
 #    I verified by converting to Cartesian using proj4 library that UTM coordinates are orthogonal and isotropic to extremely good precision.
 #    The angle between x-hat and y-hat rounds to 90 degrees to within machine precision. Isotropy is good to |xhat|/|yhat|-1 < 3e-9.
@@ -81,7 +75,10 @@ def init():
   im05 = image(images,"05","05_north_side_from_saddle_jct",loc="530300 3737500 2606",loc_err=[200,1000],fudge_altaz=[12,0])
   im10 = image(images,"10","10_north_face_from_old_devils_slide_trail",loc="529854 3737073 2353",loc_err=[200,200])
   im15 = image(images,"15","15_panorama_from_low_on_devils_slide",loc="529121 3736249 2002",loc_err=[10,10],fudge_altaz=[-20,10])
-  im20 = image(images,"20","20_northwest_face_from_deer_springs_slabs",loc="525884 3735229 1780",loc_err=[300,1000],tree_roll=7.5)
+
+  #im20 = image(images,"20","20_northwest_face_from_deer_springs_slabs",loc="525884 3735229 1780",loc_err=[300,1000],tree_roll=7.5)
+  im20 = image(images,"20","20_northwest_face_from_deer_springs_slabs",loc="525884 3735229 1780",loc_err=[300,1000],tree_roll=7.5,fudge_altaz=[-10,0])
+
   im25 = image(images,"25","25_northwest_face_from_suicide_junction",loc="526901 3736497 2100",loc_err=[50,50],tree_roll=-1.0)
   im30 = image(images,"30","30_from_fern_valley",loc="527612 3735142 1731",loc_err=[30,30])
   im35 = image(images,"35","35_tahquitz_rock_from_pine_cove_ca",loc="524485 3734651 1829",loc_err=[200,400],tree_roll=7.8)
@@ -214,7 +211,8 @@ def init():
   pix(dat,p,im35,2376,2834) # can't see exact spot, could be off by 50 pixels
   pix(dat,p,im40,1057,2664) # decent view, only slightly obscured
   # Didn't get GPS fix for ant tree, belay 1.
-  p = point("fingertip-traverse-2",[121,553,2276],"jungle ledge, on fingertip traverse, highest of the three small oak trees")
+  p = point("fingertip-traverse-2",[121,553,2261],"jungle ledge, on fingertip traverse, highest of the three small oak trees")
+  # ... Original fix was [121,553,2276]. This z has to be wrong, can't just be 13 m below belay 3. Dropped it by 15 m to fit photo.
   pix(dat,p,im20,2750,2880)
   pix(dat,p,im25,2185,2709)
   pix(dat,p,im30,1503,1639)
