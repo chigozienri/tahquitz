@@ -6,6 +6,7 @@ class Perspective:
       raise Exception('Perspective is an abstract class and cannot be instantiated directly')
 
   def apply(self,xyz):
+    print "here I am in apply" # qwe
     # returns [i,j], throwing away k
     ij = self.apply3(xyz)
     return [ij[0],ij[1]]
@@ -60,7 +61,7 @@ class Point(Perspective):
     los = sub_vectors(xyz,self.loc) # line of sight from camera to point
     i0,j0,k0 = self.ortho.apply3(los)
     if k0<=0.0:
-      return None
+      raise Exception('point not in front of image plane in apply()')
     i = self.scale*i0/k0+self.trans[0]
     j = self.scale*j0/k0+self.trans[1]
     return [i,j]

@@ -41,6 +41,7 @@ from perspective import *
 #     roll = + means camera tilted cw, so trees in image tilt ccw
 #  Notes on aberration/projection:
 #    On most images, I can see that the trees in the bottom left and bottom right corners form lines that either converge or diverge in the upward direction.
+#    This seems to be a relatively minor effect; if it was major, then I would see errors that would depend strongly on r, but I don't.
 #    This is an indication of a common form of aberration/perspective distortion in photos. Expect the correction to be of the form
 #      r -> Ar+Br^3
 #    where r is distance from some point (i0,j0) which is the center of aberration. The A term is really just a rescaling by 1+A, but if scale has
@@ -49,10 +50,6 @@ from perspective import *
 #    can basically choose B to parallelize the trees, then readjust scale. Or could simply use my existing fitting routines to fit B as
 #    an additional parameter. On my error maps err_NN.svg, I'm seeing a combination of A and B, so can't just look at the error arrows and
 #    interpret them as a measure of B, and they don't necessarily converge at the center of aberration.
-#    Projection/perspective errors should be easy to partially eliminate simply by using a more reasonable projection. Currently I'm just
-#    projecting perpendicularly onto a plane perpendicular to the central line of sight. Should switch this to something more physically
-#    reasonable such as a gnomonic (=tangent to sphere) or cylindrical projection. After that, can see if there are residual errors that
-#    require further modeling.
 #  Notes on using UTM as an approximation to Cartesian coordinates:
 #    I verified by converting to Cartesian using proj4 library that UTM coordinates are orthogonal and isotropic to extremely good precision.
 #    The angle between x-hat and y-hat rounds to 90 degrees to within machine precision. Isotropy is good to |xhat|/|yhat|-1 < 3e-9.
@@ -71,10 +68,13 @@ def init():
 
   # If adding a new image to this list, add its size to the cached list of sizes inside get_image_size(); otherwise
   # it will be horribly slow.
-  im01 = image(images,"01","01_northeast_from_saddle_jct",loc="530291 3737145 2469",loc_err=[1000,1000])
+
+  im01 = image(images,"01","01_northeast_from_saddle_jct",loc="530291 3737145 2469",loc_err=[1000,1000],fudge_altaz=[14,0])
   im05 = image(images,"05","05_north_side_from_saddle_jct",loc="530300 3737500 2606",loc_err=[200,1000],fudge_altaz=[12,0])
   im10 = image(images,"10","10_north_face_from_old_devils_slide_trail",loc="529854 3737073 2353",loc_err=[200,200])
   im15 = image(images,"15","15_panorama_from_low_on_devils_slide",loc="529121 3736249 2002",loc_err=[10,10],fudge_altaz=[-20,10])
+  # ... projection is rather bad on west lark, good on rest of image; can improve the fit on west lark by raising the elevation by 100 m,
+  #     but then the rest of the fit gets worse
   im20 = image(images,"20","20_northwest_face_from_deer_springs_slabs",loc="525884 3735229 1780",loc_err=[300,1000],tree_roll=7.5,fudge_altaz=[-10,0])
   im25 = image(images,"25","25_northwest_face_from_suicide_junction",loc="526901 3736497 2100",loc_err=[50,50],tree_roll=-1.0)
   im30 = image(images,"30","30_from_fern_valley",loc="527612 3735142 1731",loc_err=[30,30],fudge_altaz=[-15,0])
@@ -301,18 +301,6 @@ def init():
 def analyze():
   images,dat = init()
   coeff = {}
-  #------------ 
-  print "Lines of sight (camera to rock, azimuth defined ccw from E):"
-  for im in images:
-    label = im[0]
-    print "  ",im[1] # filename
-    loc = im[2]
-    los,dist,alt,az,roll = expected_aar(loc)
-    if not (tree_roll(im) is None):
-      roll = tree_roll(im)
-    else:
-      roll = 0.0
-    print "    from mapping, azimuth=",deg(az),", alt=",deg(alt),", roll=",deg(roll),"  distance=",dist/1000.0," km"
   #------------
   pr = {} # hash of perspectives by label of image 
   print "Determining perspective mappings:"
@@ -331,6 +319,9 @@ def analyze():
     fudge_altaz = im[7]
     alt = alt+rad(fudge_altaz[0])
     az = az+rad(fudge_altaz[1])
+    if not (tree_roll(im) is None):
+      roll = tree_roll(im)
+    print "    azimuth=",deg(az),", alt=",deg(alt),", roll=",deg(roll),"  distance=",dist/1000.0," km"
     fit_in,fit_out = gather_in_and_out_for_fit(dat,im)
     method = 2
     if method==1:
@@ -403,6 +394,8 @@ def image(list,label,filename,loc=None,loc_err=None,is_satellite=False,tree_roll
   w,h = [get_image_size(filename,'w'),get_image_size(filename,'h')]
   if not (tree_roll is None):
     tree_roll = rad(tree_roll)
+  else:
+    tree_roll = 0.0
   im = [label,filename,utm_input_convenience(loc),loc_err,[w,h],is_satellite,tree_roll,fudge_altaz]
   list.append(im)
   return im
