@@ -99,8 +99,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.3574521"
-     inkscape:cx="58.078098"
-     inkscape:cy="651.22002"
+     inkscape:cx="-64.578164"
+     inkscape:cy="651.95669"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -2862,7 +2862,7 @@
          id="tspan2744"
          x="46.860188"
          y="61.852425"
-         style="stroke-width:0.26458332">var 3</tspan></text>
+         style="stroke-width:0.26458332">var 4</tspan></text>
     <g
        transform="translate(20.353193,-43.596486)"
        id="g14294-0">
@@ -2924,5 +2924,17 @@
          x="48.922844"
          y="109.49492"
          style="stroke-width:0.26458332">opt</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       x="-96.542595"
+       y="75.999718"
+       id="text1354"
+       transform="rotate(-72.080905)"><tspan
+         sodipodi:role="line"
+         id="tspan1352"
+         x="-96.542595"
+         y="75.999718"
+         style="stroke-width:0.26458332">var 3</tspan></text>
   </g>
 </svg>
