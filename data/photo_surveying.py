@@ -86,6 +86,30 @@ def init():
 
   #--------- Points with absolute positions measured by GPS:
 
+  p = point("trough-0",[187,634,2255],"start of The Trough")
+  pix(dat,p,im10,4447,2812)
+  pix(dat,p,im15,9170,5278)
+  
+  p = point("trough-2",[203,601,2320],"pine tree ledge") # average of two GPS fixes on same day; +-7 m on elevation
+  pix(dat,p,im05,3131,1758)
+  pix(dat,p,im10,4034,1919)
+  pix(dat,p,im15,8774,3910)
+  pix(dat,p,im20,1926,2113)
+  pix(dat,p,im25,519,1417)
+  pix(dat,p,im30,1106,1194)
+  pix(dat,p,im35,1666,1839)
+
+  p = point("trough-3",[204,568,2358],"big pine tree at the top of the trough") 
+  # ... x and z are average of [202,568,2360], [206,585,2356] from two different days; not sure I believe y of 2nd fix
+  pix(dat,p,im05,3056,1274)
+  pix(dat,p,im10,3898,1392)
+  pix(dat,p,im15,8944,3228)
+  pix(dat,p,im20,2442,1384)
+  pix(dat,p,im25,1249,494)
+  pix(dat,p,im30,1548,611)
+  pix(dat,p,im35,1996,1312)
+  pix(dat,p,im40,1480,931)
+
   p = point("uneventful-4",[366,662,2327],"left side of big J tree ledge")
   pix(dat,p,im01,1775,2130)
   pix(dat,p,im05,1967,1671)
@@ -193,16 +217,6 @@ def init():
   pix(dat,p,im40,1443,964)
   pix(dat,p,im50,1170,1410)
 
-  p = point("trough-3",[202,568,2360],"big pine tree at the top of the trough")
-  pix(dat,p,im05,3056,1274)
-  pix(dat,p,im10,3898,1392)
-  pix(dat,p,im15,8944,3228)
-  pix(dat,p,im20,2442,1384)
-  pix(dat,p,im25,1249,494)
-  pix(dat,p,im30,1548,611)
-  pix(dat,p,im35,1996,1312)
-  pix(dat,p,im40,1480,931)
-
   p = point("fingertip-traverse-0",[110,531,2216],"on trail, at crack with succulents growing in it")
   pix(dat,p,im20,3144,3531) # can't see exact spot, could be off by 50 pixels
   pix(dat,p,im30,1738,2111) # can't see exact spot, could be off by 50 pixels
@@ -272,15 +286,6 @@ def init():
   pix(dat,p,im01,1028,3886)
   pix(dat,p,im05,1480,2893)
   pix(dat,p,im15,930,5166) # could be off by (-70,-70) pixels, but I think this is actually it
-
-  p = point("trough-2",None,"pine tree ledge")
-  pix(dat,p,im05,3131,1758)
-  pix(dat,p,im10,4034,1919)
-  pix(dat,p,im15,8774,3910)
-  pix(dat,p,im20,1926,2113)
-  pix(dat,p,im25,519,1417)
-  pix(dat,p,im30,1106,1194)
-  pix(dat,p,im35,1666,1839)
 
   p = point("tall-tree-below-lunch-ledge",None,"tall q-tip pine tree on ledges above optional belay and below lunch ledge, to right of 4th class on Angel's Fright")
   pix(dat,p,im05,3406,1793)
