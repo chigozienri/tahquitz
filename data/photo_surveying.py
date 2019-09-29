@@ -110,6 +110,18 @@ def init():
   pix(dat,p,im35,1996,1312)
   pix(dat,p,im40,1480,931)
 
+  p = point("left-ski-track-0",[193,515,2282],"start of Left Ski Track, belaying at pine tree")
+  pix(dat,p,im40,2034,2057)
+  pix(dat,p,im50,1626,2565)
+
+  p = point("left-ski-track-2",[200,545,2321],"big ledge at bottom of arete")
+  pix(dat,p,im40,1834,1342)
+  pix(dat,p,im50,1552,1832)
+
+  p = point("left-ski-track-3",[185,553,2356],"tree at top")
+  pix(dat,p,im40,1582,1022)
+  pix(dat,p,im50,1323,1460)
+
   p = point("uneventful-4",[366,662,2327],"left side of big J tree ledge")
   pix(dat,p,im01,1775,2130)
   pix(dat,p,im05,1967,1671)
