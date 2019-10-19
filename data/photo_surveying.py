@@ -167,10 +167,25 @@ def init():
   pix(dat,p,im05,3131,2841)
   pix(dat,p,im10,4021,3010)
 
-  p = point("maiden-1",[245,698,2277],"mountain mahogany (could be wrong)")
+  p = point("maiden-1",[252,708,2272],"mountain mahogany")
+  # ... average of two measurements, [245,698,2277] and [258,718,2268]
   pix(dat,p,im05,3109,2476)
   pix(dat,p,im10,3965,2604)
   pix(dat,p,im15,6939,4052)
+
+  #p = point("maiden-3",[271,662,2310],"large prostrate oak tree on left side of ledge")
+  #pix(dat,p,im05,2882,1806)
+  #pix(dat,p,im10,3586,1822)
+  #pix(dat,p,im15,6624,2891)
+
+  p = point("maiden-4opt",[289,654,2358],"optional belay at ledge with mountain mahogany, 10 meters below the standard belay")
+  pix(dat,p,im05,2708,1370)
+  pix(dat,p,im10,3311,1323)
+  pix(dat,p,im15,6206,2090)
+
+  p = point("maiden-6",[269,634,2399],"mahogany at end of slabs")
+  pix(dat,p,im10,3349,834)
+  pix(dat,p,im15,6701,1396)
 
   p = point("west-lark-1",[382,760,2217],"first belay ledge; ID on photos very uncertain")
   pix(dat,p,im01,1957,4833)
