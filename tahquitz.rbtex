@@ -853,11 +853,11 @@ punctuated with some moves harder than people today expect on a 5.6.
 The hard moves are all well protected.  Grade inflation has caused
 guidebooks to lump together some much easier climbs such as Angel's
 Fright and Left Ski Track into the same grade with this climb. The
-bottom pitches are shared with Traitorhorn, the final ones with Coffin
+bottom pitches are shared with Traitor Horn, the final ones with Coffin
 Nail and On the Road. On weekends there tend to be traffic jams where
 all these climbs intersect.  Pro to 3-4".  FA Carl Jensen, Jim Smith, and Don
 McDonald, 1938. Chuck Wilts's guidebook says that the route was first
-climbed because someone fell off of the Traitorhorn route and decided
+climbed because someone fell off of the Traitor Horn route and decided
 to go around rather than reattempting the horn. 
 
 From Lunch Rock, head around to the foot of the southwest end of the
@@ -868,11 +868,13 @@ at about the same height as the first belay.  One of these walls is to
 the left (first belay of Coffin Nail) and one to the right (start of
 Turbo Flange).  From the trail, it is easy to identify the red-brown
 stain, the kidney-shaped flake, and the imposing overhangs of
-Traitorhorn, the latter seeming more prominent and higher up than they
+Traitor Horn, the latter seeming more prominent and higher up than they
 actually are.  Starting from the trail a little to the left of the
 route, scramble up to a start at a wooded ledge.
 
 \somespace
+
+% Descriptions of P1-3 are duplicated for Traitor Horn.
 
 \pitch{1} Climb through an oak tree and then traverse
 easy terrain to a belay near the rightmost of several trees.  4th class, 20 m
@@ -886,7 +888,7 @@ leader to get going on the next pitch. P2 and P3 can be linked up if desired. 5.
 \pitch{3} Climb a crack that leads up and left, narrowing from fists to hands. The first moves
 out of the alcove are strenuous. These are followed by an
 easier stretch, then a steeper section.  Continue to the lower
-left corner of the Traitorhorn overhangs. Hanging belay (small gear) on a spacious
+left corner of the Traitor Horn overhangs. Hanging belay (small gear) on a spacious
 slope. 5.6
 
 \pitch{4} Move up and around to the left, to an attention-getting
@@ -1309,6 +1311,86 @@ Gully.
 
 \northgully
 
+
+%=====================================================================
+
+<% climb("Traitor Horn","5.8") %>
+
+\topo{0.35}{traitor_horn}
+
+Mostly 5.6 climbing, with a 5.8 crux. The crux is beta-dependent and
+can be confusing to climb, protect, and follow. The pro for the crux is all to
+the left of the actual climbing, which the follower can't see from the
+belay, so make sure the follower understands what to do. Don't be misled
+by online photos of show-offs by dangling from the horn by
+one hand --- this isn't actually necessary.
+
+The bottom pitches are shared with Jensen's Jaunt, and also intersect
+with Coffin Nail and On the Road. On weekends there tend to be traffic jams where all
+these climbs come together. Pro to 3".  FA Jim Smith, Arthur Johnson,
+and M.~Holton, 1938. FFA Roy Gorin and William Shand, 1941.
+
+From Lunch Rock, head around to the foot of the southwest end of the
+rock.  The start of the climb lies in the general area to the right of
+Fingertip Traverse and to the left of the gigantic right-facing
+dihedral of Open Book.  More nearby are two short right-facing walls
+at about the same height as the first belay.  One of these is to
+the left (first belay of Coffin Nail) and one to the right (start of
+Turbo Flange).  From the trail, it is easy to identify the red-brown
+stain, the kidney-shaped flake, and the crux of the climb.  Starting from the trail a little to the left of the
+route, scramble up to a start at a wooded ledge.
+
+\somespace
+
+% Descriptions of P1-3 are duplicated for Jensen's Jaunt.
+
+\pitch{1} Climb through an oak tree and then traverse
+easy terrain to a belay near the rightmost of several trees.  4th class, 20 m
+
+\pitch{2} Climb a thin/balancey face with a cruxy spot 10' above the tree.
+Head up with the goal of getting on top of the right-facing
+dihedral formed by the top edge of the kidney-shaped flake. Semi-hanging belay at a
+cramped alcove. Belaying from low down in the alcove makes it easier for the
+leader to get going on the next pitch. P2 and P3 can be linked up if desired. 5.6
+
+\pitch{3} Climb a crack that leads up and left, narrowing from fists to hands. The first moves
+out of the alcove are strenuous. These are followed by an
+easier stretch, then a steeper section.  Continue to the lower
+left corner of the overhangs. Hanging belay (small gear) on a spacious
+slope. 5.6
+
+\pitch{4} To the right of the belay are two horns. Climb over the first horn, not under,
+where there is a loose block. Continue traversing through easier
+and well protected terrain into an alcove with slightly overhanging walls. The second
+horn sticks out of the right wall. The route mostly goes up the middle of the right
+wall, but with some detours to the left and right. On the left side of this wall, in
+the corner, is a crack that provides the only pro, but the route doesn't go up this
+crack. Although the pro isn't optimal, the ``floor'' of the alcove is steep, so there isn't
+really much to hit if you fall. Clip two fixed pins in the crack, and back them up with a green or purple camalot.
+Use stemming to move to the right and get to the middle of the wall. Use a hold to mantle
+up onto the horn and mount it like a saddle. Tiptoe back left along a ledge, with holds
+above. By detouring all the way back to the crack on the left, you can place more pro
+(yellow or red camalot). Come back to the middle of the wall, where there are
+good holds allowing you to escape the alcove. Consider belaying immediately, rather than
+higher up, to avoid routefinding and rope management problems for the follower, who cannot
+tell where the route goes based on where the rope runs. Continue to a belay at a
+mountain mahogany. 35 m
+
+\pitch{5} From the mahogany, move up and right onto a slab.
+On this slab, traverse all the
+way right to the arete above Open Book. A white tricam in the right
+orientation can be made to fit in a tiny pin scar along the way,
+providing at least psychological pro. Run-out 5.0 slab climbing along
+the arete leads toward a crack. A single 5.5 move is required in order
+to reach a good hold and place gear (0.75-2" cam).  Continue up a
+low-angle fist crack, 5.0.
+
+\variation{1} Climb the dihedral and then insert into the 5.1 gutter above Lunch Ledge.
+I haven't tried this variation, but Gaines calls it 5.7, and it's supposed to protect well.
+
+\somespace
+
+\upfriction
 
 %=================================================================================
 
