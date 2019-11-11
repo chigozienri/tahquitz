@@ -1312,6 +1312,32 @@ Gully.
 
 %=====================================================================
 
+<% climb("South Gully","5.0") %>
+
+\topo{0.50}{south_gully}
+
+This is not a recognized route at Tahquitz, and if you refer to it by this name, people won't
+know what you're talking about. Easy, fun climbing suitable for beginners.
+Pro to 3".
+
+For the approach, climb the trail around the south side of the rock to the end of the
+friction route (p.~\pageref{subsec:friction-descent}). Traverse across slabs to a ``V''-shaped
+double tree on the friction route, and belay there.
+
+\pitch{1} Climb a gully up from the double tree. Beginners without anchor-building skills can
+belay at an oak tree, but a more comfy gear anchor can be built in a lower-angle area above
+the tree, where a horizontal crack in a boulder accepts small active gear such as pink and red
+tricams. 5.0, 40 m
+
+\pitch{2} Traverse left to a ledge and then across slab. Protect with small gear. Finish at a
+manzanita tree near the top of the friction route. 5.0, 40 m
+
+\somespace
+
+Descend via the friction descent route (p.~\pageref{subsec:friction-descent}).
+
+%=====================================================================
+
 <% climb("Traitor Horn","5.8") %>
 
 \topo{0.35}{traitor_horn}
