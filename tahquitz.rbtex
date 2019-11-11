@@ -1312,13 +1312,48 @@ Gully.
 
 %=====================================================================
 
+<% climb("Orange Peel","5.5") %>
+
+\topo{0.5}{orange_peel}
+
+\warn{I've only done this climb once.}
+
+The start of this climb is just to the left of the friction descent route,
+and is easy to locate because of the prow of rock with an egg shape on top.
+The total length of the climb is 73 m if you end at the mountain mahogany.
+Pro to 3". FA Chuck and Ellen Wilts, 1951.
+
+\pitch{1} After going over the egg, make a traverse down and left about 20 feet toward
+a small stained feature, the namesake ``orange peel.''
+The traverse lacks pro and is therefore a little unnerving for both
+leader and follower. The moves are relatively easy, but tripping over
+your shoelaces would result in a long pendulum swing. One way to
+mitigate the risk is the following. Approach the orange peel from
+underneath, sling a horn, make a 5.4 move to get on top of the orange
+peel, and clip the bolts. Then downclimb and clean the pro from the horn
+(because otherwise the follower would be doing the traverse from
+considerably higher than the pro). Once you've clipped the bolt, there is
+a cruxy friction move up and to the left. Follow an easy ledge up and left.
+Near the end of this ledge, in the shelf on the right, is a unique hold in
+the rock like the eye of a needle, which can be used for pro. Continue
+past a horizontal crack and head for a fist crack. $\sim45$ m, 5.5
+
+\pitch{2} Continue up the crack, and then easy terrain to a mountain
+mahogany tree on the summit ridge. $\sim30$ m, easy 5th and scrambling
+
+\somespace
+
+\upfriction
+
+%=====================================================================
+
 <% climb("South Gully","5.0") %>
 
 \topo{0.50}{south_gully}
 
 This is not a recognized route at Tahquitz, and if you refer to it by this name, people won't
 know what you're talking about. Easy, fun climbing suitable for beginners.
-Pro to 3".
+Pro to 3". The first pitch is easy to protect with large SLCDs, the second with small gear.
 
 For the approach, climb the trail around the south side of the rock to the end of the
 friction route (p.~\pageref{subsec:friction-descent}). Traverse across slabs to a ``V''-shaped
@@ -1334,7 +1369,8 @@ manzanita tree near the top of the friction route. 5.0, 40 m
 
 \somespace
 
-Descend via the friction descent route (p.~\pageref{subsec:friction-descent}).
+Descend via the friction descent route (p.~\pageref{subsec:friction-descent}), which is just to
+climber's left of the end of the climb.
 
 %=====================================================================
 
