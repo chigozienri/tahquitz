@@ -73,9 +73,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.61569423"
-     inkscape:cx="459.32268"
-     inkscape:cy="377.07482"
+     inkscape:zoom="3.9920819"
+     inkscape:cx="414.16662"
+     inkscape:cy="316.71565"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -1722,12 +1722,12 @@
       <image
          sodipodi:absref="/home/bcrowell/Documents/tahquitz/figs/brinton-cartoon-fingertip-traverse.jpg"
          xlink:href="brinton-cartoon-fingertip-traverse.jpg"
-         y="574.2854"
-         x="317.40756"
-         id="image1432"
-         preserveAspectRatio="none"
+         width="131.93398"
          height="187.01019"
-         width="131.93398" />
+         preserveAspectRatio="none"
+         id="image1432"
+         x="317.40756"
+         y="574.2854" />
       <rect
          y="747.4472"
          x="423.30264"
@@ -1737,20 +1737,15 @@
          style="opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.13335013;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
       <text
          id="text1437"
-         y="751.25391"
-         x="318.99963"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.24999988px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none"
+         y="755.71588"
+         x="321.81772"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.50000002px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;opacity:1;vector-effect:none;fill:#787878;fill-opacity:1;stroke:none;stroke-width:1.24999988px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;"
          xml:space="preserve"><tspan
-           style="stroke-width:1.24999988px"
-           y="751.25391"
-           x="318.99963"
-           id="tspan1435"
-           sodipodi:role="line">Cartoon by Bob</tspan><tspan
-           id="tspan1439"
-           style="stroke-width:1.24999988px"
-           y="763.75391"
-           x="318.99963"
-           sodipodi:role="line">Brinton, Mugelnoos No. 15, 1938.</tspan></text>
+           style="stroke-width:1.24999988px;fill:#787878;fill-opacity:1;font-size:7.50000002px;"
+           y="755.71588"
+           x="321.81772"
+           sodipodi:role="line"
+           id="tspan1112">Bob Brinton, 1938.</tspan></text>
     </g>
   </g>
 </svg>
