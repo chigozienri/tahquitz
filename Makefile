@@ -3,7 +3,7 @@ SINGLE = 30
 
 default:
 	make figures # renders any figure whose pdf is older than its svg
-	fruby tahquitz.rbtex >tahquitz.tex
+	./fruby tahquitz.rbtex >tahquitz.tex
 	pdflatex tahquitz
 	pdflatex tahquitz
 	pdflatex tahquitz
