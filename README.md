@@ -18,6 +18,11 @@ on mountainproject, but those may become outdated as I make improvements.
 
 You can buy it as a printed book [at lulu.com](http://www.lulu.com/spotlight/benjamin_crowell).
 
+The book, including the drawings and photos, is under an open-source license,
+so you can modify it or use it for your own purposes. If you come up with
+a topo and route description for a climb that I haven't included, and you
+want to let me include it here, that would be great. I can handle the formatting.
+
 I have a separate repository for photos and photo topos in color:
 http://github.com/bcrowell/tahquitz_photography .
 
