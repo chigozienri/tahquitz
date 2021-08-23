@@ -15,8 +15,11 @@
    viewBox="0 0 210 297"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="2_nw.svg">
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   sodipodi:docname="2_nw.svg"
+   inkscape:export-filename="/home/bcrowell/Documents/tahquitz/figs/2_nw.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,15 +29,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.53227983"
-     inkscape:cx="735.37573"
-     inkscape:cy="297.75"
+     inkscape:zoom="0.8720774"
+     inkscape:cx="447.78135"
+     inkscape:cy="552.93257"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:snap-global="true"
      inkscape:window-width="1280"
-     inkscape:window-height="996"
+     inkscape:window-height="998"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1" />
@@ -55,23 +58,23 @@
      inkscape:groupmode="layer"
      id="layer1">
     <image
-       sodipodi:absref="/home/bcrowell/photo_topos/2_nw_bitmap.jpg"
+       sodipodi:absref="/home/bcrowell/Documents/tahquitz/figs/2_nw_bitmap.jpg"
        xlink:href="2_nw_bitmap.jpg"
-       width="193.57828"
-       height="104.53227"
-       preserveAspectRatio="none"
+       y="10.288945"
+       x="8.1609468"
        id="image901"
-       x="8.1609468"
-       y="10.288945" />
-    <image
-       sodipodi:absref="/home/bcrowell/photo_topos/2_nw_bitmap.jpg"
-       xlink:href="2_nw_bitmap.jpg"
-       width="193.57828"
-       height="104.53227"
        preserveAspectRatio="none"
-       id="image901-3"
+       height="104.53227"
+       width="193.57828" />
+    <image
+       sodipodi:absref="/home/bcrowell/Documents/tahquitz/figs/2_nw_bitmap.jpg"
+       xlink:href="2_nw_bitmap.jpg"
+       y="118.0001"
        x="8.1609468"
-       y="118.0001" />
+       id="image901-3"
+       preserveAspectRatio="none"
+       height="104.53227"
+       width="193.57828" />
     <g
        id="g837">
       <path
@@ -189,6 +192,11 @@
          x="242.27565"
          y="28.821356"
          style="stroke-width:0.26458332">Whodunit</tspan></text>
+    <path
+       style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.05799997;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 125.30825,202.36985 c 0.47197,-0.23598 0.94394,-0.94394 0.82594,-2.06487 -0.11799,-1.12093 -2.89081,-10.26537 -2.89081,-10.26537 l -1.7699,-6.60759 -1.71089,-3.42179 -1.47491,-11.62228 0.47197,-3.89376 -0.88494,-1.17992 -0.47197,-1.88788 -0.94395,-2.18287 2.77283,-2.06487 -3.65777,-7.72852 -0.76695,-0.88495 -0.70796,-3.06781 -2.65484,-4.95569 -0.94394,-2.41885 -1.06193,-1.23893 -0.58997,-3.06781 2.83183,-0.23598 -0.82595,-4.07075 -2.59584,-9.49841 3.95276,-1.47491"
+       id="path871-5"
+       inkscape:connector-curvature="0" />
     <g
        id="g921">
       <path
@@ -205,18 +213,18 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       x="264.71268"
-       y="-10.040716"
+       x="268.55063"
+       y="-16.688221"
        id="text925"
        transform="rotate(60)"><tspan
          sodipodi:role="line"
          id="tspan923"
-         x="264.71268"
-         y="-10.040716"
+         x="268.55063"
+         y="-16.688221"
          style="stroke-width:0.26458332">White Maiden's</tspan><tspan
          sodipodi:role="line"
-         x="264.71268"
-         y="-5.6309938"
+         x="268.55063"
+         y="-12.278498"
          style="stroke-width:0.26458332"
          id="tspan927">Walkaway</tspan></text>
     <g
@@ -246,5 +254,22 @@
          x="288.86252"
          y="-51.979847"
          style="stroke-width:0.26458332">The Trough</tspan></text>
+    <path
+       style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:1.05833328;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2.11666651, 2.11666651;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 125.30825,202.36985 c 0.47197,-0.23598 0.94394,-0.94394 0.82594,-2.06487 -0.11799,-1.12093 -2.89081,-10.26537 -2.89081,-10.26537 l -1.7699,-6.60759 -1.71089,-3.42179 -1.47491,-11.62228 0.47197,-3.89376 -0.88494,-1.17992 -0.47197,-1.88788 -0.94395,-2.18287 2.77283,-2.06487 -3.65777,-7.72852 -0.76695,-0.88495 -0.70796,-3.06781 -2.65484,-4.95569 -0.94394,-2.41885 -1.06193,-1.23893 -0.58997,-3.06781 2.83183,-0.23598 -0.82595,-4.07075 -2.59584,-9.49841 3.95276,-1.47491"
+       id="path871"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       x="257.56827"
+       y="2.8987527"
+       id="text925-3"
+       transform="rotate(60)"><tspan
+         sodipodi:role="line"
+         x="257.56827"
+         y="2.8987527"
+         style="stroke-width:0.26458332"
+         id="tspan927-6">Long/Wong</tspan></text>
   </g>
 </svg>
