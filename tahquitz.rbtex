@@ -765,7 +765,7 @@ continue up fourth-class terrain.
 \variation{1} 
  Head up and left toward a dead tree, then
 up and right along a ramp/crack. This variation works if you want to
-link up P5-6 without excessive rope drag.
+link up P4-5 without excessive rope drag.
 
 \pitch{5} Move up and left on a flake and then tiptoe along it as it
 continues around a corner.  This is easily protected with 0.3"-1"
@@ -1092,6 +1092,82 @@ I haven't tried this variation.
 \somespace
 
 \upfriction
+
+%=====================================================================
+
+<% climb("The Long Climb/Wong Climb","5.8") %>
+
+\topo{0.35}{long_climb}
+
+\warn{I've only done this climb once, and I didn't lead any of it. I haven't
+done any of the variations.}
+
+In the Northwest Recess, immediately to the left of the Maiden Buttress, is
+a prominent rock formation like a giant flat-roofed dormer window. These two
+climbs follow a pair of cracks on the bottom right side of this tower, where
+it merges into the Maiden Buttress. After gaining the roof of the tower via
+a spectacularly exposed overhang,
+the climb continues up four more pitches of mostly easier climbing, with
+one short crux. The first two pitches are very physical.
+
+% The FA seems to be described in the July 1925 Mugelnoos, but no exact date is given.
+
+The 1952 FA of The Long Climb, by Royal Robbins and Don Wilson, started in the right-hand crack and
+then moved over to the left-hand one, but these days almost everyone does the
+first pitch using the left-hand crack. That's the only version I've done, so that's
+what I describe here. Beware of loose rocks on P3, 5, and 6. 
+Pro to 3".
+Approach either from Lunch Rock or by taking the
+North Gully trail and then backtracking along the bottom of the rock.
+
+\pitch{1} Climb a hand and fist crack with pro on the right wall.
+Belay at a ledge with an anchor consisting of chains attached with one piton and
+one bolt. This variation is the Wong Climb. 5.8, 40 m
+
+\variation{1} Climb the right-hand crack, 5.5. This is the original Long Climb route.
+
+\pitch{2} The Mummy Crack is too wide for thigh jams but not deep enough to insert
+your whole body. Depending on what body position you prefer, you may or may not
+want to take off your pack and hang it from your waist. Pro is in a crack running
+up the right wall. At the top, the right wall bends away from the vertical,
+leading to a claustrophobic alcove with a roof. Squirm out of the alcove on
+the left where a good right-hand hold makes the move less dire than it appears.
+Belay on the right edge of the giant, sloping ledge. 5.8, 40 m
+
+\variation{2} Climb the right-hand crack, which is the Wong Climb. Gaines describes
+this as a ``rather unpleasant squeeze 5.8 chimney with loose chockstones.''
+
+\pitch{3} If you're belaying at the natural spot immediately above the final
+overhanging move of P2, then there is an obvious ramp system right above you,
+but the easier climbing is actually the crack a little farther to the right.
+Climb this, then make a delicate step-around move to insert into the main
+crack. Higher up, the crack disappears. Head left into nondescript staircase terrain
+and belay at a ledge above a large dead tree. 5.7, 40 m
+
+\pitch{4} For the best pro, immediately head back up and right over a blocky wall,
+inserting into a crack that leads to a tall pine tree.  5.6, 20 m
+
+\variation{3} Climb slab straight up from the belay, then head right, 5.6R.
+This is the original route.
+
+\pitch{5} From the pine tree, a feature in the shape of a bas-relief gun is easily
+visible. The route continues up the steep, polished slab on the left edge of this feature. The crux consists
+of transitioning onto this slab and reaching up for a hold in a crack that opens up at the left edge of
+the ``gun.'' This crack is at first finger width, but then a few inches higher becomes a more secure hand jam.
+The crux can be protected with small cams under the overlap below and to the left, and also with small
+gear in the crack. Continue up easy terrain to a belay at a ledge system to the right. Beware of
+loose blocks. 5.8, 40 m
+
+\variation{4} Bypass the entire gun/overlap system on slabs on the left. This is the version
+described in the Vogel-Gaines guidebook, but not in Gaines' Best Climbs. 5.8.
+
+\pitch{6} Climb 3rd class terrain to the top.
+
+\somespace
+
+\descent Either go down to the friction descent (p.~\pageref{subsec:friction-descent})
+or go up and over the summit
+and come down the north gully.
 
 %=================================================================================
 
@@ -1451,11 +1527,11 @@ climber's left of the end of the climb.
 
 %=====================================================================
 
-<% climb("Traitor Horn","5.8") %>
+<% climb("Traitor Horn","5.7PG") %>
 
 \topo{0.35}{traitor_horn}
 
-Mostly 5.6 climbing, with a 5.8 crux. The crux is beta-dependent and
+Mostly 5.6 climbing, with a short and poorly protected crux. The crux is beta-dependent and
 can be confusing to climb, protect, and follow. The pro for the crux is all to
 the left of the actual climbing, which the follower can't see from the
 belay, so make sure the follower understands what to do. Don't be misled
@@ -1511,7 +1587,7 @@ above. By detouring all the way back to the crack on the left, you can place mor
 good holds allowing you to escape the alcove. Consider belaying immediately, rather than
 higher up, to avoid routefinding and rope management problems for the follower, who cannot
 tell where the route goes based on where the rope runs. Continue to a belay at a
-mountain mahogany. 35 m
+mountain mahogany. 5.7PG, 35 m
 
 \pitch{5} From the mahogany, move up and right onto a slab.
 On this slab, traverse all the
