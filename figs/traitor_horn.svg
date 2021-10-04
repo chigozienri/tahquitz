@@ -40,9 +40,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.2964489"
-     inkscape:cx="77.003127"
-     inkscape:cy="682.69422"
+     inkscape:zoom="1.1444863"
+     inkscape:cx="281.53828"
+     inkscape:cy="625.55493"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -1757,6 +1757,37 @@
            id="path4625"
            inkscape:connector-curvature="0" />
       </g>
+    </g>
+    <g
+       id="g1164">
+      <text
+         id="text1147"
+         y="440.30533"
+         x="165.30156"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:11.25px;line-height:100%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Bold';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="stroke-width:0.99999994px"
+           y="440.30533"
+           x="165.30156"
+           id="tspan1145"
+           sodipodi:role="line">See the  following page</tspan><tspan
+           id="tspan1149"
+           style="stroke-width:0.99999994px"
+           y="451.55533"
+           x="165.30156"
+           sodipodi:role="line">for a close-up diagram</tspan><tspan
+           id="tspan1153"
+           style="stroke-width:0.99999994px"
+           y="462.80533"
+           x="165.30156"
+           sodipodi:role="line">of how not to epic here.</tspan></text>
+      <rect
+         y="429.69763"
+         x="163.05122"
+         height="37.070263"
+         width="131.48358"
+         id="rect1157"
+         style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
     </g>
   </g>
 </svg>

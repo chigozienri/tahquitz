@@ -393,13 +393,14 @@ routes on the northeast face.
   $first_climb = 1
   $count = 1
   $climb_data = []
-  def climb(name,grade)
+  def climb(name,grade,nofooter:false)
     # Every climb gets two labels, like this:
     #   climb:17
     #   c:jensens-jaunt ... lowercase, spaces converted to hyphens, punctuation removed
     label = "climb:#{$count}"
     label2 = "c:"+name.downcase.gsub(/ /,'-').gsub(/[^a-z\-]/,'')
-    print "\\climb[#{$first_climb}]{#{name}}{#{grade}}\\label{#{label}}\\label{#{label2}}\n"
+    if nofooter then macro='climbnofooter' else macro='climb' end
+    print "\\#{macro}[#{$first_climb}]{#{name}}{#{grade}}\\label{#{label}}\\label{#{label2}}\n"
     $first_climb = 0
     if grade =~ /5\.(\d+)/ then
       decimal = $1.to_i
@@ -1696,10 +1697,17 @@ I haven't tried this variation, but Gaines calls it 5.7, and it's supposed to pr
 
 \upfriction
 
+\pagebreak
+
+\includegraphics[width=\linewidth]{figs/traitor_horn_close_up}
+
+% ... because of this special diagram page, the following climb has to invoke climb(...,nofooter:true)
+
 %=================================================================================
 
 
-<% climb("The Trough","5.3") %>
+<% climb("The Trough","5.3",nofooter:true) %>
+% ... nofooter is because traitorhorn, which comes immediately before this climb, has a special diagram page
 
 \topo{0.3}{trough}
 

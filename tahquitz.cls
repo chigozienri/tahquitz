@@ -38,6 +38,8 @@
 %===============================================
 \newcommand{\myfooter}{\vfill\hfill\footnotesize{Ben Crowell, github.com/bcrowell/tahquitz}}
 \newcommand{\climb}[3][0]{\ifthenelse{\equal{#1}{1}}{}{\myfooter\vfill}\clearpage\section{#2 (#3)}}
+\newcommand{\climbnofooter}[3][0]{\clearpage\section{#2 (#3)}}
+% ... used for the climb after Traitor Horn, which has a special second page with a diagram
 \newcommand{\topo}[2]{% #1=width as a fraction of textwidth, typically about 0.4
   \begin{wrapfigure}{l}{#1\textwidth}
     \includegraphics[width=\linewidth]{figs/#2}
