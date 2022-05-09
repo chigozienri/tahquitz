@@ -12,7 +12,7 @@ http://www.lightandmatter.com/area4author.html , or post a comment on
 mountainproject.
 
 The whole thing can be downloaded as a single multi-page PDF file, from
-[this link](http://lightandmatter.com/tahquitz/tahquitz.pdf).
+[this link](https://lightandmatter.com/tahquitz/tahquitz.pdf).
 I have also posted single pages for the individual climbs as images
 on mountainproject, but those may become outdated as I make improvements.
 
