@@ -2,6 +2,11 @@ import copy,math,subprocess,re
 from geom import *
 from perspective import *
 
+# Notes 2022 Jun 1:
+#   Added photos 17 and 19. For 17, I did a shot with a plumb bob, so I know the image has almost zero roll. Although the
+#   wind was blowing a little, so that the plumb bob wouldn't quite stop swinging, there's no way I'm off by more than
+#   about a degree. And yet the arrow plot shows a rotation of about 5 degrees is needed -- why??? Seems like this has
+#   to be a bug. I also noted below that trees are never off vertical by as much as the software would seem to require.
 # State as of 2019 jul 22:
 #   Implemented two methods of finding the mapping from GPS coords to pixel coords. The first is a totally free linear
 #   regression, which can be unphysical because the simulated camera's basis vectors can fail to be orthogonal. This method
@@ -75,6 +80,8 @@ def init():
   im15 = image(images,"15","15_panorama_from_low_on_devils_slide",loc="529121 3736249 2002",loc_err=[10,10],fudge_altaz=[-20,10])
   # ... projection is rather bad on west lark, good on rest of image; can improve the fit on west lark by raising the elevation by 100 m,
   #     but then the rest of the fit gets worse
+  im17 = image(images,"17","17_north_and_northwest_sides_from_strawberry_cienega",loc="528609 3738047 2608")
+  im19 = image(images,"19","19_northwest_side_from_deer_springs_boulder_pile",loc="527054 3736907 2237")
   im20 = image(images,"20","20_northwest_face_from_deer_springs_slabs",loc="525884 3735229 1780",loc_err=[300,1000],tree_roll=7.5,fudge_altaz=[-10,0])
   im25 = image(images,"25","25_northwest_face_from_suicide_junction",loc="526901 3736497 2100",loc_err=[50,50],tree_roll=-1.0)
   im30 = image(images,"30","30_from_fern_valley",loc="527612 3735142 1731",loc_err=[30,30],fudge_altaz=[-15,0])
@@ -94,6 +101,7 @@ def init():
   pix(dat,p,im05,3131,1758)
   pix(dat,p,im10,4034,1919)
   pix(dat,p,im15,8774,3910)
+  pix(dat,p,im17,6459,2204)
   pix(dat,p,im20,1926,2113)
   pix(dat,p,im25,519,1417)
   pix(dat,p,im30,1106,1194)
@@ -104,6 +112,7 @@ def init():
   pix(dat,p,im05,3056,1274)
   pix(dat,p,im10,3898,1392)
   pix(dat,p,im15,8944,3228)
+  pix(dat,p,im17,6567,1601)
   pix(dat,p,im20,2442,1384)
   pix(dat,p,im25,1249,494)
   pix(dat,p,im30,1548,611)
@@ -126,12 +135,14 @@ def init():
   pix(dat,p,im01,1775,2130)
   pix(dat,p,im05,1967,1671)
   pix(dat,p,im10,2284,1675)
+  pix(dat,p,im17,3784,1834)
 
   p = point("summit",[347.0,623.0,2439.0],"summit")
   pix(dat,p,im01,2010,326)
   pix(dat,p,im05,2145,360)
   pix(dat,p,im10,2493,280)
   pix(dat,p,im15,5316,684) # can't actually see the point, slightly hidden, but very close to this position
+  pix(dat,p,im17,4526,401)
   pix(dat,p,im20,1575,317) # not totally sure of identification
   pix(dat,p,im35,1562,531) # approximate location, view obscured by rock in front?
   pix(dat,p,im40,1930,140)
@@ -186,6 +197,7 @@ def init():
   p = point("maiden-6",[269,634,2399],"mahogany at end of slabs")
   pix(dat,p,im10,3349,834)
   pix(dat,p,im15,6701,1396)
+  pix(dat,p,im17,5370,1030)
 
   p = point("west-lark-1",[382,760,2217],"first belay ledge; ID on photos very uncertain")
   pix(dat,p,im01,1957,4833)
@@ -219,9 +231,11 @@ def init():
   pix(dat,p,im05,1132,1043)
   pix(dat,p,im10,1255,1016)
   pix(dat,p,im15,2570,2250)
+  pix(dat,p,im17,3218,1145)
 
   p = point("el-whampo-1",[488,715,2235],"on top of huge boulder, south of pine tree and at same height as middle of the tree")
   pix(dat,p,im05,753,3118)
+  pix(dat,p,im17,1886,3510)
 
   p = point("northeast-rib-2",[496,685,2263],"small ledge with pine tree, to the right of the right-facing diheadral")
   pix(dat,p,im05,567,2684)
@@ -289,6 +303,7 @@ def init():
   pix(dat,p,im40,1433,958)
 
   p = point("lunch-rock",[112,629,2224],"top/center of lunch rock")
+  pix(dat,p,im17,7645,3798)
   pix(dat,p,im35,1114,3086)
 
   #--------- Points without absolute positions measured by GPS:
@@ -445,6 +460,8 @@ def get_image_size(filename,dim):
     "05_north_side_from_saddle_jct":[4512, 3664],
     "10_north_face_from_old_devils_slide_trail":[5280, 4720],
     "15_panorama_from_low_on_devils_slide":[11885, 6500],
+    "17_north_and_northwest_sides_from_strawberry_cienega":[8943,7007],
+    "19_northwest_side_from_deer_springs_boulder_pile":[4896,3264],
     "20_northwest_face_from_deer_springs_slabs":[3264, 4896],
     "25_northwest_face_from_suicide_junction":[2720, 4592],
     "30_from_fern_valley":[2723, 2447],

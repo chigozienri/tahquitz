@@ -3,6 +3,7 @@ default:
 
 photo:
 	python photo_surveying.py
+	# assumes images are in /home/bcrowell/Tahquitz_photography/mosaics
 
 # The following target produces a file tahquitz.aig containing elevation data for the 1 km UTM square that contains Tahquitz Rock.
 # The .aig file (Arc/Info ASCII Grid) is a plain text file in a pretty self-explanatory format: https://gdal.org/drivers/raster/aaigrid.html
