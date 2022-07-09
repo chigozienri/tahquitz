@@ -1285,13 +1285,8 @@ To reach the first belay in one rope length, it's necessary to start on top of a
 \pitch{1} Climb a series of flakes up and left, staying on the top of the buttress.
 Finish at the upper pine tree. 5.4, 60 m
 
-\variation{1} Climb a right-facing dihedral, 5.5, to a long, sloping ledge/gully with
-several trees in it. At a 5.7 crux, the only protection I was able to devise was by
-equalizing several \#1 and \#2 micro nuts.  
-As an alternative to this crux, it may be possible to branch off to the left along
-a crack in order to gain the top of the buttress; if this goes at the grade then it
-might be the best way to do this pitch, avoiding most of the loose rock.
-60 m to the lower pine tree. 
+\variation{1} Climb a right-facing dihedral. To avoid harder and sketchier climbing, escape left
+after a while. See a beta photo on Mountainproject by JJ Klingler. 5.5
 
 \pitch{2} Climb a crack, 5.5, that runs along the left wall of an alcove. Continue up
 easy terrain to a belay ledge. 55 m
@@ -1790,7 +1785,7 @@ From the pine tree, climb up class 3 slab to the left.
 
 %=================================================================================
 
-<% climb("The Uneventful","5.6") %>
+<% climb("The Uneventful","5.5") %>
 
 \topo{0.3}{uneventful}
 
