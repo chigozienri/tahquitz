@@ -34,7 +34,7 @@ mountainproject.
 Free information/open source
 ----------------------------
 
-The book, including the drawings and photos, is under an open-source license,
+The book, including the drawings and photos, is under [the same open-source license as Wikipedia](https://creativecommons.org/licenses/by-sa/4.0/),
 so you can modify it or use it for your own purposes. 
 
 Printed book
