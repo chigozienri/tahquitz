@@ -1634,7 +1634,7 @@ climber's left of the end of the climb.
 
 %=====================================================================
 
-<% climb("Traitor Horn","5.7PG") %>
+<% climb("Traitor Horn","5.7PG",stars:0) %>
 
 \topo{0.35}{traitor_horn}
 
