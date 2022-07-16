@@ -9,7 +9,7 @@
 % works.
 
 %===============================================
-\usepackage{graphicx,ifthen,wrapfig,url}
+\usepackage{graphicx,ifthen,wrapfig,url,fourier}
 %-----------------------------------
 \usepackage{geometry} % https://www.sharelatex.com/learn/Page_size_and_margins
 \geometry{margin=0.75in}
@@ -37,8 +37,8 @@
 \newcommand{\somespace}{\vspace{2mm plus6mm}}
 %===============================================
 \newcommand{\myfooter}{\vfill\hfill\footnotesize{Ben Crowell, github.com/bcrowell/tahquitz}}
-\newcommand{\climb}[3][0]{\ifthenelse{\equal{#1}{1}}{}{\myfooter\vfill}\clearpage\section{#2 (#3)}}
-\newcommand{\climbnofooter}[3][0]{\clearpage\section{#2 (#3)}}
+\newcommand{\climb}[4][0]{\ifthenelse{\equal{#1}{1}}{}{\myfooter\vfill}\clearpage\section{#2 (#3)#4}}
+\newcommand{\climbnofooter}[4][0]{\clearpage\section{#2 (#3)#4}}
 % ... used for the climb after Traitor Horn, which has a special second page with a diagram
 \newcommand{\topo}[2]{% #1=width as a fraction of textwidth, typically about 0.4
   \begin{wrapfigure}{l}{#1\textwidth}
@@ -46,3 +46,4 @@
   \end{wrapfigure}
 }
 \newenvironment{mytable}[1]{\vspace{3mm}\emph{#1}\\}{\vspace{3mm}}
+\newcommand{\mybomb}{\includegraphics{figs/00_bomb_icon}}

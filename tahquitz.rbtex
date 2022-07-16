@@ -404,14 +404,17 @@ routes on the northeast face.
   $first_climb = 1
   $count = 1
   $climb_data = []
-  def climb(name,grade,nofooter:false)
+  def climb(name,grade,nofooter:false,stars:nil)
     # Every climb gets two labels, like this:
     #   climb:17
     #   c:jensens-jaunt ... lowercase, spaces converted to hyphens, punctuation removed
     label = "climb:#{$count}"
     label2 = "c:"+name.downcase.gsub(/ /,'-').gsub(/[^a-z\-]/,'')
     if nofooter then macro='climbnofooter' else macro='climb' end
-    print "\\#{macro}[#{$first_climb}]{#{name}}{#{grade}}\\label{#{label}}\\label{#{label2}}\n"
+    star_stuff=''
+    if !stars.nil? && stars>0 then star_stuff=(' $\\star$' * stars) end
+    if !stars.nil? && stars==0 then star_stuff=' \\mybomb' end
+    print "\\#{macro}[#{$first_climb}]{#{name}}{#{grade}}{#{star_stuff}}\\label{#{label}}\\label{#{label2}}\n"
     $first_climb = 0
     if grade =~ /5\.(\d+)/ then
       decimal = $1.to_i
@@ -432,7 +435,7 @@ routes on the northeast face.
 %------------------
 
 
-<% climb("Angel's Fright","5.5") %>
+<% climb("Angel's Fright","5.5",stars:3) %>
 
 \topo{0.45}{angels_fright}
 
@@ -450,7 +453,7 @@ Sep.~20, 1936, Jim Smith and William Rice.
 % Most of the following is duplicated in The Frightful Variation of the Trough
 
 \pitch{1} Climb a chimney with a crack on the right that starts as wide
-hands and then becomes narrower.  Climb using crack technique. The
+hands and then becomes narrower.  Use crack technique. The
 start is made easier by trusting the firmly lodged first chock-stone.
 Well protected. Optional belay at a large ledge with trees; using this belay
 makes it easier for the belayer to see what to do on the following, more
@@ -495,7 +498,7 @@ corner. 57 m, 5.1
 \upfriction
 %=====================================================================
 
-<% climb("Coffin Nail","5.8") %>
+<% climb("Coffin Nail","5.8",stars:1) %>
 
 \topo{0.35}{coffin_nail}
 
@@ -567,7 +570,7 @@ to reach a good hold and place gear (0.75-2" cam).  Continue up a
 low-angle fist crack, 5.0. Natural anchor at a boulder.   55 m
 
 \variation{1} Climb the dihedral and then insert into the 5.1 gutter above Lunch Ledge.
-I haven't tried this variation, but Gaines calls it 5.7, and it's supposed to protect well.
+I haven't tried this variation, but Vogel calls it 5.7, and it's supposed to protect well.
 
 \somespace
 
@@ -659,7 +662,7 @@ insert into the broad chute. Pull over a protectable overhang. 5.4
 
 %=====================================================================
 
-<% climb("The Error","5.7") %>
+<% climb("The Error","5.7",stars:2) %>
 
 \topo{0.5}{error}
 
@@ -735,7 +738,7 @@ and protection available along its rim. Downclimb into the right-hand exit chute
 
 %=====================================================================
 
-<% climb("Fingertip Traverse","5.4") %>
+<% climb("Fingertip Traverse","5.4",stars:3) %>
 
 \topo{0.45}{fingertip_traverse}
 
@@ -817,7 +820,7 @@ corner. 57 m, 5.1
 
 %=====================================================================
 
-<% climb("Fingertrip","5.7") %>
+<% climb("Fingertrip","5.7",stars:1) %>
 
 \topo{0.43}{fingertrip}
 
@@ -880,17 +883,15 @@ corner. 57 m, 5.1
 \upfriction
 
 %=====================================================================
-<% climb("Fools Rush","5.6") %>
+<% climb("Fools Rush","5.6",stars:0) %>
 
 \topo{0.27}{fools_rush}
 
 This seldom-climbed route starts inside a hidden alcove between two
 colossal staircases on the right side of the Maiden Buttress. Over in
 the middle of the buttress there is a different square alcove, on a
-less titanic scale, which is not the one you want. The route connects
-with White Maiden's Walkaway at belays 3 and 4, which makes it an
-option for climbing parties trying to keep out of each other's hair on
-a weekend when several groups want to climb the Maiden.
+less titanic scale, which is not the one you want. P1-3 are mostly lousy,
+so the lovely P4 is best done as a link-up with White Maiden's Walkway.
 
 A traverse (``From Bad Traverse'') is also possible from The Trough, but
 I haven't done it. This starts from just below the
@@ -970,7 +971,7 @@ the belay. The crux is the awkward second gap, 5.8.
 \variation{3} I haven't tried this variation. Vogel calls it 5.1.
 
 %=====================================================================
-<% climb("The Frightful Variation of the Trough","5.4") %>
+<% climb("The Frightful Variation of the Trough","5.4",stars:0) %>
 
 \topo{0.5}{frightful}
 
@@ -1106,7 +1107,7 @@ to reach a good hold and place gear (0.75-2" cam).  Continue up a
 low-angle fist crack, 5.0. Natural anchor at a boulder.   55 m
 
 \variation{1} Climb the dihedral and then insert into the 5.1 gutter above Lunch Ledge.
-I haven't tried this variation, but Gaines calls it 5.7, and it's supposed to protect well.
+I haven't tried this variation, but Vogel calls it 5.7, and it's supposed to protect well.
 
 \somespace
 
@@ -1114,7 +1115,7 @@ I haven't tried this variation, but Gaines calls it 5.7, and it's supposed to pr
 
 %=====================================================================
 
-<% climb("Left Ski Track","5.5") %>
+<% climb("Left Ski Track","5.5",stars:1) %>
 
 \topo{0.35}{left_ski_track}
 
@@ -1200,7 +1201,7 @@ I haven't tried this variation.
 
 %=====================================================================
 
-<% climb("The Long Climb/Wong Climb","5.8") %>
+<% climb("The Long Climb/Wong Climb","5.8",stars:1) %>
 
 \topo{0.35}{long_climb}
 
@@ -1240,7 +1241,7 @@ leading to a claustrophobic alcove with a roof. Squirm out of the alcove on
 the left where a good right-hand hold makes the move less dire than it appears.
 Belay on the right edge of the giant, sloping ledge. 5.8, 40 m
 
-\variation{2} Climb the right-hand crack, which is the Wong Climb. Gaines describes
+\variation{2} Climb the right-hand crack, which is the Wong Climb. Vogel describes
 this as a ``rather unpleasant squeeze 5.8 chimney with loose chockstones.''
 
 \pitch{3} If you're belaying at the natural spot immediately above the final
@@ -1284,7 +1285,7 @@ and come down the north gully.
 \topo{0.45}{north_buttress}
 
 This route doesn't seem to get much traffic, possibly because it has
-a lot of loose rock on P1 and P4, and uneven difficulty.  Gear to 3".
+a lot of loose rock on P1 and P4, and because P4 is wildly different in difficulty.  Gear to 3".
 FA R.~Smith and Don Wilson, 1952.
 
 Approach: The North Buttres lies
@@ -1413,7 +1414,7 @@ insertion into the north gully.
 
 %=================================================================================
 
-<% climb("Northeast Farce","5.6 PG13") %>
+<% climb("Northeast Farce","5.6 PG13",stars:0) %>
 
 \warn{I haven't done P2.}
 
@@ -1571,7 +1572,7 @@ Gully.
 
 %=====================================================================
 
-<% climb("Orange Peel","5.5") %>
+<% climb("Orange Peel","5.5",stars:0) %>
 
 \topo{0.5}{orange_peel}
 
@@ -1711,7 +1712,7 @@ to reach a good hold and place gear (0.75-2" cam).  Continue up a
 low-angle fist crack, 5.0. Natural anchor at a boulder.
 
 \variation{1} Climb the dihedral and then insert into the 5.1 gutter above Lunch Ledge.
-I haven't tried this variation, but Gaines calls it 5.7, and it's supposed to protect well.
+I haven't tried this variation, but Vogel calls it 5.7, and it's supposed to protect well.
 
 \somespace
 
@@ -1726,7 +1727,7 @@ I haven't tried this variation, but Gaines calls it 5.7, and it's supposed to pr
 %=================================================================================
 
 
-<% climb("The Trough","5.3",nofooter:true) %>
+<% climb("The Trough","5.3",nofooter:true,stars:2) %>
 % ... nofooter is because traitorhorn, which comes immediately before this climb, has a special diagram page
 
 \topo{0.3}{trough}
@@ -1796,7 +1797,7 @@ From the pine tree, climb up class 3 slab to the left.
 
 %=================================================================================
 
-<% climb("The Uneventful","5.5") %>
+<% climb("The Uneventful","5.5",stars:2) %>
 
 \topo{0.3}{uneventful}
 
@@ -1896,7 +1897,7 @@ and protection available along its rim. Downclimb into the right-hand exit chute
 
 %=================================================================================
 
-<% climb("West Lark","5.4") %>
+<% climb("West Lark","5.4",stars:1) %>
 
 \topo{0.2}{west_lark}
 
@@ -1995,7 +1996,7 @@ insert into the broad chute. Pull over a protectable overhang. 5.4
 
 %=================================================================================
 
-<% climb("El Whampo","5.7") %>
+<% climb("El Whampo","5.7",stars:1) %>
 
 \topo{0.35}{el_whampo}
 
@@ -2073,7 +2074,7 @@ The exit on the right consists of class 4 ledges.
 
 %=================================================================================
 
-<% climb("White Maiden's Walkway","5.4") %>
+<% climb("White Maiden's Walkway","5.4",stars:3) %>
 
 \topo{0.35}{maiden}
 
