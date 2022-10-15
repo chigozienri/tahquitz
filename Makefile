@@ -1,13 +1,13 @@
-SINGLE = 20
+SINGLE = 19
 # page number for "make single"
 
 default:
 	# There are not separate versions of the pdf for print and online. Neither version includes a cover as part of the pdf.
 	make figures # renders any figure whose pdf is older than its svg
-	./fruby tahquitz.rbtex >tahquitz.tex
-	pdflatex tahquitz
-	pdflatex tahquitz
-	pdflatex tahquitz
+	./fruby tahquitz.rbtex >temp.tex
+	pdflatex temp # don't copy pdf, initial pagination is wrong
+	pdflatex temp && mv temp.pdf tahquitz.pdf
+	pdflatex temp && mv temp.pdf tahquitz.pdf
 	cp tahquitz.pdf ~/Lightandmatter/tahquitz
 	make clean
 	rm -f topo.jpg
@@ -31,5 +31,5 @@ figures:
 	perl -e 'foreach my $$f(<figs/*.svg>) {system("scripts/render_one_figure.pl $$f $(FORCE)")}'
 
 clean:
-	rm -f *~ *.aux *.log *.idx *.toc *.ilg *.bak *.toc tahquitz.tex
+	rm -f *~ *.aux *.log *.idx *.toc *.ilg *.bak *.toc temp.tex
 
