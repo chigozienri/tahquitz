@@ -856,8 +856,8 @@ as much pro as you want. Traverse a less well protected slab. Stay underneath th
 Step around a corner into the arch. Climb the arch by stemming, laybacking, and jamming.
 The initial section of the arch is easy and provides some good rest stances.
 There are cam placements in a variety of sizes, mostly about 0.5 to 1".
-At a spot where the arch angles over, you need to decide whether to do a
-semi-hanging belay, as shown on the topo, or belay higher up. 
+The most comfortable spot for the hanging belay is at the
+spot where the arch starts to angle over.
 5.6, 35 m.
 
 \pitch{3} The remaining section of the arch is more difficult due to the more severe
@@ -1293,7 +1293,7 @@ and come down the north gully.
 
 %=================================================================================
 
-<% climb("North Buttress","5.5") %>
+<% climb("North Buttress","5.5") %>\label{climb:n-buttress}
 
 \topo{0.45}{north_buttress}
 
@@ -2173,6 +2173,61 @@ or go up and over the summit
 and come down the north gully.
 
 \myfooter\vfill %%%%%%%%%%%%%% because this is the last topo
+
+%=====================================================================
+
+\discussionparindent\clearpage
+
+\section{Emergency Rappels}\label{sec:raps}
+
+\subsection{General Information}
+
+All the climbs described in this book go up and over, with a walk off the back.
+It's not normal to rappel back down these routes, and doing so will be difficult
+and extremely time-consuming, and will usually involve leaving gear. Retreat will
+be especially difficult on the north side or from high up on the rock. The information
+about rappel routes on pp.~\pageref{sec:raps}-\pageref{subsec:rap-lunch-ledge} is provided
+here so that in an emergency such as a severe injury, climbers will have some help in
+evaluating their options. In a serious emergency, it may be a better option to call
+911. Riverside Mountain Rescue Unit does technical rescues on the rock.
+
+30 m = 98 ft\\
+35 m = 115 ft\\
+60 m = 197 ft\\
+Rappels described as 100' can be done with a single 60 m rope.
+
+If you are going
+to rappel off of trees, do not trust old nylon slings left behind by other people.
+Back them up with your own cord. Two people were killed in 2022 when they rapped off
+of old tat in this area. Because this is not an area where people routinely
+rappel, a sling on a tree may just be left over from when someone put it there a decade ago,
+and may not have been used since then.
+
+\emph{From the Maiden Buttress:} See p.~\pageref{subsec:rap-maiden}.
+
+\emph{From the Pine Tree Ledge area:} See p.~\pageref{subsec:rap-pine-tree-ledge}.
+
+\emph{From the Lunch Ledge/Fingetrip area:} See p.~\pageref{subsec:rap-lunch-ledge}.
+
+Other areas have more limited options. See Gaines, Best Climbs, pp.~49, 58, 61, 115-116, 128.
+
+\vfill
+
+\pagebreak
+
+\includegraphics[height=9.5in]{rap/15c_maiden_buttress}\label{subsec:rap-maiden}
+
+\pagebreak
+
+\includegraphics[height=9.5in]{rap/15e_pine_tree_ledge_area}\label{subsec:rap-pine-tree-ledge}
+
+\pagebreak
+
+\includegraphics[height=9.5in]{rap/25_lunch_ledge_area}\label{subsec:rap-lunch-ledge}
+
+\vfill
+
+\pagebreak
 
 %=================================================================================
 
