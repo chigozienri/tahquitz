@@ -41,6 +41,22 @@ else {
   print "rendering figure $svg\n";
 }
 
+my $inkscape_version_output = `inkscape --version`;
+my $export_filename = "--export-filename";
+# looks like this: Inkscape 0.92.5 (2060ec1f9f, 2020-04-08)
+if ($inkscape_version_output=~/Inkscape\s+([^\s]+)\s+/) {
+  my $version = $1;
+  $version =~/^(\d+\.\d+)/;
+  my $floating_version = $1+0.0;
+  if ($floating_version<0.93) {
+    $export_filename = "--export-pdf";
+    print STDERR "Old version of inkscape detected, $floating_version. Using deprecated option $export_filename.";
+  }
+}
+else {
+  die "error executing inkscape --version, is inkscape installed?";
+}
+
 my $pdf=$svg;
 $pdf=~s/\.svg$/.pdf/;
 unless (-e $pdf && -M $svg > -M $pdf) { # 
@@ -50,7 +66,7 @@ unless (-e $pdf && -M $svg > -M $pdf) { #
   #   https://bugs.launchpad.net/inkscape/+bug/382394
   # Create dir for temporary prefs file. Other files will be created there.
   my $temp_dir = tempdir( CLEANUP => 1 );
-  my $c="INKSCAPE_PROFILE_DIR=$temp_dir inkscape  --g-fatal-warnings --export-text-to-path --export-pdf=$pdf $svg  --export-area-drawing 1>/dev/null"; 
+  my $c="INKSCAPE_PROFILE_DIR=$temp_dir inkscape  --g-fatal-warnings --export-text-to-path $export_filename=$pdf $svg  --export-area-drawing 1>/dev/null"; 
   print "  $c\n"; 
   unless ($not_for_real) {
     my $good_prefs = "$FindBin::RealBin/inkscape_rendering_preferences.xml";
@@ -81,7 +97,7 @@ push @temp_files,$pdf;
 my $png = $svg;
 $png=~s/\.svg$/.png/;
 
-# Don't use inkscape --export-png, because as of april 2013, it messes up on transparency.
+# Don't use inkscape to export to PNG, because as of april 2013, it messes up on transparency.
 # Can convert pdf directly to bitmap of the desired resolution using imagemagick, but it messes up on some files (e.g., huygens-1.pdf), so
 # go through pdftoppm first.
 my $ppm = 'z-1.ppm'; # only 1 page in pdf
