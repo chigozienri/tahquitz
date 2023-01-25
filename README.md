@@ -1,6 +1,9 @@
 Climbing topos for Tahquitz
 ===========================
 
+Because of Microsoft's harmful activities in AI, I am moving from github to https://bitbucket.org/ben-crowell/ .
+These climbing topos are now at https://bitbucket.org/ben-crowell/tahquitz . Please update external links.
+
 This is a collection of rock-climbing topos for Tahquitz. They're designed to be
 printer-friendly and usable in black and white.
 The whole thing can be downloaded as a single multi-page PDF file, from
